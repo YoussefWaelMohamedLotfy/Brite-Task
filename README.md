@@ -11,7 +11,7 @@ This is my implementation Brite Task, which  is an Employee Management System, b
   - `EM.Application`: Application layer for business logic.
   - `EM.Infrastructure`: Data access and infrastructure concerns.
   - `EM.Domain`: Domain models and core business rules.
-  - `EM.MigrationsWorker`: Worker service for database migrations.
+  - `EM.MigrationsWorker`: Worker service for database migrations, used in Development with .NET Aspire only.
 
 - **Aspire Projects**
   - `Brite-Task.AppHost`: Orchestrates services and dependencies using Aspire.
@@ -23,13 +23,12 @@ The solution follows a layered architecture, with clear separation of concerns. 
 
 ```mermaid
 flowchart TD
-    subgraph Aspire AppHost
+    subgraph .NET Aspire Orchestration
         A[API Service]
         B[Migrations Worker]
         C[Keycloak Auth]
         D[Garnet Cache]
         E[Postgres DB]
-    end
 
     A -- Uses --> C
     A -- Uses --> D
@@ -40,6 +39,7 @@ flowchart TD
     AppHost -- Orchestrates --> C
     AppHost -- Orchestrates --> D
     AppHost -- Orchestrates --> E
+    end
 ```
 
 ### Key Decisions
