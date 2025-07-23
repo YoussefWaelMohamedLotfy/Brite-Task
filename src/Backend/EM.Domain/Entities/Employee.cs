@@ -14,6 +14,8 @@ public sealed class Employee : Entity<Guid>, IAuditableEntity
     
     public bool IsActive { get; set; }
 
+    public Department Department { get; set; } = default!;
+
     public Guid CreatedBy { get; init; }
     
     public DateTimeOffset CreatedAt { get; init; }
