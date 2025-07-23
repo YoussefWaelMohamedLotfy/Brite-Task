@@ -1,8 +1,11 @@
+using EM.Infrastructure.Data;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+builder.AddNpgsqlDbContext<AppDbContext>("Employee-Management-Db");
 
 builder.Services.AddOpenApi();
 

@@ -9,12 +9,17 @@
 	<ItemGroup>
 		<PackageReference Include="Aspire.Keycloak.Authentication" Version="9.3.1-preview.1.25305.6" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="MinimalApis.Discovery" Version="1.0.7" />
 		<PackageReference Include="Scalar.AspNetCore" Version="2.6.4" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Aspire\Brite-Task.ServiceDefaults\Brite-Task.ServiceDefaults.csproj" />
+		<ProjectReference Include="..\EM.Application\EM.Application.csproj" />
 	</ItemGroup>
 
 </Project>
