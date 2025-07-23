@@ -1,5 +1,8 @@
+using EM.Application;
 using EM.Infrastructure.Data;
 using EM.Infrastructure.Interceptors;
+
+using MinimalApis.Discovery;
 
 using Scalar.AspNetCore;
 
@@ -10,6 +13,8 @@ builder.AddServiceDefaults();
 builder.Services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
 
 builder.AddNpgsqlDbContext<AppDbContext>("Employee-Management-Db");
+
+builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<IApplicationAssemblyMarker>());
 
 builder.Services.AddOpenApi();
 
@@ -22,6 +27,7 @@ app.MapScalarApiReference(x => x.WithTheme(ScalarTheme.Default)
     .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient));
 
 app.UseHttpsRedirection();
+app.MapApis();
 
 await app.RunAsync();
 
