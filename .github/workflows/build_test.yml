@@ -4,6 +4,7 @@
 name: .NET Build & Test
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "master" ]
   pull_request:
@@ -24,5 +25,9 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Employee Management OpenAPI JSON Doc
+        path: src/Backend/EM.API/EM-OpenAPI-Build.json
     - name: Test
       run: dotnet test --no-build --verbosity normal
