@@ -1,9 +1,13 @@
 using EM.Infrastructure.Data;
+using EM.Infrastructure.Interceptors;
+
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+builder.Services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
 
 builder.AddNpgsqlDbContext<AppDbContext>("Employee-Management-Db");
 

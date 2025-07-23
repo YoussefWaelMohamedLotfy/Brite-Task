@@ -18,11 +18,11 @@ public sealed class Employee : Entity<Guid>, IAuditableEntity
 
     public Role Role { get; set; } = default!;
 
-    public Guid CreatedBy { get; init; }
+    public Guid CreatedBy { get; set; }
     
-    public DateTimeOffset CreatedAt { get; init; }
+    public DateTimeOffset CreatedAt { get; set; }
     
-    public Guid? UpdatedBy { get; init; }
+    public Guid? UpdatedBy { get; set; }
     
-    public DateTimeOffset? UpdatedAt { get; init; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }
