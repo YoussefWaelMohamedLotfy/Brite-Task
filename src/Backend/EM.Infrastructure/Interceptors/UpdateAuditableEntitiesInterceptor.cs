@@ -1,4 +1,7 @@
-﻿using EM.Domain.Common;
+﻿using System.Security.Claims;
+
+using EM.Domain.Common;
+using EM.Infrastructure.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -6,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace EM.Infrastructure.Interceptors;
 
-public sealed class UpdateAuditableEntitiesInterceptor : SaveChangesInterceptor
+public sealed class UpdateAuditableEntitiesInterceptor(ClaimsPrincipal claimsPrincipal) : SaveChangesInterceptor
 {
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
@@ -24,12 +27,12 @@ public sealed class UpdateAuditableEntitiesInterceptor : SaveChangesInterceptor
             if (entityEntry.State == EntityState.Added)
             {
                 entityEntry.Entity.CreatedAt = DateTimeOffset.UtcNow;
-                entityEntry.Entity.CreatedBy = Guid.Empty; // Replace with actual user ID if available
+                entityEntry.Entity.CreatedBy = claimsPrincipal.GetUserId();
             }
             else if (entityEntry.State == EntityState.Modified)
             {
                 entityEntry.Entity.UpdatedAt = DateTimeOffset.UtcNow;
-                entityEntry.Entity.UpdatedBy = Guid.Empty; // Replace with actual user ID if available
+                entityEntry.Entity.UpdatedBy = claimsPrincipal.GetUserId();
             }
         }
 

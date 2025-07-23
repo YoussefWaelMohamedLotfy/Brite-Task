@@ -119,7 +119,7 @@ public sealed class Worker(
                 new()
                 {
                     Name = "Alice Admin",
-                    Email = "alice.admin@example.com",
+                    Email = "alice@example.com",
                     Phone = "1234567890",
                     DateOfJoining = DateTimeOffset.UtcNow.AddYears(-2),
                     IsActive = true,
@@ -131,7 +131,7 @@ public sealed class Worker(
                 new()
                 {
                     Name = "Bob HR",
-                    Email = "bob.hr@example.com",
+                    Email = "bob@example.com",
                     Phone = "2345678901",
                     DateOfJoining = DateTimeOffset.UtcNow.AddYears(-1),
                     IsActive = true,
@@ -142,8 +142,8 @@ public sealed class Worker(
                 },
                 new()
                 {
-                    Name = "Charlie Viewer",
-                    Email = "charlie.viewer@example.com",
+                    Name = "Admin",
+                    Email = "admin@example.com",
                     Phone = "3456789012",
                     DateOfJoining = DateTimeOffset.UtcNow.AddMonths(-6),
                     IsActive = true,

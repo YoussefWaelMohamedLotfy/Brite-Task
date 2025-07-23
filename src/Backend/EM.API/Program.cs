@@ -1,3 +1,5 @@
+using System.Security.Claims;
+
 using EM.Application;
 using EM.Application.Features.Common.Behaviours;
 using EM.Application.Features.Common.Exceptions;
@@ -44,6 +46,13 @@ builder.Services.AddAuthentication(oidcScheme)
                 });
 
 builder.Services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient(s =>
+{
+    IHttpContextAccessor contextAccessor = s.GetRequiredService<IHttpContextAccessor>();
+    ClaimsPrincipal? user = contextAccessor?.HttpContext?.User;
+    return user ?? throw new NullReferenceException("User not resolved");
+});
 
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
 {
