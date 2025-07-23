@@ -22,7 +22,7 @@ public sealed class Employee : Entity<Guid>, IAuditableEntity
     
     public DateTimeOffset CreatedAt { get; init; }
     
-    public Guid UpdatedBy { get; init; }
+    public Guid? UpdatedBy { get; init; }
     
-    public DateTimeOffset UpdatedAt { get; init; }
+    public DateTimeOffset? UpdatedAt { get; init; }
 }

@@ -12,7 +12,7 @@ public sealed class Role : Entity<int>, IAuditableEntity
 
     public DateTimeOffset CreatedAt { get; init; }
 
-    public Guid UpdatedBy { get; init; }
+    public Guid? UpdatedBy { get; init; }
 
-    public DateTimeOffset UpdatedAt { get; init; }
+    public DateTimeOffset? UpdatedAt { get; init; }
 }
