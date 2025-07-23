@@ -22,12 +22,14 @@ public sealed class DepartmentEndpoints : IApi
             .WithName("GetDepartments")
             .WithSummary("Retrieves a list of departments")
             .WithDescription("This endpoint returns a list of all available departments in the system.")
-            .Produces<string>(StatusCodes.Status200OK);
+            .Produces<string>(StatusCodes.Status200OK)
+            .CacheOutput();
 
         group.MapGet("/{id}", GetDepartmentById)
             .WithName("GetDepartmentById")
             .WithSummary("Retrieves a department by ID")
-            .WithDescription("This endpoint returns a single department based on its ID in the system.");
+            .WithDescription("This endpoint returns a single department based on its ID in the system.")
+            .CacheOutput();
 
         group.MapPost("/", CreateDepartment)
             .WithName("CreateDepartment")
