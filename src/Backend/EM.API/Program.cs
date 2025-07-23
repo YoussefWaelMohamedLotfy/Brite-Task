@@ -8,6 +8,9 @@ using FluentValidation;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 using MinimalApis.Discovery;
@@ -22,6 +25,22 @@ builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<IApplicationAssemblyMarker>(includeInternalTypes: true);
+
+var oidcScheme = OpenIdConnectDefaults.AuthenticationScheme;
+
+builder.Services.AddAuthorizationBuilder();
+
+builder.Services.AddAuthentication(oidcScheme)
+                .AddKeycloakJwtBearer("keycloak", "tenant-1", oidcScheme, options =>
+                {
+                    options.Audience = "account";
+                    options.SaveToken = true;
+                    options.MapInboundClaims = true;
+
+                    // For development only - disable HTTPS metadata validation
+                    // In production, use explicit Authority configuration instead
+                    options.RequireHttpsMetadata = builder.Environment.IsProduction();
+                });
 
 builder.Services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
 
@@ -47,10 +66,15 @@ app.MapDefaultEndpoints();
 
 app.MapOpenApi();
 app.MapScalarApiReference(x => x.WithTheme(ScalarTheme.Default)
-    .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient));
+    .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
+    .AddPreferredSecuritySchemes("Bearer"));
 
 app.UseHttpsRedirection();
 app.UseOutputCache();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapApis();
 
 await app.RunAsync();

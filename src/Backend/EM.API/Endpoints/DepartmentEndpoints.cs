@@ -15,6 +15,7 @@ public sealed class DepartmentEndpoints : IApi
     {
         var group = builder.MapGroup("/departments")
             .WithTags("Departments")
+            .RequireAuthorization()
             .WithOpenApi();
 
         group.MapGet("/", GetAllDepartments)

@@ -15,6 +15,7 @@ public sealed class EmployeeEndpoints : IApi
     {
         var group = builder.MapGroup("/employees")
             .WithTags("Employees")
+            .RequireAuthorization()
             .WithOpenApi();
 
         group.MapGet("/", GetAllEmployees)

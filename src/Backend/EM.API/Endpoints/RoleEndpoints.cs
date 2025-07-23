@@ -15,6 +15,7 @@ public sealed class RoleEndpoints : IApi
     {
         var group = builder.MapGroup("/roles")
             .WithTags("Roles")
+            .RequireAuthorization()
             .WithOpenApi();
 
         group.MapGet("/", GetAllRoles)
