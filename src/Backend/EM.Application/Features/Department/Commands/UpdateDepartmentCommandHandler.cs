@@ -1,12 +1,27 @@
 using EM.Infrastructure.Data;
 
+using FluentValidation;
+
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Department.Commands;
 
-public sealed record UpdateDepartmentCommand(int Id, string Name, string? Description, Guid? UpdatedBy) : IRequest<IResult>;
+public sealed record UpdateDepartmentCommand(
+    int Id,
+    string Name,
+    string? Description)
+    : IRequest<IResult>;
+
+internal sealed class UpdateDepartmentCommandValidator : AbstractValidator<UpdateDepartmentCommand>
+{
+    public UpdateDepartmentCommandValidator()
+    {
+        RuleFor(x => x.Id).GreaterThan(0).WithMessage("Department ID is required.");
+        RuleFor(x => x.Name).NotEmpty().WithMessage("Department name is required.");
+    }
+}
 
 internal sealed class UpdateDepartmentCommandHandler(
     AppDbContext dbContext)

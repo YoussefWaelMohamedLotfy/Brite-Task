@@ -1,5 +1,7 @@
 using EM.Infrastructure.Data;
 
+using FluentValidation;
+
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
@@ -13,9 +15,22 @@ public sealed record CreateEmployeeCommand(
     DateTimeOffset DateOfJoining,
     bool IsActive,
     int DepartmentId,
-    int RoleId,
-    Guid CreatedBy)
+    int RoleId)
     : IRequest<IResult>;
+
+internal sealed class CreateEmployeeCommandValidator : AbstractValidator<CreateEmployeeCommand>
+{
+    public CreateEmployeeCommandValidator()
+    {
+        RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required.");
+        RuleFor(x => x.Email).EmailAddress().WithMessage("Invalid email format.");
+        RuleFor(x => x.Phone).NotEmpty().WithMessage("Phone number is required.");
+        RuleFor(x => x.DateOfJoining).LessThanOrEqualTo(DateTimeOffset.Now)
+            .WithMessage("Date of joining cannot be in the future.");
+        RuleFor(x => x.DepartmentId).GreaterThan(0).WithMessage("Invalid Department ID.");
+        RuleFor(x => x.RoleId).GreaterThan(0).WithMessage("Invalid Role ID.");
+    }
+}
 
 internal sealed class CreateEmployeeCommandHandler(
     AppDbContext dbContext)

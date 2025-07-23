@@ -3,6 +3,7 @@ using EM.Infrastructure.Data;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
+using FluentValidation;
 
 namespace EM.Application.Features.Role.Commands;
 
@@ -23,5 +24,14 @@ internal sealed class CreateRoleCommandHandler(
         await dbContext.Roles.AddAsync(role, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
         return Results.Created($"/Roles/{role.ID}", role);
+    }
+}
+
+internal sealed class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
+{
+    public CreateRoleCommandValidator()
+    {
+        RuleFor(x => x.Name).NotEmpty().WithMessage("Role name is required.");
+        RuleFor(x => x.Permissions).NotNull().WithMessage("Permissions are required.");
     }
 }

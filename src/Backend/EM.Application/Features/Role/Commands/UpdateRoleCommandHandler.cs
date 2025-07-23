@@ -1,12 +1,28 @@
 using EM.Infrastructure.Data;
 
+using FluentValidation;
+
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Role.Commands;
 
-public sealed record UpdateRoleCommand(int Id, string Name, List<string> Permissions) : IRequest<IResult>;
+public sealed record UpdateRoleCommand(
+    int Id,
+    string Name,
+    List<string> Permissions)
+    : IRequest<IResult>;
+
+internal sealed class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
+{
+    public UpdateRoleCommandValidator()
+    {
+        RuleFor(x => x.Id).GreaterThan(0).WithMessage("Role ID is required.");
+        RuleFor(x => x.Name).NotEmpty().WithMessage("Role name is required.");
+        RuleFor(x => x.Permissions).NotNull().WithMessage("Permissions are required.");
+    }
+}
 
 internal sealed class UpdateRoleCommandHandler(
     AppDbContext dbContext)

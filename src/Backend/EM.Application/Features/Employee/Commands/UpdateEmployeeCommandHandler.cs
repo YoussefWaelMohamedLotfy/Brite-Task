@@ -3,6 +3,7 @@ using EM.Infrastructure.Data;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
+using FluentValidation;
 
 namespace EM.Application.Features.Employee.Commands;
 
@@ -46,5 +47,20 @@ internal sealed class UpdateEmployeeCommandHandler(
         dbContext.Employees.Update(employee);
         await dbContext.SaveChangesAsync(cancellationToken);
         return Results.Ok(employee);
+    }
+}
+
+internal sealed class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmployeeCommand>
+{
+    public UpdateEmployeeCommandValidator()
+    {
+        RuleFor(x => x.Id).NotEmpty().WithMessage("Employee ID is required.");
+        RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required.");
+        RuleFor(x => x.Email).EmailAddress().WithMessage("Invalid email format.");
+        RuleFor(x => x.Phone).NotEmpty().WithMessage("Phone number is required.");
+        RuleFor(x => x.DateOfJoining).LessThanOrEqualTo(DateTimeOffset.Now)
+            .WithMessage("Date of joining cannot be in the future.");
+        RuleFor(x => x.DepartmentId).GreaterThan(0).WithMessage("Invalid Department ID.");
+        RuleFor(x => x.RoleId).GreaterThan(0).WithMessage("Invalid Role ID.");
     }
 }

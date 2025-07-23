@@ -1,4 +1,5 @@
 using EM.Infrastructure.Data;
+using FluentValidation;
 
 using MediatR;
 
@@ -23,5 +24,14 @@ internal sealed class CreateDepartmentCommandHandler(
         await dbContext.Departments.AddAsync(department, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
         return Results.Created($"/Departments/{department.ID}", department);
+    }
+}
+
+internal sealed class CreateDepartmentCommandValidator : AbstractValidator<CreateDepartmentCommand>
+{
+    public CreateDepartmentCommandValidator()
+    {
+        RuleFor(x => x.Name).NotEmpty().WithMessage("Department name is required.");
+        RuleFor(x => x.CreatedBy).NotEmpty().WithMessage("CreatedBy is required.");
     }
 }

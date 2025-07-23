@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EM.MigrationsWorker;
 
-public class Worker(
+public sealed class Worker(
     IServiceProvider serviceProvider,
     IHostApplicationLifetime hostApplicationLifetime) : BackgroundService
 {
