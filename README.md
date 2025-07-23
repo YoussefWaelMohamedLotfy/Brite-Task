@@ -23,13 +23,12 @@ The solution follows a layered architecture, with clear separation of concerns. 
 
 ```mermaid
 flowchart TD
-    subgraph Aspire AppHost
+    subgraph .NET Aspire Orchestration
         A[API Service]
         B[Migrations Worker]
         C[Keycloak Auth]
         D[Garnet Cache]
         E[Postgres DB]
-    end
 
     A -- Uses --> C
     A -- Uses --> D
@@ -40,6 +39,7 @@ flowchart TD
     AppHost -- Orchestrates --> C
     AppHost -- Orchestrates --> D
     AppHost -- Orchestrates --> E
+    end
 ```
 
 ### Key Decisions
