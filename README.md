@@ -56,7 +56,6 @@ flowchart TD
 
 - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 - Docker (for running containers)
-- Aspire CLI (included with .NET 9 SDK)
 
 ### Steps
 
@@ -75,8 +74,8 @@ dotnet run
    - Run the migration worker to apply DB migrations
    - Start the API service, wired to all dependencies
 
-4. **Access Services**
-   - **API:** Usually available at `http://localhost:PORT` (see output for actual port)
+3. **Access Services**
+   - **API:** `http://localhost:7157/scalar`
    - **Keycloak Admin:** `http://localhost:8081`
    - **PgAdmin:** `http://localhost:5050`
 
