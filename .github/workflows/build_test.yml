@@ -25,7 +25,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - uses: actions/upload-artifact@v4
+    - name: Upload OpenAPI JSON Doc Artifact
+      uses: actions/upload-artifact@v4
       with:
         name: Employee Management OpenAPI JSON Doc
         path: src/Backend/EM.API/EM-OpenAPI-Build.json

@@ -25,4 +25,7 @@ public sealed class Employee : Entity<Guid>, IAuditableEntity
     public Guid? UpdatedBy { get; set; }
     
     public DateTimeOffset? UpdatedAt { get; set; }
+
+    public void ToggleActivation()
+        => IsActive = !IsActive;
 }
