@@ -14,4 +14,11 @@
         <ProjectReference Include="..\EM.Infrastructure\EM.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Employee\Commands\" />
+      <Folder Include="Features\Employee\Queries\" />
+      <Folder Include="Features\Role\Commands\" />
+      <Folder Include="Features\Role\Queries\" />
+    </ItemGroup>
+
 </Project>
