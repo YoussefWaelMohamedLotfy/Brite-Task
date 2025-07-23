@@ -11,7 +11,7 @@ This is my implementation Brite Task, which  is an Employee Management System, b
   - `EM.Application`: Application layer for business logic.
   - `EM.Infrastructure`: Data access and infrastructure concerns.
   - `EM.Domain`: Domain models and core business rules.
-  - `EM.MigrationsWorker`: Worker service for database migrations.
+  - `EM.MigrationsWorker`: Worker service for database migrations, used in Development with .NET Aspire only.
 
 - **Aspire Projects**
   - `Brite-Task.AppHost`: Orchestrates services and dependencies using Aspire.
