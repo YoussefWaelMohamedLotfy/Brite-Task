@@ -32,6 +32,5 @@ internal sealed class CreateDepartmentCommandValidator : AbstractValidator<Creat
     public CreateDepartmentCommandValidator()
     {
         RuleFor(x => x.Name).NotEmpty().WithMessage("Department name is required.");
-        RuleFor(x => x.CreatedBy).NotEmpty().WithMessage("CreatedBy is required.");
     }
 }

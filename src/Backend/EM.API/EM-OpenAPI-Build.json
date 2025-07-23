@@ -178,7 +178,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -208,7 +213,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -231,7 +241,12 @@
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
       }
     },
     "/employees/{id}": {
@@ -257,7 +272,12 @@
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -281,7 +301,12 @@
           "204": {
             "description": "No Content"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
       }
     },
     "/roles": {
@@ -303,7 +328,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -333,7 +363,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -356,7 +391,12 @@
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
       }
     },
     "/roles/{id}": {
@@ -382,7 +422,12 @@
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -406,7 +451,12 @@
           "204": {
             "description": "No Content"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
       }
     }
   },
@@ -415,8 +465,7 @@
       "CreateDepartmentCommand": {
         "required": [
           "name",
-          "description",
-          "createdBy"
+          "description"
         ],
         "type": "object",
         "properties": {
@@ -426,10 +475,6 @@
           "description": {
             "type": "string",
             "nullable": true
-          },
-          "createdBy": {
-            "type": "string",
-            "format": "uuid"
           }
         }
       },
@@ -519,8 +564,7 @@
           "dateOfJoining",
           "isActive",
           "departmentId",
-          "roleId",
-          "updatedBy"
+          "roleId"
         ],
         "type": "object",
         "properties": {
@@ -551,11 +595,6 @@
           "roleId": {
             "type": "integer",
             "format": "int32"
-          },
-          "updatedBy": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true
           }
         }
       },
