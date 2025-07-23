@@ -3,6 +3,8 @@ using EM.Application.Features.Department.Queries;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Mvc;
+
 using MinimalApis.Discovery;
 
 namespace EM.API.Endpoints;
@@ -51,10 +53,10 @@ public sealed class DepartmentEndpoints : IApi
     public static async Task<IResult> GetDepartmentById(int id, IMediator mediator, CancellationToken ct)
         => await mediator.Send(new GetDepartmentByIdQuery(id), ct);
 
-    public static async Task<IResult> CreateDepartment(CreateDepartmentCommand request, IMediator mediator, CancellationToken ct)
+    public static async Task<IResult> CreateDepartment([FromBody] CreateDepartmentCommand request, IMediator mediator, CancellationToken ct)
         => await mediator.Send(request, ct);
 
-    public static async Task<IResult> UpdateDepartment(UpdateDepartmentCommand request, IMediator mediator, CancellationToken ct)
+    public static async Task<IResult> UpdateDepartment([FromBody] UpdateDepartmentCommand request, IMediator mediator, CancellationToken ct)
         => await mediator.Send(request, ct);
 
     public static async Task<IResult> DeleteDepartment(int id, IMediator mediator, CancellationToken ct)

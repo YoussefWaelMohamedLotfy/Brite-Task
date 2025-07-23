@@ -6,10 +6,14 @@ using MinimalApis.Discovery;
 using Microsoft.EntityFrameworkCore;
 
 using Scalar.AspNetCore;
+using EM.Application.Features.Common.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
 
@@ -24,10 +28,12 @@ builder.EnrichNpgsqlDbContext<AppDbContext>();
 builder.AddRedisOutputCache("garnet");
 
 builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<IApplicationAssemblyMarker>());
-
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+
+app.UseExceptionHandler(_ => { });
+app.UseStatusCodePages();
 
 app.MapDefaultEndpoints();
 

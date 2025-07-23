@@ -1,6 +1,10 @@
 using EM.Application.Features.Employee.Commands;
 using EM.Application.Features.Employee.Queries;
+
 using MediatR;
+
+using Microsoft.AspNetCore.Mvc;
+
 using MinimalApis.Discovery;
 
 namespace EM.API.Endpoints;
@@ -49,10 +53,10 @@ public sealed class EmployeeEndpoints : IApi
     public static async Task<IResult> GetEmployeeById(Guid id, IMediator mediator, CancellationToken ct)
         => await mediator.Send(new GetEmployeeByIdQuery(id), ct);
 
-    public static async Task<IResult> CreateEmployee(CreateEmployeeCommand request, IMediator mediator, CancellationToken ct)
+    public static async Task<IResult> CreateEmployee([FromBody] CreateEmployeeCommand request, IMediator mediator, CancellationToken ct)
         => await mediator.Send(request, ct);
 
-    public static async Task<IResult> UpdateEmployee(UpdateEmployeeCommand request, IMediator mediator, CancellationToken ct)
+    public static async Task<IResult> UpdateEmployee([FromBody] UpdateEmployeeCommand request, IMediator mediator, CancellationToken ct)
         => await mediator.Send(request, ct);
 
     public static async Task<IResult> DeleteEmployee(Guid id, IMediator mediator, CancellationToken ct)
