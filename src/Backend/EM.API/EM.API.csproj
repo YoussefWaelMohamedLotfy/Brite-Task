@@ -6,6 +6,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Aspire.Keycloak.Authentication" Version="9.3.1-preview.1.25305.6" />
+		<PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.3.1" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
 		  <PrivateAssets>all</PrivateAssets>

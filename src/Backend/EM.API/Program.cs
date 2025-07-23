@@ -21,6 +21,8 @@ builder.Services.AddDbContext<AppDbContext>((sp, options) =>
 });
 builder.EnrichNpgsqlDbContext<AppDbContext>();
 
+builder.AddRedisOutputCache("garnet");
+
 builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<IApplicationAssemblyMarker>());
 
 builder.Services.AddOpenApi();
@@ -34,6 +36,7 @@ app.MapScalarApiReference(x => x.WithTheme(ScalarTheme.Default)
     .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient));
 
 app.UseHttpsRedirection();
+app.UseOutputCache();
 app.MapApis();
 
 await app.RunAsync();
