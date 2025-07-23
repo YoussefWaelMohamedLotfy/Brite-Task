@@ -5,8 +5,6 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net9.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
 		<UserSecretsId>a63fda2a-7884-4c5e-b023-44a1b16f38a1</UserSecretsId>
 	</PropertyGroup>
 
