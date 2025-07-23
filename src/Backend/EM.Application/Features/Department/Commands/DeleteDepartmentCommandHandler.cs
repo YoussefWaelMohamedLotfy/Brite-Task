@@ -1,4 +1,5 @@
 using EM.Infrastructure.Data;
+using FluentValidation;
 
 using MediatR;
 
@@ -22,5 +23,13 @@ internal sealed class DeleteDepartmentCommandHandler(
         dbContext.Departments.Remove(department);
         await dbContext.SaveChangesAsync(cancellationToken);
         return Results.NoContent();
+    }
+}
+
+internal sealed class DeleteDepartmentCommandValidator : AbstractValidator<DeleteDepartmentCommand>
+{
+    public DeleteDepartmentCommandValidator()
+    {
+        RuleFor(x => x.Id).GreaterThan(0).WithMessage("Department ID is required.");
     }
 }

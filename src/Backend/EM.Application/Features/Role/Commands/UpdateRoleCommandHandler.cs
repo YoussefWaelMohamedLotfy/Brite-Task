@@ -1,3 +1,4 @@
+using EM.Application.Features.Common.Abstractions;
 using EM.Infrastructure.Data;
 
 using FluentValidation;
@@ -12,7 +13,7 @@ public sealed record UpdateRoleCommand(
     int Id,
     string Name,
     List<string> Permissions)
-    : IRequest<IResult>;
+    : ICommand<IResult>;
 
 internal sealed class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
 {
@@ -26,7 +27,7 @@ internal sealed class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleC
 
 internal sealed class UpdateRoleCommandHandler(
     AppDbContext dbContext)
-    : IRequestHandler<UpdateRoleCommand, IResult>
+    : ICommandHandler<UpdateRoleCommand, IResult>
 {
     public async Task<IResult> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
     {

@@ -1,4 +1,5 @@
 using EM.Infrastructure.Data;
+using EM.Application.Features.Common.Abstractions;
 
 using MediatR;
 
@@ -7,11 +8,11 @@ using FluentValidation;
 
 namespace EM.Application.Features.Role.Commands;
 
-public sealed record CreateRoleCommand(string Name, List<string> Permissions) : IRequest<IResult>;
+public sealed record CreateRoleCommand(string Name, List<string> Permissions) : ICommand<IResult>;
 
 internal sealed class CreateRoleCommandHandler(
     AppDbContext dbContext)
-    : IRequestHandler<CreateRoleCommand, IResult>
+    : ICommandHandler<CreateRoleCommand, IResult>
 {
     public async Task<IResult> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {

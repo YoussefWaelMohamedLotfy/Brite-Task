@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using EM.Application.Features.Common.Abstractions;
+
+using FluentValidation;
 
 using MediatR;
 
@@ -7,7 +9,9 @@ using Microsoft.AspNetCore.Http;
 namespace EM.Application.Features.Common.Behaviours;
 
 public sealed class ValidationPipelineBehaviour<TRequest, TResult>(IValidator<TRequest> validator)
-    : IPipelineBehavior<TRequest, TResult> where TResult : IResult where TRequest : notnull
+    : IPipelineBehavior<TRequest, TResult>
+    where TRequest : ICommand<TResult>
+    where TResult : IResult
 {
     public async Task<TResult> Handle(TRequest request, RequestHandlerDelegate<TResult> next, CancellationToken cancellationToken)
     {

@@ -1,4 +1,5 @@
 using EM.Infrastructure.Data;
+using EM.Application.Features.Common.Abstractions;
 
 using MediatR;
 
@@ -15,13 +16,12 @@ public sealed record UpdateEmployeeCommand(
     DateTimeOffset DateOfJoining,
     bool IsActive,
     int DepartmentId,
-    int RoleId,
-    Guid? UpdatedBy)
-    : IRequest<IResult>;
+    int RoleId)
+    : ICommand<IResult>;
 
 internal sealed class UpdateEmployeeCommandHandler(
     AppDbContext dbContext)
-    : IRequestHandler<UpdateEmployeeCommand, IResult>
+    : ICommandHandler<UpdateEmployeeCommand, IResult>
 {
     public async Task<IResult> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
     {

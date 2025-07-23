@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Department.Commands;
 
-public sealed record CreateDepartmentCommand(string Name, string? Description, Guid CreatedBy) : IRequest<IResult>;
+public sealed record CreateDepartmentCommand(string Name, string? Description) : IRequest<IResult>;
 
 internal sealed class CreateDepartmentCommandHandler(
     AppDbContext dbContext)
