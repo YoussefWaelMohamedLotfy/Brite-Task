@@ -21,9 +21,16 @@ var keycloak = builder.AddKeycloak("keycloak", 8081)
     .WithDataVolume()
     .WithLifetime(ContainerLifetime.Persistent);
 
+var migrationsWorker = builder.AddProject<Projects.EM_MigrationsWorker>("migrations")
+    .WithReference(postgresdb)
+    .WaitFor(postgresdb);
+
 builder.AddProject<Projects.EM_API>("api")
     .WithReference(keycloak)
     .WithReference(garnet)
-    .WithReference(postgresdb);
+    .WithReference(postgresdb)
+    .WithReference(migrationsWorker)
+    .WaitForCompletion(migrationsWorker);
+
 
 await builder.Build().RunAsync();

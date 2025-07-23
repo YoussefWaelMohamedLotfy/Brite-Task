@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-EM.MigrationsWorker-51c46da3-1b28-49c2-9ca7-d78f31f85047</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Aspire\Brite-Task.ServiceDefaults\Brite-Task.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\EM.Infrastructure\EM.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

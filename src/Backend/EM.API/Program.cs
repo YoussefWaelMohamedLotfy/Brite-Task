@@ -3,6 +3,7 @@ using EM.Infrastructure.Data;
 using EM.Infrastructure.Interceptors;
 
 using MinimalApis.Discovery;
+using Microsoft.EntityFrameworkCore;
 
 using Scalar.AspNetCore;
 
@@ -12,7 +13,13 @@ builder.AddServiceDefaults();
 
 builder.Services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
 
-builder.AddNpgsqlDbContext<AppDbContext>("Employee-Management-Db");
+
+builder.Services.AddDbContext<AppDbContext>((sp, options) =>
+{
+    options.AddInterceptors(sp.GetRequiredService<UpdateAuditableEntitiesInterceptor>());
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Employee-Management-Db"));
+});
+builder.EnrichNpgsqlDbContext<AppDbContext>();
 
 builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<IApplicationAssemblyMarker>());
 

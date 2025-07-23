@@ -17,6 +17,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Backend\EM.API\EM.API.csproj" />
+		<ProjectReference Include="..\..\Backend\EM.MigrationsWorker\EM.MigrationsWorker.csproj" />
 	</ItemGroup>
 
 </Project>
