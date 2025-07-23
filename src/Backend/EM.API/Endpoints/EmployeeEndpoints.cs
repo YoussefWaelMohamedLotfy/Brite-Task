@@ -46,6 +46,13 @@ public sealed class EmployeeEndpoints : IApi
             .WithSummary("Deletes an employee")
             .WithDescription("This endpoint allows deleting an employee.")
             .Produces(StatusCodes.Status204NoContent);
+
+        group.MapPut("/{id}/toggle-activation", ToggleEmployeeActivation)
+            .WithName("ToggleEmployeeActivation")
+            .WithSummary("Toggles the activation status of an employee")
+            .WithDescription("This endpoint enables or disables an employee based on their current activation status.")
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
     }
 
     public static async Task<IResult> GetAllEmployees(IMediator mediator, CancellationToken ct)
@@ -62,4 +69,7 @@ public sealed class EmployeeEndpoints : IApi
 
     public static async Task<IResult> DeleteEmployee(Guid id, IMediator mediator, CancellationToken ct)
         => await mediator.Send(new DeleteEmployeeCommand(id), ct);
+
+    public static async Task<IResult> ToggleEmployeeActivation(Guid id, IMediator mediator, CancellationToken ct)
+        => await mediator.Send(new ToggleEmployeeActivationCommand(id), ct);
 }

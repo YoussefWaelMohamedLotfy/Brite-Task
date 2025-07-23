@@ -309,6 +309,40 @@
         ]
       }
     },
+    "/employees/{id}/toggle-activation": {
+      "put": {
+        "tags": [
+          "Employees"
+        ],
+        "summary": "Toggles the activation status of an employee",
+        "description": "This endpoint enables or disables an employee based on their current activation status.",
+        "operationId": "ToggleEmployeeActivation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
     "/roles": {
       "get": {
         "tags": [
