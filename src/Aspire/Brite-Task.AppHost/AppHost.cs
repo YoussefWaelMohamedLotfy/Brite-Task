@@ -1,5 +1,7 @@
 IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
+builder.AddDockerComposeEnvironment("env");
+
 var garnet = builder.AddGarnet("garnet")
     .WithImage("microsoft/garnet-alpine")
     .WithImageTag("latest")
