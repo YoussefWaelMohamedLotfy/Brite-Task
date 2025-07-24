@@ -38,7 +38,7 @@ jobs:
     - name: Create EF Migration Bundle
       run: |
         dotnet tool install --global dotnet-ef
-        cd src/Backend/EM.API
+        cd ./src/Backend/EM.API
         dotnet ef migrations bundle --project ..\EM.Infrastructure\EM.Infrastructure.csproj -o efbundle-linux --no-build --self-contained
         echo "EF Migration Bundle created for Linux"
         dotnet ef migrations bundle --project ..\EM.Infrastructure\EM.Infrastructure.csproj -o efbundle-windows.exe --no-build --self-contained
