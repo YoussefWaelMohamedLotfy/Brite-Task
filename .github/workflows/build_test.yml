@@ -39,9 +39,9 @@ jobs:
       working-directory: ./src/Backend/EM.API
       run: |
         dotnet tool install --global dotnet-ef
-        dotnet ef migrations bundle --project ..\EM.Infrastructure\EM.Infrastructure.csproj -o efbundle-linux --no-build --self-contained
+        dotnet ef migrations bundle --project ../EM.Infrastructure/EM.Infrastructure.csproj -o efbundle-linux --no-build --self-contained
         echo "EF Migration Bundle created for Linux"
-        dotnet ef migrations bundle --project ..\EM.Infrastructure\EM.Infrastructure.csproj -o efbundle-windows.exe --no-build --self-contained
+        dotnet ef migrations bundle --project ../EM.Infrastructure/EM.Infrastructure.csproj -o efbundle-windows.exe --no-build --self-contained
         echo "EF Migration Bundle created for Windows"
         cd ../../..
     
