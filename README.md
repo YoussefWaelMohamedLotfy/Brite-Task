@@ -26,7 +26,7 @@
 
 ## Overview
 
-This is my implementation for Brite Task, which  is an Employee Management System, built with .NET 9, leveraging the .NET Aspire stack for cloud-native development and enhanced developer experience. The solution is modular, scalable, and designed for robust service orchestration, observability, and resilience.
+This is my implementation for Brite Task, which is an Employee Management System, built with .NET 9, leveraging the .NET Aspire stack for cloud-native development and enhanced developer experience. The solution is modular, scalable, and designed for robust service orchestration, observability, and resilience.
 
 ## Requirements Checklist
 
@@ -219,6 +219,8 @@ flowchart LR
 ## Aspire Dashboard
 
 After running the solution, you can navigate to the Aspire dashboard at [https://localhost:17256/](http://localhost:17256/)
+
+In case you are prompted for a token, check the Logs in terminal and use the token provided by .NET Aspire (http://localhost:17256/login?t=<login-token>)
 
 This dashboard provides a visual overview of all running services, dependencies, health, and telemetry information.
 
