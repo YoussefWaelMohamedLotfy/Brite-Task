@@ -20,11 +20,70 @@
   - [Service Orchestration](#service-orchestration)
 - [Aspire Dashboard](#aspire-dashboard)
 - [Test Users](#test-users)
+- [Future Work](#future-work)
 - [References](#references)
 
 ## Overview
 
 This is my implementation for Brite Task, which  is an Employee Management System, built with .NET 9, leveraging the .NET Aspire stack for cloud-native development and enhanced developer experience. The solution is modular, scalable, and designed for robust service orchestration, observability, and resilience.
+
+## Requirements Chechlist
+
+
+### Core Features:
+
+✅ Use Clean Architecture or Domain-Driven Design (DDD).
+
+## Implement the following entities:
+
+✅ Employee (Name, Email, Phone, DepartmentId, RoleId, DateOfJoining, IsActive)
+
+✅ Department (Name, Description)
+
+✅ Role (Name, Permissions as JSON)
+
+### API Endpoints:
+
+✅ CRUD for Employees, Departments, Roles
+
+✅ Search Employees (by Name, Department, Active Status, Date of Joining range)
+
+✅ Activate / Deactivate Employee
+
+### Security:
+
+✅ Implement JWT Authentication
+
+✅ Use Role-based Authorization (Admin / HR / Viewer)
+
+✅ Secure all endpoints properly
+
+### Database:
+
+✅ Use EF Core (Code First) with SQL Server or PostgreSQL
+
+✅ Seed initial data (Admin user, example Departments, Roles)
+
+### Validation & Error Handling:
+
+✅ Input validation with clear error responses
+
+✅ Global exception handling middleware
+
+### Documentation:
+
+✅ Provide Swagger / OpenAPI documentation
+
+✅ Clear instructions for running the project
+
+## Bonus (Optional):
+❌ Unit tests for core services
+
+✅ Caching (In-Memory / Redis) for Departments & Roles
+
+✅ Health Check endpoint /health
+
+✅ Audit fields (Created By, CreatedAt, UpdatedBy, UpdatedAt)
 
 ### Solution Structure
 
@@ -174,6 +233,17 @@ Below is a table of test users you can use to try out the system. Use these cred
 | admin    | admin@example.com | admin  | Admin | eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhbHdpanU4Z05zZ1lvMjQ2dmpJY09iQTlDcmpSZmJZTkgxblVaOHdDZDMwIn0.eyJleHAiOjE3NTM3Nzc5MjUsImlhdCI6MTc1MzM0NTkyNSwiYXV0aF90aW1lIjoxNzUzMzQ1MjQ0LCJqdGkiOiJvZnJ0cnQ6MThmOTA4YzMtMjJkNi0yMDBiLTRlMjAtZmQ3YzNkZDYwYmNlIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgxL3JlYWxtcy90ZW5hbnQtMSIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiIzYTdkMmM5ZC1kNjM5LTQ3NWYtOTE0OC0wMzBmMzdlZjQ0N2IiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJiYWNrZW5kLTEiLCJzaWQiOiIyY2YwN2YxOC1kMWFjLTQ2Y2EtYmM3Yi1kMDVmMWEyY2I0MzkiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHBzOi8vb2F1dGgucHN0bW4uaW8iLCJodHRwczovL2xvY2FsaG9zdDo3MTU3Il0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMtdGVuYW50LTEiLCJ1bWFfYXV0aG9yaXphdGlvbiIsIkFkbWluIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgb2ZmbGluZV9hY2Nlc3MgZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiQWRtaW5pc3RyYXRvciBhZG1pbiIsInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluaXN0cmF0b3IiLCJnaXZlbl9uYW1lIjoiQWRtaW5pc3RyYXRvciIsImZhbWlseV9uYW1lIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIn0.HT8hC4C9xqSSEN7k0MSqyzwD6AOLVKv2XgJFdfyPyaTOV5d5qAzufWafUP1lSswhKCUe3oQqLzdTY2Zbh9BgGVLtkmDaoqiiQogh_WgtRJQhw-ytCaRkHFZ4ezk93DIGLP0ngHNgQgzN9FO2wEPNZiQq3GPPuS-ILq95Z9-DCzenKrQz5p-RWmZmEorK5enn9Rp42pEOpZgFVJt9KUb2j0tNOdtQOmOJgAUUxhWwjiQfTec9V7x9fkxSkdqQh1SWEns_FjjFyAI9Pe1VBseUr3LG_fBoz6gCsUuYQi4CfhVX1IVllXbDwv7WvX51EHwvaoCcAqTRtxUM74HL9yufcw |
 
 For Keycloak admin dashboard credentials, use the following: `admin` - `admin`
+
+## Future Work
+
+- **Add DTOs for all endpoints:**
+  Implementing Data Transfer Objects (DTOs) for all API endpoints will provide better control over the data exposed to clients, improve security by preventing over-posting, and enable more flexible response shaping.
+
+- **Add Unit / Architecture Tests:**
+  Introducing comprehensive unit and architecture tests will help ensure code quality, maintainability, and adherence to architectural guidelines, providing greater confidence in future changes and deployments.
+
+- **Sync Data between API and Keycloak:**
+  Implementing synchronization between the API's user data and Keycloak will ensure consistency across authentication and business domains, reducing the risk of mismatched or stale user information.
 
 ## References
 
