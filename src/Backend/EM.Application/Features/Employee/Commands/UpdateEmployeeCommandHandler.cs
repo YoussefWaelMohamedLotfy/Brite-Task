@@ -8,6 +8,17 @@ using FluentValidation;
 
 namespace EM.Application.Features.Employee.Commands;
 
+/// <summary>
+/// Command to update an existing employee.
+/// </summary>
+/// <param name="Id">The employee ID.</param>
+/// <param name="Name">The new name of the employee.</param>
+/// <param name="Email">The new email address of the employee.</param>
+/// <param name="Phone">The new phone number of the employee.</param>
+/// <param name="DateOfJoining">The new date of joining.</param>
+/// <param name="IsActive">Whether the employee is active.</param>
+/// <param name="DepartmentId">The new department ID.</param>
+/// <param name="RoleId">The new role ID.</param>
 public sealed record UpdateEmployeeCommand(
     Guid Id,
     string Name,
@@ -19,10 +30,19 @@ public sealed record UpdateEmployeeCommand(
     int RoleId)
     : ICommand<IResult>;
 
+/// <summary>
+/// Handles the update of an existing employee.
+/// </summary>
 internal sealed class UpdateEmployeeCommandHandler(
     AppDbContext dbContext)
     : ICommandHandler<UpdateEmployeeCommand, IResult>
 {
+    /// <summary>
+    /// Handles the update employee command.
+    /// </summary>
+    /// <param name="request">The update employee command.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
+    /// <returns>The result of the update operation.</returns>
     public async Task<IResult> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
     {
         var employee = await dbContext.Employees.FindAsync([request.Id], cancellationToken);
@@ -50,8 +70,14 @@ internal sealed class UpdateEmployeeCommandHandler(
     }
 }
 
+/// <summary>
+/// Validator for <see cref="UpdateEmployeeCommand"/>.
+/// </summary>
 internal sealed class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmployeeCommand>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UpdateEmployeeCommandValidator"/> class.
+    /// </summary>
     public UpdateEmployeeCommandValidator()
     {
         RuleFor(x => x.Id).NotEmpty().WithMessage("Employee ID is required.");

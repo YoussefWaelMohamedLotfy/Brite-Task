@@ -4,8 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EM.Application.Features.Common.Exceptions;
 
+/// <summary>
+/// Handles global exceptions and writes problem details responses.
+/// </summary>
 public sealed class GlobalExceptionHandler(IProblemDetailsService problemDetailsService) : IExceptionHandler
 {
+    /// <summary>
+    /// Attempts to handle an exception and write a problem details response.
+    /// </summary>
+    /// <param name="httpContext">The HTTP context.</param>
+    /// <param name="exception">The exception to handle.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
+    /// <returns>True if the exception was handled; otherwise, false.</returns>
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         ProblemDetails problemDetails = new()

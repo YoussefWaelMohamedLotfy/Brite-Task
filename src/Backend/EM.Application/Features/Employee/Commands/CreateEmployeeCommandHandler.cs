@@ -8,6 +8,16 @@ using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Employee.Commands;
 
+/// <summary>
+/// Command to create a new employee.
+/// </summary>
+/// <param name="Name">The name of the employee.</param>
+/// <param name="Email">The email address of the employee.</param>
+/// <param name="Phone">The phone number of the employee.</param>
+/// <param name="DateOfJoining">The date the employee joined.</param>
+/// <param name="IsActive">Whether the employee is active.</param>
+/// <param name="DepartmentId">The department ID.</param>
+/// <param name="RoleId">The role ID.</param>
 public sealed record CreateEmployeeCommand(
     string Name,
     string Email,
@@ -18,8 +28,14 @@ public sealed record CreateEmployeeCommand(
     int RoleId)
     : IRequest<IResult>;
 
+/// <summary>
+/// Validator for <see cref="CreateEmployeeCommand"/>.
+/// </summary>
 internal sealed class CreateEmployeeCommandValidator : AbstractValidator<CreateEmployeeCommand>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CreateEmployeeCommandValidator"/> class.
+    /// </summary>
     public CreateEmployeeCommandValidator()
     {
         RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required.");
@@ -32,10 +48,19 @@ internal sealed class CreateEmployeeCommandValidator : AbstractValidator<CreateE
     }
 }
 
+/// <summary>
+/// Handles the creation of a new employee.
+/// </summary>
 internal sealed class CreateEmployeeCommandHandler(
     AppDbContext dbContext)
     : IRequestHandler<CreateEmployeeCommand, IResult>
 {
+    /// <summary>
+    /// Handles the create employee command.
+    /// </summary>
+    /// <param name="request">The create employee command.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
+    /// <returns>The result of the creation operation.</returns>
     public async Task<IResult> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
     {
         var department = await dbContext.Departments.FindAsync([request.DepartmentId], cancellationToken);
