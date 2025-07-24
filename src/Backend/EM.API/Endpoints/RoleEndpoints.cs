@@ -9,8 +9,15 @@ using MinimalApis.Discovery;
 
 namespace EM.API.Endpoints;
 
+/// <summary>
+/// API endpoints for managing roles.
+/// </summary>
 public sealed class RoleEndpoints : IApi
 {
+    /// <summary>
+    /// Registers role endpoints to the route builder.
+    /// </summary>
+    /// <param name="builder">The endpoint route builder.</param>
     public void Register(IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("/roles")
@@ -50,12 +57,32 @@ public sealed class RoleEndpoints : IApi
             .Produces(StatusCodes.Status204NoContent);
     }
 
+    /// <summary>
+    /// Retrieves all roles.
+    /// </summary>
+    /// <param name="mediator">The mediator instance.</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>A list of roles.</returns>
     public static async Task<IResult> GetAllRoles(IMediator mediator, CancellationToken ct)
         => await mediator.Send(new GetAllRolesQuery(), ct);
 
+    /// <summary>
+    /// Retrieves a role by its ID.
+    /// </summary>
+    /// <param name="id">The role ID.</param>
+    /// <param name="mediator">The mediator instance.</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>The role if found.</returns>
     public static async Task<IResult> GetRoleById(int id, IMediator mediator, CancellationToken ct)
         => await mediator.Send(new GetRoleByIdQuery(id), ct);
 
+    /// <summary>
+    /// Creates a new role.
+    /// </summary>
+    /// <param name="request">The create role command.</param>
+    /// <param name="mediator">The mediator instance.</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>The result of the creation operation.</returns>
     public static async Task<IResult> CreateRole([FromBody] CreateRoleCommand request, IMediator mediator, CancellationToken ct)
         => await mediator.Send(request, ct);
 

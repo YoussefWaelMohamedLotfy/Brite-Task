@@ -9,8 +9,15 @@ using MinimalApis.Discovery;
 
 namespace EM.API.Endpoints;
 
+/// <summary>
+/// API endpoints for managing departments.
+/// </summary>
 public sealed class DepartmentEndpoints : IApi
 {
+    /// <summary>
+    /// Registers department endpoints to the route builder.
+    /// </summary>
+    /// <param name="builder">The endpoint route builder.</param>
     public void Register(IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("/departments")
@@ -50,12 +57,32 @@ public sealed class DepartmentEndpoints : IApi
             .Produces(StatusCodes.Status204NoContent);
     }
 
+    /// <summary>
+    /// Retrieves all departments.
+    /// </summary>
+    /// <param name="mediator">The mediator instance.</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>A list of departments.</returns>
     public static async Task<IResult> GetAllDepartments(IMediator mediator, CancellationToken ct)
         => await mediator.Send(new GetAllDepartmentsQuery(), ct);
 
+    /// <summary>
+    /// Retrieves a department by its ID.
+    /// </summary>
+    /// <param name="id">The department ID.</param>
+    /// <param name="mediator">The mediator instance.</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>The department if found.</returns>
     public static async Task<IResult> GetDepartmentById(int id, IMediator mediator, CancellationToken ct)
         => await mediator.Send(new GetDepartmentByIdQuery(id), ct);
 
+    /// <summary>
+    /// Creates a new department.
+    /// </summary>
+    /// <param name="request">The create department command.</param>
+    /// <param name="mediator">The mediator instance.</param>
+    /// <param name="ct">A cancellation token.</param>
+    /// <returns>The result of the creation operation.</returns>
     public static async Task<IResult> CreateDepartment([FromBody] CreateDepartmentCommand request, IMediator mediator, CancellationToken ct)
         => await mediator.Send(request, ct);
 

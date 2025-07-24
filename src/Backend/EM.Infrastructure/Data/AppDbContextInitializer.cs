@@ -3,8 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EM.Infrastructure.Data;
 
+/// <summary>
+/// Provides methods to initialize and seed the application database.
+/// </summary>
 public static class AppDbContextInitializer
 {
+    /// <summary>
+    /// Seeds the initial data for the application database if not already present.
+    /// </summary>
+    /// <param name="dbContext">The application database context.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
     public static async Task SeedInitialDataAsync(AppDbContext dbContext, CancellationToken cancellationToken)
     {
         // Seed Departments

@@ -20,9 +20,15 @@ using MinimalApis.Discovery;
 
 using Scalar.AspNetCore;
 
+
+/// <summary>
+/// Entry point for the EM.API application. Configures services, authentication, and endpoints.
+/// </summary>
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+builder.WebHost.ConfigureKestrel(x => x.AddServerHeader = false);
 
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

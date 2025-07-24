@@ -9,8 +9,18 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace EM.Infrastructure.Interceptors;
 
+/// <summary>
+/// Interceptor to update audit fields on auditable entities during save operations.
+/// </summary>
 public sealed class UpdateAuditableEntitiesInterceptor(ClaimsPrincipal claimsPrincipal) : SaveChangesInterceptor
 {
+    /// <summary>
+    /// Called when saving changes asynchronously to update audit fields.
+    /// </summary>
+    /// <param name="eventData">The event data.</param>
+    /// <param name="result">The interception result.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
+    /// <returns>A <see cref="ValueTask{InterceptionResult}"/> representing the asynchronous operation.</returns>
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
         var dbcontext = eventData.Context;
