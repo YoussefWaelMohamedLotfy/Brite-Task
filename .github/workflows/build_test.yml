@@ -45,13 +45,13 @@ jobs:
         echo "EF Migration Bundle created for Windows"
         cd ../../..
     
-    - name: Upload EF Migration Bundle Artifact for Windows
+    - name: Upload EF Migration Bundle Artifact for Windows & Linux
       uses: actions/upload-artifact@v4
       with:
         name: EF Migration Bundles
         path: |
-          efbundle-linux
-          efbundle-windows.exe
+          src/Backend/EM.API/efbundle-linux
+          src/Backend/EM.API/efbundle-windows.exe
     
     - name: Test
       run: dotnet test --no-build --verbosity normal
