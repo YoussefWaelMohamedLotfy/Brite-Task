@@ -73,8 +73,8 @@ public sealed class EmployeeEndpoints : IApi
     /// <param name="mediator">The mediator instance.</param>
     /// <param name="ct">A cancellation token.</param>
     /// <returns>A list of employees.</returns>
-    public static async Task<IResult> GetAllEmployees(IMediator mediator, CancellationToken ct)
-        => await mediator.Send(new GetAllEmployeesQuery(), ct);
+    public static async Task<IResult> GetAllEmployees([AsParameters] GetAllEmployeesQuery request, IMediator mediator, CancellationToken ct)
+        => await mediator.Send(request, ct);
 
     public static async Task<IResult> GetEmployeeById(Guid id, IMediator mediator, CancellationToken ct)
         => await mediator.Send(new GetEmployeeByIdQuery(id), ct);
