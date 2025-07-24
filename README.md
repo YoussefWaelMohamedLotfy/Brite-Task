@@ -42,20 +42,36 @@ flowchart TD
     end
 ```
 
-### Key Decisions
+## Key Decisions
 
-- **Aspire for Orchestration:** All services and dependencies are orchestrated via Aspire, enabling easy local development and cloud deployment.
-- **Service Defaults:** Common features (health checks, OpenTelemetry, service discovery, resilience) are centralized in `Brite-Task.ServiceDefaults` for consistency.
-- **Containerized Dependencies:** Keycloak (auth), Garnet (cache), and PostgreSQL (database) are run as containers, managed by Aspire.
-- **Migration Worker:** Database migrations are handled by a dedicated worker service, ensuring schema consistency before API startup.
-- **Resilience & Observability:** OpenTelemetry and health checks are enabled by default for all services.
+Here are some key decisions made during the development of this assessment, along with their rationale:
+
+### Why choose .NET Aspire over Docker Compose?
+
+.NET Aspire was chosen over Docker Compose primarily for its enhanced developer experience. While Docker Compose is excellent for orchestrating containers, .NET Aspire significantly streamlines the inner development loop for modern, distributed applications, especially within the .NET ecosystem. It simplifies service discovery, manages connection strings automatically, and provides an integrated dashboard for observability and debugging, all configured with C# code. This reduces boilerplate and configuration overhead, allowing developers to focus more on business logic and less on infrastructure setup, leading to faster development cycles and improved productivity compared to manual Docker Compose configurations and troubleshooting.
+
+### Why choose PostgreSQL over SQL Server?
+
+While SQL Server is a strong contender, especially within the Microsoft ecosystem, PostgreSQL was chosen for its compelling advantages in performance and industry adoption. PostgreSQL is renowned for its robust performance, particularly in handling complex queries and large datasets, often outperforming SQL Server in specific benchmarks. Furthermore, its open-source nature has led to widespread adoption across various industries and platforms, fostering a large and active community, extensive tooling, and broad cloud provider support. This provides greater flexibility, cost efficiency (due to no licensing fees), and future-proofing for the solution.
+
+### Why choose Microsoft Garnet over Redis?
+
+Microsoft Garnet was selected over Redis primarily due to its superior throughput capabilities. Garnet, a modern, open-source, and high-performance in-memory key-value store from Microsoft Research, has demonstrated significantly higher throughput and better scalability with many client connections, particularly for small batch operations. This performance edge can lead to substantial cost savings for large-scale applications and services by requiring fewer resources to handle the same load, while still being compatible with existing Redis clients.
+
+### Why use .NET Minimal APIs over MVC Controllers?
+
+.NET Minimal APIs were chosen over traditional MVC Controllers for their modern approach and performance benefits. Minimal APIs offer a streamlined, lightweight way to build HTTP APIs with significantly less boilerplate code, making them faster to write and easier to read. They are inherently more performant due to their leaner pipeline and reduced overhead, making them ideal for microservices and high-performance scenarios. This choice aligns with modern architectural patterns and allows for a more concise and efficient development of API endpoints.
+
+### Why use Keycloak instead of building my own Auth Solution?
+
+Keycloak was chosen over building a custom authentication solution due to its comprehensive features, robust security compliance, and reduced development overhead. Building a secure and feature-rich authentication and authorization system from scratch is a complex and time-consuming endeavor, fraught with potential security vulnerabilities. Keycloak, as an open-source Identity and Access Management (IAM) solution, provides out-of-the-box support for industry standards like OAuth 2.0, OpenID Connect, and SAML 2.0, along with features like multi-factor authentication, user federation, single sign-on (SSO), Multi-Tenants by design and fine-grained access control. This ensures high security compliance and allows developers to focus on core business logic rather than reinventing the wheel for security.
 
 ## Running the Solution with Aspire
 
 ### Prerequisites
 
 - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
-- Docker (for running containers)
+- Docker / Podman (for running containers)
 
 ### Steps
 
