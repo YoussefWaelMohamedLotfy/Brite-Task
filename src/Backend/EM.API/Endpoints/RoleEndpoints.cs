@@ -22,7 +22,6 @@ public sealed class RoleEndpoints : IApi
     {
         var group = builder.MapGroup("/roles")
             .WithTags("Roles")
-            .RequireAuthorization()
             .WithOpenApi();
 
         group.MapGet("/", GetAllRoles)
@@ -30,31 +29,36 @@ public sealed class RoleEndpoints : IApi
             .WithSummary("Retrieves a list of roles")
             .WithDescription("This endpoint returns a list of all available roles in the system.")
             .CacheOutput()
-            .Produces<string>(StatusCodes.Status200OK);
+            .Produces<string>(StatusCodes.Status200OK)
+            .RequireAuthorization("Viewer-Admin-Policy");
 
         group.MapGet("/{id}", GetRoleById)
             .WithName("GetRoleById")
             .WithSummary("Retrieves a role by ID")
             .WithDescription("This endpoint returns a single role based on its ID in the system.")
-            .CacheOutput();
+            .CacheOutput()
+            .RequireAuthorization("Viewer-Admin-Policy");
 
         group.MapPost("/", CreateRole)
             .WithName("CreateRole")
             .WithSummary("Creates a new role")
             .WithDescription("This endpoint allows the creation of a new role in the system.")
-            .Produces<string>(StatusCodes.Status201Created);
+            .Produces<string>(StatusCodes.Status201Created)
+            .RequireAuthorization("Admin-Policy");
 
         group.MapPut("/", UpdateRole)
             .WithName("UpdateRole")
             .WithSummary("Updates an existing role")
             .WithDescription("This endpoint allows updating an existing role.")
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+            .RequireAuthorization("Admin-Policy");
 
         group.MapDelete("/{id}", DeleteRole)
             .WithName("DeleteRole")
             .WithSummary("Deletes a role")
             .WithDescription("This endpoint allows deleting a role.")
-            .Produces(StatusCodes.Status204NoContent);
+            .Produces(StatusCodes.Status204NoContent)
+            .RequireAuthorization("Admin-Policy");
     }
 
     /// <summary>

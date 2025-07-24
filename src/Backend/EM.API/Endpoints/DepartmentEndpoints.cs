@@ -22,7 +22,6 @@ public sealed class DepartmentEndpoints : IApi
     {
         var group = builder.MapGroup("/departments")
             .WithTags("Departments")
-            .RequireAuthorization()
             .WithOpenApi();
 
         group.MapGet("/", GetAllDepartments)
@@ -30,31 +29,36 @@ public sealed class DepartmentEndpoints : IApi
             .WithSummary("Retrieves a list of departments")
             .WithDescription("This endpoint returns a list of all available departments in the system.")
             .Produces<string>(StatusCodes.Status200OK)
-            .CacheOutput();
+            .CacheOutput()
+            .RequireAuthorization("HR-Viewer-Admin-Policy");
 
         group.MapGet("/{id}", GetDepartmentById)
             .WithName("GetDepartmentById")
             .WithSummary("Retrieves a department by ID")
             .WithDescription("This endpoint returns a single department based on its ID in the system.")
-            .CacheOutput();
+            .CacheOutput()
+            .RequireAuthorization("HR-Viewer-Admin-Policy");
 
         group.MapPost("/", CreateDepartment)
             .WithName("CreateDepartment")
             .WithSummary("Creates a new department")
             .WithDescription("This endpoint allows the creation of a new department in the system.")
-            .Produces<string>(StatusCodes.Status201Created);
+            .Produces<string>(StatusCodes.Status201Created)
+            .RequireAuthorization("HR-Admin-Policy");
 
         group.MapPut("/", UpdateDepartment)
             .WithName("UpdateDepartment")
             .WithSummary("Updates an existing department")
             .WithDescription("This endpoint allows updating an existing department.")
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+            .RequireAuthorization("HR-Admin-Policy");
 
         group.MapDelete("/{id}", DeleteDepartment)
             .WithName("DeleteDepartment")
             .WithSummary("Deletes a department")
             .WithDescription("This endpoint allows deleting a department.")
-            .Produces(StatusCodes.Status204NoContent);
+            .Produces(StatusCodes.Status204NoContent)
+            .RequireAuthorization("HR-Admin-Policy");
     }
 
     /// <summary>

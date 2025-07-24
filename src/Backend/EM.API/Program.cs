@@ -1,5 +1,7 @@
 using System.Security.Claims;
+using System.Text.Json;
 
+using EM.API.Auth;
 using EM.Application;
 using EM.Application.Features.Common.Behaviours;
 using EM.Application.Features.Common.Exceptions;
@@ -10,6 +12,7 @@ using FluentValidation;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -35,9 +38,18 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<IApplicationAssemblyMarker>(includeInternalTypes: true);
 
-string oidcScheme = OpenIdConnectDefaults.AuthenticationScheme;
+string oidcScheme = JwtBearerDefaults.AuthenticationScheme;
 
-builder.Services.AddAuthorizationBuilder();
+builder.Services.AddScoped<IAuthorizationHandler, RoleAuthorizationHandler>();
+
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("HR-Policy", x => x.RequireAuthenticatedUser().AddRequirements(new RoleRequirement("HR")))
+    .AddPolicy("Viewer-Policy", x => x.RequireAuthenticatedUser().AddRequirements(new RoleRequirement("Viewer")))
+    .AddPolicy("Admin-Policy", x => x.RequireAuthenticatedUser().AddRequirements(new RoleRequirement("Admin")))
+    .AddPolicy("HR-Viewer-Policy", x => x.RequireAuthenticatedUser().AddRequirements(new RoleRequirement("HR", "Viewer")))
+    .AddPolicy("HR-Admin-Policy", x => x.RequireAuthenticatedUser().AddRequirements(new RoleRequirement("HR", "Admin")))
+    .AddPolicy("Viewer-Admin-Policy", x => x.RequireAuthenticatedUser().AddRequirements(new RoleRequirement("Viewer", "Admin")))
+    .AddPolicy("HR-Viewer-Admin-Policy", x => x.RequireAuthenticatedUser().AddRequirements(new RoleRequirement("HR", "Viewer", "Admin")));
 
 builder.Services.AddAuthentication(oidcScheme)
                 .AddKeycloakJwtBearer("keycloak", "tenant-1", oidcScheme, options =>
@@ -45,6 +57,27 @@ builder.Services.AddAuthentication(oidcScheme)
                     options.Audience = "account";
                     options.SaveToken = true;
                     options.MapInboundClaims = true;
+                    options.Events = new()
+                    {
+                        OnTokenValidated = ctx =>
+                        {
+                            ClaimsIdentity claimsIdentity = (ClaimsIdentity)ctx.Principal!.Identity!;
+                            string? realm_access = claimsIdentity.FindFirst((claim) => claim.Type == "realm_access")?.Value;
+
+                            using (JsonDocument doc = JsonDocument.Parse(realm_access))
+                            {
+                                if (doc.RootElement.TryGetProperty("roles", out JsonElement roleAccess) && roleAccess.ValueKind == JsonValueKind.Array)
+                                {
+                                    foreach (JsonElement role in roleAccess.EnumerateArray())
+                                    {
+                                        claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.GetString()!));
+                                    }
+                                }
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
 
                     // For development only - disable HTTPS metadata validation
                     // In production, use explicit Authority configuration instead

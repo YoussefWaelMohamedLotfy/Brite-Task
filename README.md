@@ -88,6 +88,10 @@ Microsoft Garnet was selected over Redis primarily due to its superior throughpu
 
 Keycloak was chosen over building a custom authentication solution due to its comprehensive features, robust security compliance, and reduced development overhead. Building a secure and feature-rich authentication and authorization system from scratch is a complex and time-consuming endeavor, fraught with potential security vulnerabilities. Keycloak, as an open-source Identity and Access Management (IAM) solution, provides out-of-the-box support for industry standards like OAuth 2.0, OpenID Connect, and SAML 2.0, along with features like multi-factor authentication, user federation, single sign-on (SSO), Multi-Tenants by design and fine-grained access control. This ensures high security compliance and allows developers to focus on core business logic rather than reinventing the wheel for security.
 
+### Why use ProblemDetails over custom error responses?
+
+Preferring ProblemDetails over custom response bodies aligns with best practices for API design, especially in a modern application. It leverages a well-defined standard, promoting consistency and easier consumption for clients, while still providing the flexibility needed to convey application-specific error information. Leveraging the built-in support for ProblemDetails in ASP.NET Core (ValidationProblemDetails, ProblemDetailsFactory) makes this even more straightforward.
+
 ## Running the Solution with Aspire
 
 ### Prerequisites
