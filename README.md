@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is my implementation Brite Task, which  is an Employee Management System, built with .NET 9, leveraging the .NET Aspire stack for cloud-native development and enhanced developer experience. The solution is modular, scalable, and designed for robust service orchestration, observability, and resilience.
+This is my implementation for Brite Task, which  is an Employee Management System, built with .NET 9, leveraging the .NET Aspire stack for cloud-native development and enhanced developer experience. The solution is modular, scalable, and designed for robust service orchestration, observability, and resilience.
 
 ### Solution Structure
 

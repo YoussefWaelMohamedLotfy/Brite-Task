@@ -17,18 +17,33 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
+    
     - name: Restore dependencies
       run: dotnet restore
+    
     - name: Build
       run: dotnet build --no-restore
+    
     - name: Upload OpenAPI JSON Doc Artifact
       uses: actions/upload-artifact@v4
       with:
         name: Employee Management OpenAPI JSON Doc
         path: src/Backend/EM.API/EM-OpenAPI-Build.json
+
+    - name: Create EF Migration Bundle
+      run: |
+        dotnet tool install --global dotnet-ef
+        cd src/Backend/EM.API
+        dotnet ef migrations bundle --project ..\EM.Infrastructure\EM.Infrastructure.csproj -o efbundle-linux --no-build --self-contained
+        echo "EF Migration Bundle created for Linux"
+        dotnet ef migrations bundle --project ..\EM.Infrastructure\EM.Infrastructure.csproj -o efbundle-windows.exe --no-build --self-contained
+        echo "EF Migration Bundle created for Windows"
+        cd ../../..
+    
     - name: Test
       run: dotnet test --no-build --verbosity normal
