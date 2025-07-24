@@ -23,11 +23,7 @@ public sealed class Worker(
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             await RunMigrationAsync(dbContext, stoppingToken);
-
-            if ((await dbContext.Database.GetPendingMigrationsAsync(stoppingToken)).Any())
-            {
-                await SeedDataAsync(dbContext, stoppingToken);
-            }
+            await SeedDataAsync(dbContext, stoppingToken);
         }
         catch (Exception ex)
         {
