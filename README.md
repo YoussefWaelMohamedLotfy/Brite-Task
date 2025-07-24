@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Overview](#overview)
+- [Requirements Checklist](#requirements-checklist)
 - [Solution Structure](#solution-structure)
 - [Architecture](#architecture)
 - [Key Decisions](#key-decisions)
@@ -27,14 +28,13 @@
 
 This is my implementation for Brite Task, which  is an Employee Management System, built with .NET 9, leveraging the .NET Aspire stack for cloud-native development and enhanced developer experience. The solution is modular, scalable, and designed for robust service orchestration, observability, and resilience.
 
-## Requirements Chechlist
-
+## Requirements Checklist
 
 ### Core Features:
 
 ✅ Use Clean Architecture or Domain-Driven Design (DDD).
 
-## Implement the following entities:
+#### Implement the following entities:
 
 ✅ Employee (Name, Email, Phone, DepartmentId, RoleId, DateOfJoining, IsActive)
 
@@ -42,7 +42,7 @@ This is my implementation for Brite Task, which  is an Employee Management Syste
 
 ✅ Role (Name, Permissions as JSON)
 
-### API Endpoints:
+#### API Endpoints:
 
 ✅ CRUD for Employees, Departments, Roles
 
@@ -50,7 +50,7 @@ This is my implementation for Brite Task, which  is an Employee Management Syste
 
 ✅ Activate / Deactivate Employee
 
-### Security:
+#### Security:
 
 ✅ Implement JWT Authentication
 
@@ -58,25 +58,25 @@ This is my implementation for Brite Task, which  is an Employee Management Syste
 
 ✅ Secure all endpoints properly
 
-### Database:
+#### Database:
 
 ✅ Use EF Core (Code First) with SQL Server or PostgreSQL
 
 ✅ Seed initial data (Admin user, example Departments, Roles)
 
-### Validation & Error Handling:
+#### Validation & Error Handling:
 
 ✅ Input validation with clear error responses
 
 ✅ Global exception handling middleware
 
-### Documentation:
+#### Documentation:
 
 ✅ Provide Swagger / OpenAPI documentation
 
 ✅ Clear instructions for running the project
 
-## Bonus (Optional):
+### Bonus (Optional):
 ❌ Unit tests for core services
 
 ✅ Caching (In-Memory / Redis) for Departments & Roles
@@ -85,7 +85,7 @@ This is my implementation for Brite Task, which  is an Employee Management Syste
 
 ✅ Audit fields (Created By, CreatedAt, UpdatedBy, UpdatedAt)
 
-### Solution Structure
+## Solution Structure
 
 - **Backend Services**
   - `EM.API`: Main API for employee management.
