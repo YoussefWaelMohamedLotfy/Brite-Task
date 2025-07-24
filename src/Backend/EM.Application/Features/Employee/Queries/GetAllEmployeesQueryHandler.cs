@@ -10,7 +10,7 @@ namespace EM.Application.Features.Employee.Queries;
 /// <summary>
 /// Query to retrieve all employees.
 /// </summary>
-public readonly struct GetAllEmployeesQuery : IRequest<IResult>;
+public sealed record GetAllEmployeesQuery : IRequest<IResult>;
 
 /// <summary>
 /// Handles the retrieval of all employees.
