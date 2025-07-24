@@ -28,27 +28,41 @@ public sealed class EmployeeEndpoints : IApi
             .WithName("GetEmployees")
             .WithSummary("Retrieves a list of employees")
             .WithDescription("This endpoint returns a list of all available employees in the system.")
-            .Produces<string>(StatusCodes.Status200OK)
+            .Produces<IEnumerable<Domain.Entities.Employee>>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization("HR-Viewer-Admin-Policy");
 
         group.MapGet("/{id}", GetEmployeeById)
             .WithName("GetEmployeeById")
             .WithSummary("Retrieves an employee by ID")
             .WithDescription("This endpoint returns a single employee based on its ID in the system.")
+            .Produces<Domain.Entities.Employee>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization("HR-Viewer-Admin-Policy");
 
         group.MapPost("/", CreateEmployee)
             .WithName("CreateEmployee")
             .WithSummary("Creates a new employee")
             .WithDescription("This endpoint allows the creation of a new employee in the system.")
-            .Produces<string>(StatusCodes.Status201Created)
+            .Produces<Domain.Entities.Employee>(StatusCodes.Status201Created)
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization("HR-Admin-Policy");
 
         group.MapPut("/", UpdateEmployee)
             .WithName("UpdateEmployee")
             .WithSummary("Updates an existing employee")
             .WithDescription("This endpoint allows updating an existing employee.")
-            .Produces(StatusCodes.Status200OK)
+            .Produces<Domain.Entities.Employee>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .ProducesValidationProblem()
             .RequireAuthorization("HR-Admin-Policy");
 
         group.MapDelete("/{id}", DeleteEmployee)
@@ -56,14 +70,19 @@ public sealed class EmployeeEndpoints : IApi
             .WithSummary("Deletes an employee")
             .WithDescription("This endpoint allows deleting an employee.")
             .Produces(StatusCodes.Status204NoContent)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization("HR-Admin-Policy");
 
         group.MapPut("/{id}/toggle-activation", ToggleEmployeeActivation)
             .WithName("ToggleEmployeeActivation")
             .WithSummary("Toggles the activation status of an employee")
             .WithDescription("This endpoint enables or disables an employee based on their current activation status.")
-            .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound)
+            .Produces<Domain.Entities.Employee>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization("HR-Admin-Policy");
     }
 

@@ -28,7 +28,10 @@ public sealed class DepartmentEndpoints : IApi
             .WithName("GetDepartments")
             .WithSummary("Retrieves a list of departments")
             .WithDescription("This endpoint returns a list of all available departments in the system.")
-            .Produces<string>(StatusCodes.Status200OK)
+            .Produces<IEnumerable<Domain.Entities.Department>>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .CacheOutput()
             .RequireAuthorization("HR-Viewer-Admin-Policy");
 
@@ -37,20 +40,31 @@ public sealed class DepartmentEndpoints : IApi
             .WithSummary("Retrieves a department by ID")
             .WithDescription("This endpoint returns a single department based on its ID in the system.")
             .CacheOutput()
+            .Produces<Domain.Entities.Department>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization("HR-Viewer-Admin-Policy");
 
         group.MapPost("/", CreateDepartment)
             .WithName("CreateDepartment")
             .WithSummary("Creates a new department")
             .WithDescription("This endpoint allows the creation of a new department in the system.")
-            .Produces<string>(StatusCodes.Status201Created)
+            .Produces<Domain.Entities.Department>(StatusCodes.Status201Created)
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization("HR-Admin-Policy");
 
         group.MapPut("/", UpdateDepartment)
             .WithName("UpdateDepartment")
             .WithSummary("Updates an existing department")
             .WithDescription("This endpoint allows updating an existing department.")
-            .Produces(StatusCodes.Status200OK)
+            .Produces<Domain.Entities.Department>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .ProducesValidationProblem()
             .RequireAuthorization("HR-Admin-Policy");
 
         group.MapDelete("/{id}", DeleteDepartment)
@@ -58,6 +72,9 @@ public sealed class DepartmentEndpoints : IApi
             .WithSummary("Deletes a department")
             .WithDescription("This endpoint allows deleting a department.")
             .Produces(StatusCodes.Status204NoContent)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization("HR-Admin-Policy");
     }
 

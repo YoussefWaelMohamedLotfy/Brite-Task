@@ -29,7 +29,10 @@ public sealed class RoleEndpoints : IApi
             .WithSummary("Retrieves a list of roles")
             .WithDescription("This endpoint returns a list of all available roles in the system.")
             .CacheOutput()
-            .Produces<string>(StatusCodes.Status200OK)
+            .Produces<IEnumerable<Domain.Entities.Role>>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization("Viewer-Admin-Policy");
 
         group.MapGet("/{id}", GetRoleById)
@@ -37,20 +40,31 @@ public sealed class RoleEndpoints : IApi
             .WithSummary("Retrieves a role by ID")
             .WithDescription("This endpoint returns a single role based on its ID in the system.")
             .CacheOutput()
+            .Produces<Domain.Entities.Role>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization("Viewer-Admin-Policy");
 
         group.MapPost("/", CreateRole)
             .WithName("CreateRole")
             .WithSummary("Creates a new role")
             .WithDescription("This endpoint allows the creation of a new role in the system.")
-            .Produces<string>(StatusCodes.Status201Created)
+            .Produces<Domain.Entities.Role>(StatusCodes.Status201Created)
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization("Admin-Policy");
 
         group.MapPut("/", UpdateRole)
             .WithName("UpdateRole")
             .WithSummary("Updates an existing role")
             .WithDescription("This endpoint allows updating an existing role.")
-            .Produces(StatusCodes.Status200OK)
+            .Produces<Domain.Entities.Role>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .ProducesValidationProblem()
             .RequireAuthorization("Admin-Policy");
 
         group.MapDelete("/{id}", DeleteRole)
@@ -58,6 +72,9 @@ public sealed class RoleEndpoints : IApi
             .WithSummary("Deletes a role")
             .WithDescription("This endpoint allows deleting a role.")
             .Produces(StatusCodes.Status204NoContent)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization("Admin-Policy");
     }
 
