@@ -39,8 +39,13 @@ jobs:
       working-directory: ./src/Backend/EM.API
       run: |
         dotnet tool install --global dotnet-ef
+        
+        dotnet ef migrations script --project ../EM.Infrastructure/EM.Infrastructure.csproj -o migrations.sql --idempotent
+        echo "EF Migration Idempotent Script created"
+        
         dotnet ef migrations bundle --project ../EM.Infrastructure/EM.Infrastructure.csproj -o efbundle-linux --no-build --self-contained
         echo "EF Migration Bundle created for Linux"
+        
         dotnet ef migrations bundle --project ../EM.Infrastructure/EM.Infrastructure.csproj -o efbundle-windows.exe --no-build --self-contained
         echo "EF Migration Bundle created for Windows"
         cd ../../..
@@ -50,6 +55,7 @@ jobs:
       with:
         name: EF Migration Bundles
         path: |
+          src/Backend/EM.API/migrations.sql
           src/Backend/EM.API/efbundle-linux
           src/Backend/EM.API/efbundle-windows.exe
     
