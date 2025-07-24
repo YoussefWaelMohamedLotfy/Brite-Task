@@ -20,7 +20,7 @@ using MinimalApis.Discovery;
 
 using Scalar.AspNetCore;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
@@ -29,7 +29,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<IApplicationAssemblyMarker>(includeInternalTypes: true);
 
-var oidcScheme = OpenIdConnectDefaults.AuthenticationScheme;
+string oidcScheme = OpenIdConnectDefaults.AuthenticationScheme;
 
 builder.Services.AddAuthorizationBuilder();
 
@@ -57,7 +57,9 @@ builder.Services.AddTransient(s =>
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
 {
     options.AddInterceptors(sp.GetRequiredService<UpdateAuditableEntitiesInterceptor>());
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Employee-Management-Db"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Employee-Management-Db"))
+    .UseAsyncSeeding(async (context, _, ct) => await AppDbContextInitializer.SeedInitialDataAsync((AppDbContext)context, ct))
+    .UseSeeding((context, _) => AppDbContextInitializer.SeedInitialData((AppDbContext)context));
 });
 builder.EnrichNpgsqlDbContext<AppDbContext>();
 
@@ -106,7 +108,7 @@ builder.Services.AddOpenApi(x =>
     });
 });
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 app.UseExceptionHandler(_ => { });
 app.UseStatusCodePages();
@@ -127,4 +129,3 @@ app.UseAuthorization();
 app.MapApis();
 
 await app.RunAsync();
-
