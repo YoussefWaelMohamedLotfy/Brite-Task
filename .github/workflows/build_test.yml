@@ -25,48 +25,48 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     
-    - name: Upload OpenAPI JSON Doc Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: Employee Management OpenAPI JSON Doc
-        path: src/Backend/EM.API/EM-OpenAPI-Build.json
+    # - name: Upload OpenAPI JSON Doc Artifact
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: Employee Management OpenAPI JSON Doc
+    #     path: src/Backend/EM.API/EM-OpenAPI-Build.json
 
-    - name: Create EF Migration Bundle
-      working-directory: ./src/Backend/EM.API
-      run: |
-        dotnet tool install --global dotnet-ef
+    # - name: Create EF Migration Bundle
+    #   working-directory: ./src/Backend/EM.API
+    #   run: |
+    #     dotnet tool install --global dotnet-ef
         
-        dotnet ef migrations script --project ../EM.Infrastructure/EM.Infrastructure.csproj -o migrations.sql --idempotent
-        echo "EF Migration Idempotent Script created"
+    #     dotnet ef migrations script --project ../EM.Infrastructure/EM.Infrastructure.csproj -o migrations.sql --idempotent
+    #     echo "EF Migration Idempotent Script created"
         
-        dotnet ef migrations bundle --project ../EM.Infrastructure/EM.Infrastructure.csproj -o efbundle-linux --no-build --self-contained
-        echo "EF Migration Bundle created for Linux"
+    #     dotnet ef migrations bundle --project ../EM.Infrastructure/EM.Infrastructure.csproj -o efbundle-linux --no-build --self-contained
+    #     echo "EF Migration Bundle created for Linux"
         
-        dotnet ef migrations bundle --project ../EM.Infrastructure/EM.Infrastructure.csproj -o efbundle-windows.exe --no-build --self-contained
-        echo "EF Migration Bundle created for Windows"
-        cd ../../..
+    #     dotnet ef migrations bundle --project ../EM.Infrastructure/EM.Infrastructure.csproj -o efbundle-windows.exe --no-build --self-contained
+    #     echo "EF Migration Bundle created for Windows"
+    #     cd ../../..
     
-    - name: Upload EF Migration Bundle Artifact for Windows & Linux
-      uses: actions/upload-artifact@v4
-      with:
-        name: EF Migration Bundles
-        path: |
-          src/Backend/EM.API/migrations.sql
-          src/Backend/EM.API/efbundle-linux
-          src/Backend/EM.API/efbundle-windows.exe
+    # - name: Upload EF Migration Bundle Artifact for Windows & Linux
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: EF Migration Bundles
+    #     path: |
+    #       src/Backend/EM.API/migrations.sql
+    #       src/Backend/EM.API/efbundle-linux
+    #       src/Backend/EM.API/efbundle-windows.exe
     
     - name: Test
       run: dotnet test -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml
 
     - name: Check Directory Structure
       run: |
-        echo "Directory structure:"
-        ls -R
+        echo "Filtered Directory structure:"
+        ls -R | grep coverage.cobertura.xml
 
     - name: .NET Test ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.4.10
       with:
-        reports: tests/*/coverage.cobertura.xml
+        reports: /*/coverage.cobertura.xml
         targetdir: Coverage-Reports
 
     - name: Upload Test Coverage Reports
