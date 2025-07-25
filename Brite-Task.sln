@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.MigrationsWorker", "src\Backend\EM.MigrationsWorker\EM.MigrationsWorker.csproj", "{FCAD489D-70DB-C2CC-AC80-3DEE93C3AC42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Domain.UnitTests", "tests\EM.Domain.UnitTests\EM.Domain.UnitTests.csproj", "{2334377F-957F-40C5-B373-6F15B56F2E62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{FCAD489D-70DB-C2CC-AC80-3DEE93C3AC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCAD489D-70DB-C2CC-AC80-3DEE93C3AC42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCAD489D-70DB-C2CC-AC80-3DEE93C3AC42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2334377F-957F-40C5-B373-6F15B56F2E62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2334377F-957F-40C5-B373-6F15B56F2E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2334377F-957F-40C5-B373-6F15B56F2E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2334377F-957F-40C5-B373-6F15B56F2E62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{11BF3DA4-794A-4C13-95BD-973B7635EEFD} = {52BF7FB6-37FF-5100-EFD1-124EFF302675}
 		{957F7F80-4C19-26AE-F74A-8EC04DF45CE5} = {52BF7FB6-37FF-5100-EFD1-124EFF302675}
 		{FCAD489D-70DB-C2CC-AC80-3DEE93C3AC42} = {FE360695-3F2B-1049-3887-35FBB5135923}
+		{2334377F-957F-40C5-B373-6F15B56F2E62} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C420B0A-001E-4440-B990-940362C53691}
