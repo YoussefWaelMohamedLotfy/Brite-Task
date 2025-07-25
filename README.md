@@ -157,6 +157,7 @@ Preferring ProblemDetails over custom response bodies aligns with best practices
 
 - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 - Docker / Podman (for running containers)
+- .NET Aspire SDK (from VS Installer, under Individual Components)
 
 ### Steps
 
