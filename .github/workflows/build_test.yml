@@ -64,6 +64,10 @@ jobs:
       with:
         reports: '**/*.cobertura.xml'
         targetdir: Coverage-Reports
+        reporttypes: Html;MarkdownSummaryGithub
+
+    - name: Create Summary Report for GitHub Action
+      run: cat Coverage-Reports/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
 
     - name: Upload Test Coverage Reports
       uses: actions/upload-artifact@v4
