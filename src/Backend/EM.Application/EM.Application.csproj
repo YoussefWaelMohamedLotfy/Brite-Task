@@ -13,12 +13,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\EM.Infrastructure\EM.Infrastructure.csproj" />
+        <InternalsVisibleTo Include="$(MSBuildProjectName).UnitTests"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Role\Commands\" />
-      <Folder Include="Features\Role\Queries\" />
+        <ProjectReference Include="..\EM.Infrastructure\EM.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

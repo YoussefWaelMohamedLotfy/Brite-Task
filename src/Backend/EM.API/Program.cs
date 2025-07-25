@@ -12,9 +12,7 @@ using FluentValidation;
 
 using MediatR;
 
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -22,7 +20,6 @@ using Microsoft.OpenApi.Models;
 using MinimalApis.Discovery;
 
 using Scalar.AspNetCore;
-
 
 /// <summary>
 /// Entry point for the EM.API application. Configures services, authentication, and endpoints.
@@ -90,7 +87,7 @@ builder.Services.AddTransient(s =>
 {
     IHttpContextAccessor contextAccessor = s.GetRequiredService<IHttpContextAccessor>();
     ClaimsPrincipal? user = contextAccessor?.HttpContext?.User;
-    return user ?? throw new NullReferenceException("User not resolved");
+    return user ?? throw new NullReferenceException("ClaimsPrincipal not resolved");
 });
 
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
@@ -128,7 +125,6 @@ builder.Services.AddOpenApi(x =>
             Name = "Brite Support",
             Email = "info@gobrite.ai"
         };
-
 
         document.Components ??= new();
         document.Components.SecuritySchemes.Add(JwtBearerDefaults.AuthenticationScheme, jwtScheme);

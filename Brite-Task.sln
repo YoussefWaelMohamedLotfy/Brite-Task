@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Domain.UnitTests", "test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Infrastructure.UnitTests", "tests\EM.Infrastructure.UnitTests\EM.Infrastructure.UnitTests.csproj", "{35949E0C-B6DD-489C-9CB9-1C485300DBDC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Application.UnitTests", "tests\EM.Application.UnitTests\EM.Application.UnitTests.csproj", "{A68CFF76-468A-46CC-A666-D18E64D37EAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{35949E0C-B6DD-489C-9CB9-1C485300DBDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35949E0C-B6DD-489C-9CB9-1C485300DBDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35949E0C-B6DD-489C-9CB9-1C485300DBDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A68CFF76-468A-46CC-A666-D18E64D37EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A68CFF76-468A-46CC-A666-D18E64D37EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A68CFF76-468A-46CC-A666-D18E64D37EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A68CFF76-468A-46CC-A666-D18E64D37EAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{FCAD489D-70DB-C2CC-AC80-3DEE93C3AC42} = {FE360695-3F2B-1049-3887-35FBB5135923}
 		{2334377F-957F-40C5-B373-6F15B56F2E62} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{35949E0C-B6DD-489C-9CB9-1C485300DBDC} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+		{A68CFF76-468A-46CC-A666-D18E64D37EAF} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C420B0A-001E-4440-B990-940362C53691}
