@@ -1,5 +1,4 @@
-﻿
-using EM.Infrastructure.Data;
+﻿using EM.Infrastructure.Data;
 
 using MediatR;
 
@@ -30,10 +29,5 @@ internal sealed class GetAllRolesQueryHandler(
     {
         var roles = await dbContext.Roles.ToListAsync(cancellationToken);
         return Results.Ok(roles);
-    }
-
-    internal async Task Handle(GetAllRolesQuery query)
-    {
-        throw new NotImplementedException();
     }
 }

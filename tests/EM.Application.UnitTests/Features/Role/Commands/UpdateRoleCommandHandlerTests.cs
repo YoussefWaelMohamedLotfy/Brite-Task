@@ -1,9 +1,8 @@
 using EM.Application.Features.Role.Commands;
-using EM.Domain.Entities;
 
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace EM.Application.UnitTests.Features.Roles.Commands;
+namespace EM.Application.UnitTests.Features.Role.Commands;
 
 [Collection("InMemoryDb")]
 public sealed class UpdateRoleCommandHandlerTests(InMemoryDbProvider provider)
@@ -20,7 +19,7 @@ public sealed class UpdateRoleCommandHandlerTests(InMemoryDbProvider provider)
         var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
         // Assert
-        var okResult = Assert.IsType<Ok<Role>>(result);
+        var okResult = Assert.IsType<Ok<Domain.Entities.Role>>(result);
         var role = okResult.Value;
         Assert.Equal("UpdatedName", role.Name);
         Assert.Single(role.Permissions);

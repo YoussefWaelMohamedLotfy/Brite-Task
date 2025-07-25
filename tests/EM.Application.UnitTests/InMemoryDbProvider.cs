@@ -1,5 +1,6 @@
 ﻿using EM.Domain.Entities;
 using EM.Infrastructure.Data;
+using Bogus;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -20,67 +21,37 @@ public sealed class InMemoryDbProvider : IAsyncLifetime
 
     private static async Task SeedAsync(AppDbContext context)
     {
-        // Create test roles
-        var adminRole = new Role
-        {
-            Name = "Admin",
-            Permissions = ["Create", "Read", "Update", "Delete"],
-            CreatedBy = Guid.NewGuid(),
-            CreatedAt = DateTimeOffset.UtcNow
-        };
-        var userRole = new Role
-        {
-            Name = "User",
-            Permissions = ["Read"],
-            CreatedBy = Guid.NewGuid(),
-            CreatedAt = DateTimeOffset.UtcNow
-        };
-        await context.Roles.AddRangeAsync(adminRole, userRole);
+        // Generate 5 roles
+        var roleFaker = new Faker<Role>()
+            .RuleFor(r => r.Name, f => f.Person.FullName)
+            .RuleFor(r => r.Permissions, f => f.Make(f.Random.Int(1, 5), () => f.PickRandom(new[] { "Create", "Read", "Update", "Delete", "Approve" })))
+            .RuleFor(r => r.CreatedBy, f => f.Random.Guid())
+            .RuleFor(r => r.CreatedAt, f => f.Date.PastOffset(3));
+        var roles = roleFaker.Generate(5);
+        await context.Roles.AddRangeAsync(roles);
 
-        // Create test departments
-        var hrDepartment = new Department
-        {
-            Name = "HR",
-            Description = "Human Resources",
-            CreatedBy = Guid.NewGuid(),
-            CreatedAt = DateTimeOffset.UtcNow
-        };
-        var itDepartment = new Department
-        {
-            Name = "IT",
-            Description = "Information Technology",
-            CreatedBy = Guid.NewGuid(),
-            CreatedAt = DateTimeOffset.UtcNow
-        };
-        await context.Departments.AddRangeAsync(hrDepartment, itDepartment);
+        // Generate 5 departments
+        var departmentFaker = new Faker<Department>()
+            .RuleFor(d => d.Name, f => f.Commerce.Department())
+            .RuleFor(d => d.Description, f => f.Lorem.Sentence())
+            .RuleFor(d => d.CreatedBy, f => f.Random.Guid())
+            .RuleFor(d => d.CreatedAt, f => f.Date.PastOffset(3));
+        var departments = departmentFaker.Generate(5);
+        await context.Departments.AddRangeAsync(departments);
 
-        // Create test employees
-        var employee1 = new Employee
-        {
-            Name = "Alice Smith",
-            Email = "alice.smith@example.com",
-            Phone = "123-456-7890",
-            DateOfJoining = DateTimeOffset.UtcNow.AddYears(-2),
-            IsActive = true,
-            Department = hrDepartment,
-            Role = adminRole,
-            CreatedBy = Guid.NewGuid(),
-            CreatedAt = DateTimeOffset.UtcNow
-        };
-        var employee2 = new Employee
-        {
-            Name = "Bob Johnson",
-            Email = "bob.johnson@example.com",
-            Phone = "987-654-3210",
-            DateOfJoining = DateTimeOffset.UtcNow.AddYears(-1),
-            IsActive = false,
-            Department = itDepartment,
-            Role = userRole,
-            CreatedBy = Guid.NewGuid(),
-            CreatedAt = DateTimeOffset.UtcNow
-        };
-
-        await context.Employees.AddRangeAsync(employee1, employee2);
+        // Generate 50 employees
+        var employeeFaker = new Faker<Employee>()
+            .RuleFor(e => e.Name, f => f.Name.FullName())
+            .RuleFor(e => e.Email, (f, e) => f.Internet.Email(e.Name))
+            .RuleFor(e => e.Phone, f => f.Phone.PhoneNumber())
+            .RuleFor(e => e.DateOfJoining, f => f.Date.PastOffset(5))
+            .RuleFor(e => e.IsActive, f => f.Random.Bool())
+            .RuleFor(e => e.Department, f => f.PickRandom(departments))
+            .RuleFor(e => e.Role, f => f.PickRandom(roles))
+            .RuleFor(e => e.CreatedBy, f => f.Random.Guid())
+            .RuleFor(e => e.CreatedAt, f => f.Date.PastOffset(3));
+        var employees = employeeFaker.Generate(50);
+        await context.Employees.AddRangeAsync(employees);
         await context.SaveChangesAsync();
     }
 

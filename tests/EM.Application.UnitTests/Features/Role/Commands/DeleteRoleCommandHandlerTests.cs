@@ -2,7 +2,7 @@ using EM.Application.Features.Role.Commands;
 
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace EM.Application.UnitTests.Features.Roles.Commands;
+namespace EM.Application.UnitTests.Features.Role.Commands;
 
 [Collection("InMemoryDb")]
 public sealed class DeleteRoleCommandHandlerTests(InMemoryDbProvider provider)

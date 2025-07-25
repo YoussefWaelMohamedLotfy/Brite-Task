@@ -1,9 +1,8 @@
 ﻿using EM.Application.Features.Role.Queries;
-using EM.Domain.Entities;
 
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace EM.Application.UnitTests.Features.Roles.Queries;
+namespace EM.Application.UnitTests.Features.Role.Queries;
 
 [Collection("InMemoryDb")]
 public sealed class GetAllRolesQueryHandlerTests(InMemoryDbProvider provider)
@@ -19,7 +18,7 @@ public sealed class GetAllRolesQueryHandlerTests(InMemoryDbProvider provider)
         var result = await handler.Handle(query, TestContext.Current.CancellationToken);
 
         // Assert
-        var okResult = Assert.IsType<Ok<List<Role>>>(result);
+        var okResult = Assert.IsType<Ok<List<Domain.Entities.Role>>>(result);
         var roles = okResult.Value;
         Assert.NotNull(roles);
         Assert.Equal(2, roles.Count);

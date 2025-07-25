@@ -3,7 +3,7 @@ using EM.Domain.Entities;
 
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace EM.Application.UnitTests.Features.Roles.Queries;
+namespace EM.Application.UnitTests.Features.Role.Queries;
 
 [Collection("InMemoryDb")]
 public sealed class GetRoleByIdQueryHandlerTests(InMemoryDbProvider provider)
@@ -20,7 +20,7 @@ public sealed class GetRoleByIdQueryHandlerTests(InMemoryDbProvider provider)
         var result = await handler.Handle(query, TestContext.Current.CancellationToken);
 
         // Assert
-        var okResult = Assert.IsType<Ok<Role>>(result);
+        var okResult = Assert.IsType<Ok<Domain.Entities.Role>>(result);
         var role = okResult.Value;
         Assert.NotNull(role);
         Assert.Equal(existingRole.ID, role.ID);

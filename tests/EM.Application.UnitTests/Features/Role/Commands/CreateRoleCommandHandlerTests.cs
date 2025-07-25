@@ -1,9 +1,8 @@
 using EM.Application.Features.Role.Commands;
-using EM.Domain.Entities;
 
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace EM.Application.UnitTests.Features.Roles.Commands;
+namespace EM.Application.UnitTests.Features.Role.Commands;
 
 [Collection("InMemoryDb")]
 public sealed class CreateRoleCommandHandlerTests(InMemoryDbProvider provider)
@@ -13,13 +12,13 @@ public sealed class CreateRoleCommandHandlerTests(InMemoryDbProvider provider)
     {
         // Arrange
         var handler = new CreateRoleCommandHandler(provider.DbContext);
-        var command = new CreateRoleCommand("Manager", new List<string> { "Read", "Write" });
+        var command = new CreateRoleCommand("Manager", ["Read", "Write"]);
 
         // Act
         var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
         // Assert
-        var createdResult = Assert.IsType<Created<Role>>(result);
+        var createdResult = Assert.IsType<Created<Domain.Entities.Role>>(result);
         var role = createdResult.Value;
         Assert.NotNull(role);
         Assert.Equal("Manager", role.Name);
