@@ -1,17 +1,13 @@
-# This workflow will build and test a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: .NET Build & Test
 
 on:
   workflow_dispatch:
   push:
-    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build-test:
 
     runs-on: ubuntu-latest
 
@@ -62,14 +58,19 @@ jobs:
     - name: Test
       run: dotnet test -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml
 
+    - name: Check Directory Structure
+      run: |
+        echo "Directory structure:"
+        ls -R
+
     - name: .NET Test ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.4.10
       with:
-        reports: tests/EM.Domain.UnitTests/bin/debug/net9.0/TestResults/coverage.cobertura.xml
-        targetdir: 'Coverage-Reports'
+        reports: tests/*/coverage.cobertura.xml
+        targetdir: Coverage-Reports
 
     - name: Upload Test Coverage Reports
       uses: actions/upload-artifact@v4
       with:
         name: ReportGenerator Artifacts
-        path: Coverage-Reports/
+        path: tests/Coverage-Reports/
