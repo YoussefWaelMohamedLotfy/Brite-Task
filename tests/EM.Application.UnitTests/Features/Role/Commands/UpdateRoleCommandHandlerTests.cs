@@ -4,14 +4,21 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EM.Application.UnitTests.Features.Role.Commands;
 
-[Collection("InMemoryDb")]
-public sealed class UpdateRoleCommandHandlerTests(InMemoryDbProvider provider)
+//[Collection("InMemoryDb")]
+public sealed class UpdateRoleCommandHandlerTests(InMemoryDbProvider provider) : IClassFixture<InMemoryDbProvider>
 {
     [Fact]
     public async Task UpdateRoleCommandHandler_ExistingRole_UpdatesRole()
     {
         // Arrange
-        var existingRole = provider.DbContext.Roles.First();
+        var existingRole = new Domain.Entities.Role
+        {
+            ID = 314,
+            Name = "OldName",
+            Permissions = ["OldPermission"]
+        };
+        provider.DbContext.Roles.Add(existingRole);
+        provider.DbContext.SaveChanges();
         var handler = new UpdateRoleCommandHandler(provider.DbContext);
         var command = new UpdateRoleCommand(existingRole.ID, "UpdatedName", ["Read"]);
 

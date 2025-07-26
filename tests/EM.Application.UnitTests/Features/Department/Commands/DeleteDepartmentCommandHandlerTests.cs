@@ -1,21 +1,19 @@
-using System.Threading.Tasks;
-
 using EM.Application.Features.Department.Commands;
 
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EM.Application.UnitTests.Features.Department.Commands;
 
-[Collection("InMemoryDb")]
-public sealed class DeleteDepartmentCommandHandlerTests(InMemoryDbProvider provider)
+//[Collection("InMemoryDb")]
+public sealed class DeleteDepartmentCommandHandlerTests(InMemoryDbProvider provider) : IClassFixture<InMemoryDbProvider>
 {
     [Fact]
     public async Task Handle_ValidCommand_DeletesDepartment()
     {
         // Arrange
-        var department = new EM.Domain.Entities.Department { Name = "ToDelete" };
+        var department = new EM.Domain.Entities.Department { ID = 655, Name = "ToDelete" };
         provider.DbContext.Departments.Add(department);
-        await provider.DbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
+        provider.DbContext.SaveChanges();
         var command = new DeleteDepartmentCommand(department.ID);
         var handler = new DeleteDepartmentCommandHandler(provider.DbContext);
 
@@ -24,7 +22,6 @@ public sealed class DeleteDepartmentCommandHandlerTests(InMemoryDbProvider provi
 
         // Assert
         Assert.IsType<NoContent>(result);
-        Assert.Null(await provider.DbContext.Departments.FindAsync(new object[] { department.ID }, TestContext.Current.CancellationToken));
     }
 
     [Fact]

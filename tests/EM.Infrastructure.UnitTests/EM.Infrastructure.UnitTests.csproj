@@ -3,6 +3,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net9.0</TargetFramework>
+        <RunSettingsFilePath>D:\Projects\My .NET Projects\Brite-Task\tests\EM.Infrastructure.UnitTests\bin\Debug\net9.0\fine-code-coverage\coverage-tool-output\EM.Infrastructure.UnitTests-fcc-mscodecoverage-generated.runsettings</RunSettingsFilePath>
     </PropertyGroup>
 
     <ItemGroup>

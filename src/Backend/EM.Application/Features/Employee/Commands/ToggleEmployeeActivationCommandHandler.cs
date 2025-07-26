@@ -48,7 +48,6 @@ internal sealed class ToggleEmployeeActivationCommandHandler(
             return Results.NotFound();
 
         employee.ToggleActivation();
-        dbContext.Employees.Update(employee);
         await dbContext.SaveChangesAsync(cancellationToken);
         return Results.Ok(employee);
     }

@@ -1,22 +1,19 @@
-using System.Threading.Tasks;
-
 using EM.Application.Features.Department.Commands;
-using EM.Domain.Entities;
+
 using Microsoft.AspNetCore.Http.HttpResults;
-using Xunit;
 
 namespace EM.Application.UnitTests.Features.Department.Commands;
 
-[Collection("InMemoryDb")]
-public sealed class UpdateDepartmentCommandHandlerTests(InMemoryDbProvider provider)
+//[Collection("InMemoryDb")]
+public sealed class UpdateDepartmentCommandHandlerTests(InMemoryDbProvider provider) : IClassFixture<InMemoryDbProvider>
 {
     [Fact]
     public async Task Handle_ValidCommand_UpdatesDepartment()
     {
         // Arrange
-        var department = new EM.Domain.Entities.Department { Name = "Old", Description = "Old Desc" };
+        var department = new Domain.Entities.Department { ID = 329, Name = "Old", Description = "Old Desc" };
         provider.DbContext.Departments.Add(department);
-        await provider.DbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
+        provider.DbContext.SaveChanges();
         var command = new UpdateDepartmentCommand(department.ID, "New", "New Desc");
         var handler = new UpdateDepartmentCommandHandler(provider.DbContext);
 

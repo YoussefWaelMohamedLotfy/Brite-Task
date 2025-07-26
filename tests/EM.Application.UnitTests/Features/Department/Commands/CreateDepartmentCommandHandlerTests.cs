@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EM.Application.UnitTests.Features.Department.Commands;
 
-[Collection("InMemoryDb")]
-public sealed class CreateDepartmentCommandHandlerTests(InMemoryDbProvider provider)
+//[Collection("InMemoryDb")]
+public sealed class CreateDepartmentCommandHandlerTests(InMemoryDbProvider provider) : IClassFixture<InMemoryDbProvider>
 {
     [Fact]
     public async Task Handle_ValidCommand_CreatesDepartment()

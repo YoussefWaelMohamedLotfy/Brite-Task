@@ -1,18 +1,20 @@
 using EM.Application.Features.Department.Queries;
-using EM.Domain.Entities;
+
 using Microsoft.AspNetCore.Http.HttpResults;
-using Xunit;
 
 namespace EM.Application.UnitTests.Features.Department.Queries;
 
-[Collection("InMemoryDb")]
-public sealed class GetDepartmentByIdQueryHandlerTests(InMemoryDbProvider provider)
+//[Collection("InMemoryDb")]
+public sealed class GetDepartmentByIdQueryHandlerTests(InMemoryDbProvider provider) : IClassFixture<InMemoryDbProvider>
 {
     [Fact]
     public async Task Handle_ExistingId_ReturnsDepartment()
     {
         // Arrange
-        var query = new GetDepartmentByIdQuery(1);
+        Domain.Entities.Department department = new() { ID = 60, Name = "Test" };
+        provider.DbContext.Departments.Add(department);
+        provider.DbContext.SaveChanges();
+        var query = new GetDepartmentByIdQuery(department.ID);
         var handler = new GetDepartmentByIdQueryHandler(provider.DbContext);
 
         // Act
@@ -20,7 +22,7 @@ public sealed class GetDepartmentByIdQueryHandlerTests(InMemoryDbProvider provid
 
         // Assert
         var okResult = Assert.IsType<Ok<Domain.Entities.Department>>(result);
-        Assert.Equal(1, okResult.Value.ID);
+        Assert.Equal(department.ID, okResult.Value.ID);
     }
 
     [Fact]

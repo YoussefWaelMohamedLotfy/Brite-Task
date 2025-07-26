@@ -1,18 +1,24 @@
 using EM.Application.Features.Role.Queries;
-using EM.Domain.Entities;
 
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EM.Application.UnitTests.Features.Role.Queries;
 
-[Collection("InMemoryDb")]
-public sealed class GetRoleByIdQueryHandlerTests(InMemoryDbProvider provider)
+//[Collection("InMemoryDb")]
+public sealed class GetRoleByIdQueryHandlerTests(InMemoryDbProvider provider) : IClassFixture<InMemoryDbProvider>
 {
     [Fact]
     public async Task GetRoleByIdQueryHandler_ExistingId_ReturnsRole()
     {
         // Arrange
-        var existingRole = provider.DbContext.Roles.First();
+        var existingRole = new Domain.Entities.Role
+        {
+            ID = 70,
+            Name = "Admin",
+            Permissions = ["Create", "Read", "Update", "Delete"],
+        };
+        provider.DbContext.Roles.Add(existingRole);
+        provider.DbContext.SaveChanges();
         var handler = new GetRoleByIdQueryHandler(provider.DbContext);
         var query = new GetRoleByIdQuery(existingRole.ID);
 

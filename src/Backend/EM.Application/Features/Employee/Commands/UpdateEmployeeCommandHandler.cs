@@ -64,7 +64,6 @@ internal sealed class UpdateEmployeeCommandHandler(
         employee.Department = department;
         employee.Role = role;
 
-        dbContext.Employees.Update(employee);
         await dbContext.SaveChangesAsync(cancellationToken);
         return Results.Ok(employee);
     }

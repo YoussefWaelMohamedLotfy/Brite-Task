@@ -4,16 +4,23 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EM.Application.UnitTests.Features.Role.Commands;
 
-[Collection("InMemoryDb")]
-public sealed class DeleteRoleCommandHandlerTests(InMemoryDbProvider provider)
+//[Collection("InMemoryDb")]
+public sealed class DeleteRoleCommandHandlerTests(InMemoryDbProvider provider) : IClassFixture<InMemoryDbProvider>
 {
     [Fact]
     public async Task DeleteRoleCommandHandler_ExistingRole_DeletesRole()
     {
         // Arrange
-        var existingRole = provider.DbContext.Roles.First();
+        var existingRole = new Domain.Entities.Role
+        {
+            ID = 2130,
+            Name = "TestRole",
+            Permissions = ["Create", "Read"]
+        };
+        provider.DbContext.Roles.Add(existingRole);
+        provider.DbContext.SaveChanges();
+        var command = new DeleteRoleCommand(2130);
         var handler = new DeleteRoleCommandHandler(provider.DbContext);
-        var command = new DeleteRoleCommand(existingRole.ID);
 
         // Act
         var result = await handler.Handle(command, TestContext.Current.CancellationToken);

@@ -25,7 +25,7 @@ internal sealed class GetAllDepartmentsQueryHandler(
     /// <returns>A list of all departments.</returns>
     public async Task<IResult> Handle(GetAllDepartmentsQuery request, CancellationToken cancellationToken)
     {
-        var departments = await dbContext.Departments.ToListAsync(cancellationToken: cancellationToken);
+        var departments = await dbContext.Departments.ToListAsync(cancellationToken);
         return Results.Ok(departments);
     }
 }

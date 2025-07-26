@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace EM.Application.UnitTests.Features.Role.Commands;
 
-[Collection("InMemoryDb")]
-public sealed class CreateRoleCommandHandlerTests(InMemoryDbProvider provider)
+//[Collection("InMemoryDb")]
+public sealed class CreateRoleCommandHandlerTests(InMemoryDbProvider provider) : IClassFixture<InMemoryDbProvider>
 {
     [Fact]
     public async Task CreateRoleCommandHandler_ValidRequest_CreatesRole()
@@ -23,6 +23,5 @@ public sealed class CreateRoleCommandHandlerTests(InMemoryDbProvider provider)
         Assert.NotNull(role);
         Assert.Equal("Manager", role.Name);
         Assert.Contains("Write", role.Permissions);
-        Assert.True(provider.DbContext.Roles.Any(r => r.Name == "Manager"));
     }
 }

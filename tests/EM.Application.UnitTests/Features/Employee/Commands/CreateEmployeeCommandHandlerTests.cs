@@ -3,8 +3,8 @@ using Xunit;
 
 namespace EM.Application.UnitTests.Features.Employee.Commands;
 
-[Collection("InMemoryDb")]
-public sealed class CreateEmployeeCommandHandlerTests(InMemoryDbProvider provider)
+//[Collection("InMemoryDb")]
+public sealed class CreateEmployeeCommandHandlerTests(InMemoryDbProvider provider) : IClassFixture<InMemoryDbProvider>
 {
     [Fact]
     public void Validator_InvalidCommand_ReturnsError()
@@ -25,11 +25,16 @@ public sealed class CreateEmployeeCommandHandlerTests(InMemoryDbProvider provide
     public async Task Handle_ValidCommand_ReturnsCreated()
     {
         // Use seeded department and role IDs
-        var departmentId = provider.DbContext.Departments.First().ID;
-        var roleId = provider.DbContext.Roles.First().ID;
-        var command = new CreateEmployeeCommand("Test User", "test@example.com", "1234567890", DateTimeOffset.Now.AddDays(-1), true, departmentId, roleId);
+        var department = new Domain.Entities.Department { ID = 400, Name = "test" };
+        var role = new Domain.Entities.Role { ID = 500, Name = "test", Permissions = ["Admin"] };
+        provider.DbContext.Roles.Add(role);
+        provider.DbContext.Departments.Add(department);
+        provider.DbContext.SaveChanges();
+        var command = new CreateEmployeeCommand("Test User", "test@example.com", "1234567890", DateTimeOffset.Now.AddDays(-1), true, department.ID, role.ID);
         var handler = new CreateEmployeeCommandHandler(provider.DbContext);
+        
         var result = await handler.Handle(command, TestContext.Current.CancellationToken);
+        
         var createdResult = Assert.IsType<Microsoft.AspNetCore.Http.HttpResults.Created<EM.Domain.Entities.Employee>>(result);
         Assert.NotNull(createdResult.Value);
         Assert.Equal("Test User", createdResult.Value.Name);

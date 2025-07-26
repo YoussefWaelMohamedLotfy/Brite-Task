@@ -8,18 +8,8 @@ namespace EM.Application.UnitTests;
 
 public sealed class InMemoryDbProvider : IAsyncLifetime
 {
-    public AppDbContext DbContext { get; }
-
-    public InMemoryDbProvider()
-    {
-        DbContextOptions<AppDbContext> options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase")
-            .Options;
-
-        DbContext = new(options);
-    }
-
-    private static async Task SeedAsync(AppDbContext context)
+    public AppDbContext DbContext { get; set; }
+    private static void Seed(AppDbContext context)
     {
         // Generate 5 roles
         var roleFaker = new Faker<Role>()
@@ -28,7 +18,7 @@ public sealed class InMemoryDbProvider : IAsyncLifetime
             .RuleFor(r => r.CreatedBy, f => f.Random.Guid())
             .RuleFor(r => r.CreatedAt, f => f.Date.PastOffset(3));
         var roles = roleFaker.Generate(5);
-        await context.Roles.AddRangeAsync(roles);
+        //await context.Roles.AddRangeAsync(roles);
 
         // Generate 5 departments
         var departmentFaker = new Faker<Department>()
@@ -37,7 +27,7 @@ public sealed class InMemoryDbProvider : IAsyncLifetime
             .RuleFor(d => d.CreatedBy, f => f.Random.Guid())
             .RuleFor(d => d.CreatedAt, f => f.Date.PastOffset(3));
         var departments = departmentFaker.Generate(5);
-        await context.Departments.AddRangeAsync(departments);
+        //await context.Departments.AddRangeAsync(departments);
 
         // Generate 50 employees
         var employeeFaker = new Faker<Employee>()
@@ -51,8 +41,8 @@ public sealed class InMemoryDbProvider : IAsyncLifetime
             .RuleFor(e => e.CreatedBy, f => f.Random.Guid())
             .RuleFor(e => e.CreatedAt, f => f.Date.PastOffset(3));
         var employees = employeeFaker.Generate(50);
-        await context.Employees.AddRangeAsync(employees);
-        await context.SaveChangesAsync();
+        context.Employees.AddRange(employees);
+        context.SaveChanges();
     }
 
     public async ValueTask DisposeAsync()
@@ -63,7 +53,13 @@ public sealed class InMemoryDbProvider : IAsyncLifetime
 
     public async ValueTask InitializeAsync()
     {
+        DbContextOptions<AppDbContext> options = new DbContextOptionsBuilder<AppDbContext>()
+            .UseInMemoryDatabase(databaseName: "TestDatabase")
+            .EnableSensitiveDataLogging()
+            .Options;
+
+        DbContext = new(options);
         await DbContext.Database.EnsureCreatedAsync();
-        await SeedAsync(DbContext);
+        //Seed(DbContext);
     }
 }

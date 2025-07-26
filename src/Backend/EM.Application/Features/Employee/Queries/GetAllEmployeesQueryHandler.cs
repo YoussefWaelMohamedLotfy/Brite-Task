@@ -38,9 +38,9 @@ internal sealed class GetAllEmployeesQueryHandler(
             .Include(e => e.Role)
             .AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(request.Name))
+        if (!string.IsNullOrEmpty(request.Name))
         {
-            query = query.Where(e => e.Name.Contains(request.Name));
+            query = query.Where(e => e.Name == request.Name);
         }
         
         if (request.DepartmentId.HasValue)
@@ -63,7 +63,7 @@ internal sealed class GetAllEmployeesQueryHandler(
             query = query.Where(e => e.DateOfJoining <= request.DateOfJoiningTo.Value);
         }
 
-        var employees = await query.ToListAsync(cancellationToken: cancellationToken);
+        var employees = await query.ToListAsync(cancellationToken);
         return Results.Ok(employees);
     }
 }
