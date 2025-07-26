@@ -121,6 +121,27 @@ builder.Services.AddOpenApi(x =>
         },
     };
 
+    OpenApiSecurityScheme oauth2Scheme = new()
+    {
+        Name = "OAuth2",
+        Scheme = "OAuth2",
+        Type = SecuritySchemeType.OAuth2,
+        Description = "OIDC authentication",
+        Flows = new OpenApiOAuthFlows
+        {
+            AuthorizationCode = new OpenApiOAuthFlow
+            {
+                AuthorizationUrl = new Uri("http://localhost:8081/realms/tenant-1/protocol/openid-connect/auth"),
+                TokenUrl = new Uri("http://localhost:8081/realms/tenant-1/protocol/openid-connect/token"),
+                Scopes = new Dictionary<string, string>
+                {
+                    { "openid", "openid" },
+                    { "profile", "profile" }
+                }
+            }
+        }
+    };
+
     x.AddDocumentTransformer((document, context, cancellationToken) =>
     {
         document.Info.Contact = new()
@@ -129,10 +150,9 @@ builder.Services.AddOpenApi(x =>
             Email = "info@gobrite.ai"
         };
 
-
         document.Components ??= new();
         document.Components.SecuritySchemes.Add(JwtBearerDefaults.AuthenticationScheme, jwtScheme);
-
+        document.Components.SecuritySchemes.Add("OAuth2", oauth2Scheme);
         return Task.CompletedTask;
     });
 
@@ -140,7 +160,10 @@ builder.Services.AddOpenApi(x =>
     {
         if (context.Description.ActionDescriptor.EndpointMetadata.OfType<IAuthorizeData>().Any())
         {
-            operation.Security = [new() { [jwtScheme] = [] }];
+            operation.Security = [
+                new() { [jwtScheme] = [] },
+                new() { [oauth2Scheme] = [] },
+            ];
         }
 
         return Task.CompletedTask;
@@ -157,7 +180,17 @@ app.MapDefaultEndpoints();
 app.MapOpenApi();
 app.MapScalarApiReference(x => x.WithTheme(ScalarTheme.Default)
     .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
-    .AddPreferredSecuritySchemes("Bearer"));
+    .AddAuthorizationCodeFlow("OAuth2", x =>
+    {
+        x.AuthorizationUrl = "http://localhost:8081/realms/tenant-1/protocol/openid-connect/auth";
+        x.TokenUrl = "http://localhost:8081/realms/tenant-1/protocol/openid-connect/token";
+        x.Pkce = Pkce.Sha256;
+        x.RedirectUri = "https://localhost:7157/signin-oidc";
+        x.ClientId = "backend-1";
+        x.ClientSecret = "UfIMrte6w4gRCt2PYGL6ywPDtr1xR9cB";
+        x.SelectedScopes = ["openid", "profile", "email", "offline_access"];
+    })
+    .AddPreferredSecuritySchemes("OAuth2"));
 
 app.UseHttpsRedirection();
 app.UseOutputCache();

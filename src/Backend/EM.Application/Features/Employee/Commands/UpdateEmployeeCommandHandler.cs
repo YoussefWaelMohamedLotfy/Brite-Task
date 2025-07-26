@@ -1,10 +1,9 @@
-using EM.Infrastructure.Data;
 using EM.Application.Features.Common.Abstractions;
+using EM.Infrastructure.Data;
 
-using MediatR;
+using FluentValidation;
 
 using Microsoft.AspNetCore.Http;
-using FluentValidation;
 
 namespace EM.Application.Features.Employee.Commands;
 
@@ -64,7 +63,6 @@ internal sealed class UpdateEmployeeCommandHandler(
         employee.Department = department;
         employee.Role = role;
 
-        dbContext.Employees.Update(employee);
         await dbContext.SaveChangesAsync(cancellationToken);
         return Results.Ok(employee);
     }

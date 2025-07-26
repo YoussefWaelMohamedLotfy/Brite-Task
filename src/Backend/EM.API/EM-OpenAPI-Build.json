@@ -58,7 +58,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       },
       "post": {
@@ -116,7 +117,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       },
       "put": {
@@ -184,7 +186,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       }
     },
@@ -245,7 +248,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       },
       "delete": {
@@ -297,7 +301,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       }
     },
@@ -390,7 +395,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       },
       "post": {
@@ -448,7 +454,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       },
       "put": {
@@ -516,7 +523,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       }
     },
@@ -577,7 +585,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       },
       "delete": {
@@ -629,7 +638,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       }
     },
@@ -690,7 +700,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       }
     },
@@ -743,7 +754,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       },
       "post": {
@@ -801,7 +813,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       },
       "put": {
@@ -869,7 +882,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       }
     },
@@ -930,7 +944,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       },
       "delete": {
@@ -982,7 +997,8 @@
         "security": [
           {
             "Bearer": [ ]
-          }
+          },
+          { }
         ]
       }
     }
@@ -1333,6 +1349,20 @@
       "Bearer": {
         "type": "http",
         "scheme": "Bearer"
+      },
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "OIDC authentication",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "http://localhost:8081/realms/tenant-1/protocol/openid-connect/auth",
+            "tokenUrl": "http://localhost:8081/realms/tenant-1/protocol/openid-connect/token",
+            "scopes": {
+              "openid": "openid",
+              "profile": "profile"
+            }
+          }
+        }
       }
     }
   },
