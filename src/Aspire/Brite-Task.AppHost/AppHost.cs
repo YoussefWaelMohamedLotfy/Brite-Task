@@ -38,4 +38,10 @@ builder.AddProject<Projects.EM_API>("api")
     .WithReference(migrationsWorker)
     .WaitForCompletion(migrationsWorker);
 
+builder.AddProject<Projects.EM_McpServer>("mcpserver")
+    .WithReference(keycloak)
+    .WithReference(postgresdb)
+    .WithReference(migrationsWorker)
+    .WaitForCompletion(migrationsWorker);
+
 await builder.Build().RunAsync();
