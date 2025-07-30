@@ -764,6 +764,7 @@
       "secret": "UfIMrte6w4gRCt2PYGL6ywPDtr1xR9cB",
       "redirectUris": [
         "https://localhost:7157/signin-oidc",
+        "http://localhost:1234/signin-oidc",
         "https://oauth.pstmn.io/v1/callback"
       ],
       "webOrigins": [

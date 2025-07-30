@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 using EM.Application;
 using EM.Application.Features.Common.Behaviours;
@@ -80,7 +81,6 @@ builder.Services.AddAuthentication(options =>
 })
 .AddMcp(options =>
 {
-    options.ResourceMetadataUri = new Uri("http://localhost:8081/realms/tenant-1/.well-known/openid-configuration");
     options.ResourceMetadata = new()
     {
         Resource = new Uri("https://localhost:7077/"),
@@ -121,4 +121,33 @@ app.UseAuthorization();
 app.MapMcp()
     .RequireAuthorization();
 
+// Add a custom endpoint for the OAuth protected resource metadata
+// Should be supplied by MCP nuget. 
+app.MapGet("/.well-known/oauth-protected-resource", () => 
+{
+    var results = new PRM
+    {
+        Resource = new Uri("https://localhost:7077/"),
+        TokenEndpointAuthMethodsSupported = ["client_secret_basic", "client_secret_post"],
+        AuthorizationServers = ["http://localhost:8081/realms/tenant-1"],
+        ScopesSupported = ["openid", "profile"]
+    };
+    return Results.Json(results);
+});
+
 await app.RunAsync();
+
+sealed record PRM
+{
+    [JsonPropertyName("resource")]
+    public required Uri Resource { get; init; }
+
+    [JsonPropertyName("token_endpoint_auth_methods_supported")]
+    public required List<string> TokenEndpointAuthMethodsSupported { get; init; }
+
+    [JsonPropertyName("authorization_servers")]
+    public required List<string> AuthorizationServers { get; init; }
+
+    [JsonPropertyName("scopes_supported")]
+    public required List<string> ScopesSupported { get; init; }
+}
