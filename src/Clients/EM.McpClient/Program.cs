@@ -23,6 +23,9 @@ Kernel kernel = Kernel.CreateBuilder()
     .AddOllamaChatCompletion("granite3.3", new Uri("http://localhost:11434"))
     .Build();
 
+#pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+kernel.Plugins.AddFromFunctions("EM_MCP", tools.Select(aiFunction => aiFunction.AsKernelFunction()));
+
 OllamaPromptExecutionSettings executionSettings = new()
 {
     Temperature = 0,

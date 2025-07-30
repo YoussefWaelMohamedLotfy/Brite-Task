@@ -91,6 +91,14 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorizationBuilder();
+builder.Services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient(s =>
+{
+    IHttpContextAccessor contextAccessor = s.GetRequiredService<IHttpContextAccessor>();
+    ClaimsPrincipal? user = contextAccessor?.HttpContext?.User;
+    return user ?? throw new NullReferenceException("User not resolved");
+});
 
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
 {
@@ -104,7 +112,6 @@ builder.EnrichNpgsqlDbContext<AppDbContext>();
 builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<IApplicationAssemblyMarker>()
     .AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehaviour<,>)));
 
-builder.Services.AddHttpContextAccessor();
 builder.Services.AddMcpServer()
     .WithToolsFromAssembly()
     .WithHttpTransport();
