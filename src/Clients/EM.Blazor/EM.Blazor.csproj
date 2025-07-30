@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Aspire\Brite-Task.ServiceDefaults\Brite-Task.ServiceDefaults.csproj" />
+        <ProjectReference Include="..\..\SDKs\EM.SDK\EM.SDK.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BootstrapBlazor" Version="9.8.2" />
+    </ItemGroup>
+
+</Project>

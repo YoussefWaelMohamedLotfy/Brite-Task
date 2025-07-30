@@ -31,17 +31,22 @@ var migrationsWorker = builder.AddProject<Projects.EM_MigrationsWorker>("migrati
     .WithReference(postgresdb)
     .WaitFor(postgresdb);
 
-builder.AddProject<Projects.EM_API>("api")
+var api = builder.AddProject<Projects.EM_API>("api")
     .WithReference(keycloak)
     .WithReference(garnet)
     .WithReference(postgresdb)
     .WithReference(migrationsWorker)
     .WaitForCompletion(migrationsWorker);
 
-builder.AddProject<Projects.EM_McpServer>("mcpserver")
+var mcpServer = builder.AddProject<Projects.EM_McpServer>("mcpserver")
     .WithReference(keycloak)
     .WithReference(postgresdb)
     .WithReference(migrationsWorker)
     .WaitForCompletion(migrationsWorker);
+
+builder.AddProject<Projects.EM_Blazor>("blazor")
+    .WithReference(api)
+    .WithReference(mcpServer)
+    .WaitFor(api);
 
 await builder.Build().RunAsync();
