@@ -1,6 +1,7 @@
 using EM.Blazor.Components;
 using EM.SDK;
 
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -26,10 +27,12 @@ builder.Services.AddAuthentication(o =>
 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
 {
     o.Cookie.Name = ".employee-management";
+
+    // automatically revoke refresh token at signout time
+    o.Events.OnSigningOut = async e => await e.HttpContext.RevokeRefreshTokenAsync();
 })
-.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, o =>
+.AddKeycloakOpenIdConnect("keycloak", "tenant-1", OpenIdConnectDefaults.AuthenticationScheme, o =>
 {
-    o.Authority = "http://localhost:8081/realms/tenant-1/";
     o.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
     o.ClientId = "blazor-1";
@@ -45,7 +48,11 @@ builder.Services.AddAuthentication(o =>
 
     o.Scope.Add("openid");
     o.Scope.Add("profile");
+    o.Scope.Add("offline_access");
 });
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddOpenIdConnectAccessTokenManagement();
 
 builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 builder.Services.AddCascadingAuthenticationState();

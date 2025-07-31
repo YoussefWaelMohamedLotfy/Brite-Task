@@ -22,19 +22,22 @@ public static class SdkExtensions
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(url);
-            });
+            })
+            .AddUserAccessTokenHandler();
 
         services.AddRefitClient<IDepartmentsApi>()
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(url);
-            });
+            })
+            .AddUserAccessTokenHandler();
 
         services.AddRefitClient<IDepartmentsApi>()
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(url);
-            });
+            })
+            .AddUserAccessTokenHandler();
 
         return services;
     }

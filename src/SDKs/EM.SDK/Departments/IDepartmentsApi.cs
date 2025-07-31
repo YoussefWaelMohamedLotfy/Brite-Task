@@ -8,17 +8,17 @@ namespace EM.SDK.Departments;
 public interface IDepartmentsApi
 {
     [Get("/departments")]
-    Task<List<Department>> GetDepartmentsAsync();
+    Task<ApiResponse<List<Department>>> GetDepartmentsAsync(CancellationToken ct);
 
     [Get("/departments/{id}")]
-    Task<Department> GetDepartmentByIdAsync(int id);
+    Task<ApiResponse<Department>> GetDepartmentByIdAsync(int id, CancellationToken ct);
 
     [Post("/departments")]
-    Task<Department> CreateDepartmentAsync([Body] CreateDepartmentCommand command);
+    Task<ApiResponse<Department>> CreateDepartmentAsync([Body] CreateDepartmentCommand command, CancellationToken ct);
 
     [Put("/departments")]
-    Task<Department> UpdateDepartmentAsync([Body] UpdateDepartmentCommand command);
+    Task<ApiResponse<Department>> UpdateDepartmentAsync([Body] UpdateDepartmentCommand command, CancellationToken ct);
 
     [Delete("/departments/{id}")]
-    Task DeleteDepartmentAsync(int id);
+    Task DeleteDepartmentAsync(int id, CancellationToken ct);
 }

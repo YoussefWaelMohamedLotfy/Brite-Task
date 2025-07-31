@@ -47,6 +47,7 @@ var mcpServer = builder.AddProject<Projects.EM_McpServer>("mcpserver")
 builder.AddProject<Projects.EM_Blazor>("blazor")
     .WithReference(api)
     .WithReference(mcpServer)
+    .WithReference(keycloak)
     .WaitFor(api);
 
 await builder.Build().RunAsync();

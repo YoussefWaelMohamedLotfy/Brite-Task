@@ -8,17 +8,17 @@ namespace EM.SDK.Roles;
 public interface IRolesApi
 {
     [Get("/roles")]
-    Task<List<Role>> GetRolesAsync();
+    Task<ApiResponse<List<Role>>> GetRolesAsync(CancellationToken ct);
 
     [Get("/roles/{id}")]
-    Task<Role> GetRoleByIdAsync(int id);
+    Task<Role> GetRoleByIdAsync(int id, CancellationToken ct);
 
     [Post("/roles")]
-    Task<Role> CreateRoleAsync([Body] CreateRoleCommand command);
+    Task<Role> CreateRoleAsync([Body] CreateRoleCommand command, CancellationToken ct);
 
     [Put("/roles")]
-    Task<Role> UpdateRoleAsync([Body] UpdateRoleCommand command);
+    Task<Role> UpdateRoleAsync([Body] UpdateRoleCommand command, CancellationToken ct);
 
     [Delete("/roles/{id}")]
-    Task DeleteRoleAsync(int id);
+    Task DeleteRoleAsync(int id, CancellationToken ct);
 }
