@@ -1,0 +1,34 @@
+﻿@page "/Roles"
+
+@using EM.Domain.Entities
+@using EM.SDK.Roles
+
+@inject IRolesApi RolesApi
+
+<h1>Roles</h1>
+
+<QuickGrid ItemsProvider="@rolesProvider" @ref="myGrid" Virtualize="true">
+    <PropertyColumn Title="ID" Property="@(c => c.ID)" />
+    <PropertyColumn Property="@(c => c.Name)" />
+    <PropertyColumn Property="@(c => c.Permissions)" />
+</QuickGrid>
+
+@code {
+    GridItemsProvider<Role>? rolesProvider;
+    QuickGrid<Role> myGrid;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Define the GridItemsProvider. Its job is to convert QuickGrid's GridItemsProviderRequest into a query against
+        // an arbitrary data soure. In this example, we need to translate query parameters into the particular URL format
+        // supported by the external JSON API. It's only possible to perform whatever sorting/filtering/etc is supported
+        // by the external API.
+        rolesProvider = async req =>
+        {
+            List<Role> response = await RolesApi.GetRolesAsync(req.CancellationToken);
+            return GridItemsProviderResult.From(
+                items: response,
+                totalItemCount: response.Count);
+        };
+    }
+}

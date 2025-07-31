@@ -10,7 +10,11 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Aspire.Keycloak.Authentication" Version="9.4.0-preview.1.25378.8" />
+        <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.13.0" />
         <PackageReference Include="BootstrapBlazor" Version="9.8.2" />
+        <PackageReference Include="BootstrapBlazor.FontAwesome" Version="9.1.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.7" />
     </ItemGroup>
 
 </Project>
