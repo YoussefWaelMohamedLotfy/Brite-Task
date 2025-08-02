@@ -13,7 +13,7 @@
     <QuickGrid ItemsProvider="@rolesProvider" @ref="myGrid" Virtualize="true">
         <PropertyColumn Title="ID" Property="@(c => c.ID)" />
         <PropertyColumn Property="@(c => c.Name)" />
-        <PropertyColumn Property="@(c => string.Join(", ", c.Permissions))" />
+        <PropertyColumn Title="Permissions" Property="@(c => string.Join(", ", c.Permissions))" />
     </QuickGrid>
 }
 else
