@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+
+        <!--For Github nuget packaging-->
+        <Title>EmployeeManagement.SDK</Title>
+        <Authors>Youssef Wael</Authors>
+        <Description>An SDK for Employee Management System</Description>
+        <RepositoryUrl>https://github.com/YoussefWaelMohamedLotfy/Brite-Task</RepositoryUrl>
+        <PackageTags>EMS; sdk; net9</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Duende.AccessTokenManagement.OpenIdConnect" Version="3.2.0" />
+        <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Backend\EM.Application\EM.Application.csproj" />
+    </ItemGroup>
+
+</Project>

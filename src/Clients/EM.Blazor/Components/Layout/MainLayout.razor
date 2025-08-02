@@ -1,0 +1,50 @@
+﻿@inherits LayoutComponentBase
+
+@inject NavigationManager Nav
+
+<BootstrapBlazorRoot>
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+
+        <main>
+            <div class="top-row px-4">
+                <LogInOrOut />
+                <AuthorizeView>
+                    <Authorized>
+                        <p>Welcome, @(context.User.FindFirst("name").Value)!</p>
+                        <form method="post" action="user/logout" @formname="logout" @onsubmit="LogOutAsync">
+                            <AntiforgeryToken />
+                            <button class="btn btn-secondary" type="submit">Log out</button>
+                        </form>
+                    </Authorized>
+                    <NotAuthorized>
+                        <a class="btn btn-primary" aria-label="Sign in" href="@Pages.User.Login.Url(Nav)">Login with SSO</a>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </div>
+
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    </div>
+
+    <div id="blazor-error-ui" data-nosnippet>
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+</BootstrapBlazorRoot>
+
+@code {
+    [CascadingParameter]
+    public HttpContext? HttpContext { get; set; }
+
+    private async Task LogOutAsync()
+    {
+        await HttpContext!.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await HttpContext!.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+    }
+}
