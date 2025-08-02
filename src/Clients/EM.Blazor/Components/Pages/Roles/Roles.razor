@@ -1,4 +1,5 @@
 ﻿@page "/Roles"
+@attribute [Authorize]
 
 @using EM.Domain.Entities
 @using EM.SDK.Roles
@@ -12,7 +13,7 @@
     <QuickGrid ItemsProvider="@rolesProvider" @ref="myGrid" Virtualize="true">
         <PropertyColumn Title="ID" Property="@(c => c.ID)" />
         <PropertyColumn Property="@(c => c.Name)" />
-        <PropertyColumn Property="@(c => c.Permissions)" />
+        <PropertyColumn Property="@(c => string.Join(", ", c.Permissions))" />
     </QuickGrid>
 }
 else

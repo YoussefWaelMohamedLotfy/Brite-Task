@@ -18,26 +18,28 @@ public static class SdkExtensions
     {
         string url = "https://localhost:7157";
 
+        services.AddScoped<TokenHandler>();
+
         services.AddRefitClient<IRolesApi>()
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(url);
             })
-            .AddUserAccessTokenHandler();
+            .AddHttpMessageHandler<TokenHandler>();
 
         services.AddRefitClient<IDepartmentsApi>()
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(url);
             })
-            .AddUserAccessTokenHandler();
+            .AddHttpMessageHandler<TokenHandler>();
 
         services.AddRefitClient<IDepartmentsApi>()
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(url);
             })
-            .AddUserAccessTokenHandler();
+            .AddHttpMessageHandler<TokenHandler>();
 
         return services;
     }

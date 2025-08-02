@@ -1,3 +1,4 @@
+using EM.Blazor;
 using EM.Blazor.Components;
 using EM.SDK;
 
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
@@ -42,20 +44,29 @@ builder.Services.AddAuthentication(o =>
     o.SaveTokens = true;
     o.GetClaimsFromUserInfoEndpoint = true;
     o.MapInboundClaims = false;
+    o.TokenValidationParameters.NameClaimType = JwtRegisteredClaimNames.Name;
+
     o.RequireHttpsMetadata = builder.Environment.IsProduction();
     o.TokenValidationParameters.ValidateIssuer = builder.Environment.IsProduction();
     o.TokenValidationParameters.ValidateAudience = builder.Environment.IsProduction();
 
-    o.Scope.Add("openid");
-    o.Scope.Add("profile");
-    o.Scope.Add("offline_access");
+    o.Scope.Add(OpenIdConnectScope.OpenIdProfile);
+    o.Scope.Add(OpenIdConnectScope.OfflineAccess);
 });
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddOpenIdConnectAccessTokenManagement();
 
 builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 builder.Services.AddCascadingAuthenticationState();
+
+// ConfigureCookieOidc attaches a cookie OnValidatePrincipal callback to get
+// a new access token when the current one expires, and reissue a cookie with the
+// new access token saved inside. If the refresh fails, the user will be signed
+// out. OIDC connect options are set for saving tokens and the offline access
+// scope.
+builder.Services.ConfigureCookieOidc(CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
 
 builder.Services.AddEmployeeManagement();
 
@@ -86,5 +97,7 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+app.MapGroup("/authentication").MapLoginAndLogout();
 
 await app.RunAsync();
