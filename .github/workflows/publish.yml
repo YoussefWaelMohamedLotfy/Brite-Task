@@ -1,0 +1,86 @@
+name: .NET Build & Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --no-restore
+    
+    - name: Upload OpenAPI JSON Doc Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Employee Management OpenAPI JSON Doc
+        path: src/Backend/EM.API/EM-OpenAPI-Build.json
+
+    - name: Create EF Migration Bundle
+      working-directory: ./src/Backend/EM.API
+      run: |
+        dotnet tool install --global dotnet-ef
+        
+        dotnet ef migrations script --project ../EM.Infrastructure/EM.Infrastructure.csproj -o migrations.sql --idempotent
+        echo "EF Migration Idempotent Script created"
+        
+        dotnet ef migrations bundle --project ../EM.Infrastructure/EM.Infrastructure.csproj -o efbundle-linux --no-build --self-contained
+        echo "EF Migration Bundle created for Linux"
+        
+        dotnet ef migrations bundle --project ../EM.Infrastructure/EM.Infrastructure.csproj -o efbundle-windows.exe --no-build --self-contained
+        echo "EF Migration Bundle created for Windows"
+        cd ../../..
+    
+    - name: Upload EF Migration Bundle Artifact for Windows & Linux
+      uses: actions/upload-artifact@v4
+      with:
+        name: EF Migration Bundles
+        path: |
+          src/Backend/EM.API/migrations.sql
+          src/Backend/EM.API/efbundle-linux
+          src/Backend/EM.API/efbundle-windows.exe
+    
+    - name: Test
+      run: dotnet test -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml
+
+    - name: .NET Test ReportGenerator
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.4.10
+      with:
+        reports: '**/*.cobertura.xml'
+        targetdir: Coverage-Reports
+        reporttypes: Html;MarkdownSummaryGithub
+
+    - name: Create Summary Report for GitHub Action
+      run: cat Coverage-Reports/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+
+    - name: Upload Test Coverage Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: ReportGenerator Artifacts
+        path: Coverage-Reports/
+
+    - name: Run Publish PS Script
+      shell: pwsh
+      run: ./Publish.ps1
+
+    - name: Upload App artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Apps
+        path: |
+          src/Backend/EM.API/bin/publish
+          src/Backend/EM.McpServer/bin/publish

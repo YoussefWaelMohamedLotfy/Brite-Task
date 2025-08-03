@@ -2,8 +2,6 @@ name: .NET Build & Test
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
@@ -26,36 +24,6 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     
-    - name: Upload OpenAPI JSON Doc Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: Employee Management OpenAPI JSON Doc
-        path: src/Backend/EM.API/EM-OpenAPI-Build.json
-
-    - name: Create EF Migration Bundle
-      working-directory: ./src/Backend/EM.API
-      run: |
-        dotnet tool install --global dotnet-ef
-        
-        dotnet ef migrations script --project ../EM.Infrastructure/EM.Infrastructure.csproj -o migrations.sql --idempotent
-        echo "EF Migration Idempotent Script created"
-        
-        dotnet ef migrations bundle --project ../EM.Infrastructure/EM.Infrastructure.csproj -o efbundle-linux --no-build --self-contained
-        echo "EF Migration Bundle created for Linux"
-        
-        dotnet ef migrations bundle --project ../EM.Infrastructure/EM.Infrastructure.csproj -o efbundle-windows.exe --no-build --self-contained
-        echo "EF Migration Bundle created for Windows"
-        cd ../../..
-    
-    - name: Upload EF Migration Bundle Artifact for Windows & Linux
-      uses: actions/upload-artifact@v4
-      with:
-        name: EF Migration Bundles
-        path: |
-          src/Backend/EM.API/migrations.sql
-          src/Backend/EM.API/efbundle-linux
-          src/Backend/EM.API/efbundle-windows.exe
-    
     - name: Test
       run: dotnet test -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml
 
@@ -68,9 +36,4 @@ jobs:
 
     - name: Create Summary Report for GitHub Action
       run: cat Coverage-Reports/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
-
-    - name: Upload Test Coverage Reports
-      uses: actions/upload-artifact@v4
-      with:
-        name: ReportGenerator Artifacts
-        path: Coverage-Reports/
+      
