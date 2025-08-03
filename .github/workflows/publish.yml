@@ -1,4 +1,4 @@
-name: .NET Build & Test
+name: .NET Publish
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build-test:
+  build-test-publish:
 
     runs-on: ubuntu-latest
 
