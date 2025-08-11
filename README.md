@@ -89,6 +89,7 @@ This is my implementation for Brite Task, which is an Employee Management System
 
 - **Backend Services**
   - `EM.API`: Main API for employee management.
+  - `EM.McpServer`: MCP server for AI Agents integration.
   - `EM.Application`: Application layer for business logic.
   - `EM.Infrastructure`: Data access and infrastructure concerns.
   - `EM.Domain`: Domain models and core business rules.
@@ -107,6 +108,7 @@ flowchart TD
     subgraph .NET Aspire Orchestration
         A[API Service]
         B[Migrations Worker]
+        F[McpServer]
         C[Keycloak Auth]
         D[Garnet Cache]
         E[Postgres DB]
@@ -115,8 +117,12 @@ flowchart TD
     A -- Uses --> D
     A -- Uses --> E
     B -- Migrates --> E
+    F -- Integrates --> A
+    F -- Uses --> D
+    F -- Uses --> E
     AppHost -- Orchestrates --> A
     AppHost -- Orchestrates --> B
+    AppHost -- Orchestrates --> F
     AppHost -- Orchestrates --> C
     AppHost -- Orchestrates --> D
     AppHost -- Orchestrates --> E
@@ -175,6 +181,7 @@ dotnet run
    - Start all required containers (Keycloak, Garnet, PostgreSQL)
    - Run the migration worker to apply DB migrations
    - Start the API service, wired to all dependencies
+   - Start the MCP server for integration
 
 3. **Access Services**
    - **API:** [https://localhost:7157/scalar](https://localhost:7157/scalar)
@@ -196,10 +203,13 @@ graph TD
     Application[Application Layer]
     Infrastructure[Infrastructure Layer]
     API[API Layer]
+    McpServer[McpServer Layer]
     API --> Application
     Application --> Domain
     Application --> Infrastructure
     Infrastructure --> Database[(PostgreSQL)]
+    McpServer --> Application
+    McpServer --> Infrastructure
 ```
 
 ### Service Orchestration
@@ -208,12 +218,16 @@ graph TD
 flowchart LR
     AppHost --> API
     AppHost --> MigrationsWorker
+    AppHost --> McpServer
     AppHost --> Keycloak
     AppHost --> Garnet
     AppHost --> Postgres
     API --> Keycloak
     API --> Garnet
     API --> Postgres
+    McpServer --> API
+    McpServer --> Garnet
+    McpServer --> Postgres
     MigrationsWorker --> Postgres
 ```
 
