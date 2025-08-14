@@ -44,6 +44,9 @@ var mcpServer = builder.AddProject<Projects.EM_McpServer>("mcpserver")
     .WithReference(migrationsWorker)
     .WaitForCompletion(migrationsWorker);
 
+builder.AddMcpInspector("mcp-inspector", inspectorVersion: "0.16.3")
+    .WithMcpServer(mcpServer);
+
 builder.AddProject<Projects.EM_Blazor>("blazor")
     .WithReference(api)
     .WithReference(mcpServer)

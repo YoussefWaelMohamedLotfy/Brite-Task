@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Keycloak.Authentication" Version="9.4.0-preview.1.25378.8" />
-        <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.4.0" />
+        <PackageReference Include="Aspire.Keycloak.Authentication" Version="9.4.1-preview.1.25408.4" />
+        <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.4.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
             <PrivateAssets>all</PrivateAssets>
@@ -21,7 +21,7 @@
         </PackageReference>
         <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.13.1" />
         <PackageReference Include="MinimalApis.Discovery" Version="1.0.7" />
-        <PackageReference Include="Scalar.AspNetCore" Version="2.6.8" />
+        <PackageReference Include="Scalar.AspNetCore" Version="2.6.9" />
     </ItemGroup>
 
     <ItemGroup>
