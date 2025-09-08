@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Keycloak.Authentication" Version="9.4.1-preview.1.25408.4" />
-        <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.4.1" />
+        <PackageReference Include="Aspire.Keycloak.Authentication" Version="9.4.2-preview.1.25428.12" />
+        <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.4.2" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
             <PrivateAssets>all</PrivateAssets>
