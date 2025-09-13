@@ -10,18 +10,18 @@
     <ItemGroup>
         <PackageReference Include="Aspire.Keycloak.Authentication" Version="9.4.2-preview.1.25428.12" />
         <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.4.2" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.8">
+        <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.9">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.14.0" />
         <PackageReference Include="MinimalApis.Discovery" Version="1.0.7" />
-        <PackageReference Include="Scalar.AspNetCore" Version="2.7.2" />
+        <PackageReference Include="Scalar.AspNetCore" Version="2.8.3" />
     </ItemGroup>
 
     <ItemGroup>

@@ -13,7 +13,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Duende.AccessTokenManagement.OpenIdConnect" Version="3.2.0" />
+        <PackageReference Include="Duende.AccessTokenManagement.OpenIdConnect" Version="4.0.0" />
         <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
     </ItemGroup>
 
