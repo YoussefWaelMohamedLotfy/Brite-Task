@@ -53,14 +53,14 @@ while (true)
     Console.WriteLine();
 }
 
-static async Task<IMcpClient> GetMCPClient()
+static async Task<McpClient> GetMCPClient()
 {
     McpClientOptions options = new()
     {
         ClientInfo = new() { Name = "EM_MCP_Client", Version = "1.0.0" },
     };
 
-    var clientTransport = new SseClientTransport(new()
+    var clientTransport = new HttpClientTransport(new()
     {
         Name = "EM-MCP-Client",
         Endpoint = new("https://localhost:7077/"),
@@ -68,7 +68,6 @@ static async Task<IMcpClient> GetMCPClient()
         ConnectionTimeout = TimeSpan.FromMinutes(1),
         OAuth = new()
         {
-            ClientName = "ProtectedEMMcpClient",
             ClientId = "backend-1",
             ClientSecret = "UfIMrte6w4gRCt2PYGL6ywPDtr1xR9cB",
             Scopes = ["openid", "profile"],
@@ -77,7 +76,7 @@ static async Task<IMcpClient> GetMCPClient()
         }
     });
 
-    return await McpClientFactory.CreateAsync(clientTransport, options);
+    return await McpClient.CreateAsync(clientTransport, options);
 }
 
 /// Handles the OAuth authorization URL by starting a local HTTP server and opening a browser.
