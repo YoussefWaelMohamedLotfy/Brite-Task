@@ -40,7 +40,7 @@ builder.Services.AddAuthentication(o =>
     o.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
     o.ClientId = "blazor-1";
-    o.ClientSecret = "5yJHp9EjICabeJ1jshyVaDfll4B4qryt";
+    o.ClientSecret = "WJnH7DKU06aiV6lTWyV9Jf7qwsouRPoo";
     o.ResponseType = OpenIdConnectResponseType.Code;
 
     o.SaveTokens = true;
