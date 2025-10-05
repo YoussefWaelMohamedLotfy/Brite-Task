@@ -25,6 +25,7 @@ var keycloak = builder.AddKeycloak("keycloak", 8081, adminPassword: adminPasswor
     .WithImageTag("latest")
     .WithDataVolume()
     .WithRealmImport("./Realms")
+    .WithArgs("--features=docker,admin-fine-grained-authz,token-exchange,quick-theme")
     .WithLifetime(ContainerLifetime.Persistent);
 
 var migrationsWorker = builder.AddProject<Projects.EM_MigrationsWorker>("migrations")
@@ -44,7 +45,10 @@ var mcpServer = builder.AddProject<Projects.EM_McpServer>("mcpserver")
     .WithReference(migrationsWorker)
     .WaitForCompletion(migrationsWorker);
 
-builder.AddMcpInspector("mcp-inspector", inspectorVersion: "0.16.3")
+builder.AddMcpInspector("mcp-inspector", new McpInspectorOptions()
+{
+    InspectorVersion = "0.16.3",
+})
     .WithMcpServer(mcpServer);
 
 builder.AddProject<Projects.EM_Blazor>("blazor")
