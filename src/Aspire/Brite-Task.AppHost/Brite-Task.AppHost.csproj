@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Aspire.Hosting.McpInspector" Version="9.8.0" />
+        <PackageReference Include="CommunityToolkit.Aspire.Hosting.McpInspector" Version="9.9.0" />
         <PackageReference Include="Aspire.Hosting.AppHost" Version="9.5.2" />
         <PackageReference Include="Aspire.Hosting.Docker" Version="9.5.2-preview.1.25522.3" />
         <PackageReference Include="Aspire.Hosting.Garnet" Version="9.5.2" />
