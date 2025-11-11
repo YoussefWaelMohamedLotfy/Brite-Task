@@ -1,6 +1,5 @@
 using EM.Application.Features.Employee.Commands;
 using EM.Domain.Entities;
-
 using Refit;
 
 namespace EM.SDK.Employees;
@@ -21,10 +20,16 @@ public interface IEmployeesApi
     Task<ApiResponse<Employee>> GetEmployeeByIdAsync(Guid id, CancellationToken ct);
 
     [Post("/employees")]
-    Task<ApiResponse<Employee>> CreateEmployeeAsync([Body] CreateEmployeeCommand command, CancellationToken ct);
+    Task<ApiResponse<Employee>> CreateEmployeeAsync(
+        [Body] CreateEmployeeCommand command,
+        CancellationToken ct
+    );
 
     [Put("/employees")]
-    Task<ApiResponse<Employee>> UpdateEmployeeAsync([Body] UpdateEmployeeCommand command, CancellationToken ct);
+    Task<ApiResponse<Employee>> UpdateEmployeeAsync(
+        [Body] UpdateEmployeeCommand command,
+        CancellationToken ct
+    );
 
     [Delete("/employees/{id}")]
     Task DeleteEmployeeAsync(Guid id, CancellationToken ct);

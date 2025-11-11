@@ -1,7 +1,5 @@
 using EM.Infrastructure.Data;
-
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Role.Queries;
@@ -15,8 +13,7 @@ public sealed record GetRoleByIdQuery(int Id) : IRequest<IResult>;
 /// <summary>
 /// Handles the retrieval of a role by its ID.
 /// </summary>
-internal sealed class GetRoleByIdQueryHandler(
-    AppDbContext dbContext)
+internal sealed class GetRoleByIdQueryHandler(AppDbContext dbContext)
     : IRequestHandler<GetRoleByIdQuery, IResult>
 {
     /// <summary>

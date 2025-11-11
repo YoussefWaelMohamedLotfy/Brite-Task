@@ -1,10 +1,7 @@
 using EM.Application.Features.Common.Abstractions;
 using EM.Infrastructure.Data;
-
 using FluentValidation;
-
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Role.Commands;
@@ -18,8 +15,7 @@ public sealed record DeleteRoleCommand(int Id) : ICommand<IResult>;
 /// <summary>
 /// Handles the deletion of a role by ID.
 /// </summary>
-internal sealed class DeleteRoleCommandHandler(
-    AppDbContext dbContext)
+internal sealed class DeleteRoleCommandHandler(AppDbContext dbContext)
     : ICommandHandler<DeleteRoleCommand, IResult>
 {
     /// <summary>
@@ -28,7 +24,10 @@ internal sealed class DeleteRoleCommandHandler(
     /// <param name="request">The delete role command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the delete operation.</returns>
-    public async Task<IResult> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(
+        DeleteRoleCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var role = await dbContext.Roles.FindAsync([request.Id], cancellationToken);
 

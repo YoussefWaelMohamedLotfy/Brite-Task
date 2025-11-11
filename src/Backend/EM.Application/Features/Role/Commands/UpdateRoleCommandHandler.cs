@@ -1,10 +1,7 @@
 using EM.Application.Features.Common.Abstractions;
 using EM.Infrastructure.Data;
-
 using FluentValidation;
-
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Role.Commands;
@@ -15,10 +12,7 @@ namespace EM.Application.Features.Role.Commands;
 /// <param name="Id">The role ID.</param>
 /// <param name="Name">The new name of the role.</param>
 /// <param name="Permissions">The new permissions for the role.</param>
-public sealed record UpdateRoleCommand(
-    int Id,
-    string Name,
-    List<string> Permissions)
+public sealed record UpdateRoleCommand(int Id, string Name, List<string> Permissions)
     : ICommand<IResult>;
 
 /// <summary>
@@ -40,8 +34,7 @@ internal sealed class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleC
 /// <summary>
 /// Handles the update of an existing role.
 /// </summary>
-internal sealed class UpdateRoleCommandHandler(
-    AppDbContext dbContext)
+internal sealed class UpdateRoleCommandHandler(AppDbContext dbContext)
     : ICommandHandler<UpdateRoleCommand, IResult>
 {
     /// <summary>
@@ -50,7 +43,10 @@ internal sealed class UpdateRoleCommandHandler(
     /// <param name="request">The update role command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the update operation.</returns>
-    public async Task<IResult> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(
+        UpdateRoleCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var role = await dbContext.Roles.FindAsync([request.Id], cancellationToken);
 

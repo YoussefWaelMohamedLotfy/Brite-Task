@@ -1,10 +1,7 @@
 ﻿using System.ComponentModel;
-
 using EM.Application.Features.Role.Commands;
 using EM.Application.Features.Role.Queries;
-
 using MediatR;
-
 using ModelContextProtocol.Server;
 
 namespace EM.McpServer.Endpoints;
@@ -23,7 +20,8 @@ public sealed class RoleEndpoints(IMediator mediator)
     [Description("Gets a role by its ID")]
     public async Task<IResult> GetRoleById(
         [Description("The role ID")] int id,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         return await mediator.Send(new GetRoleByIdQuery(id), ct);
     }
@@ -33,7 +31,8 @@ public sealed class RoleEndpoints(IMediator mediator)
     public async Task<IResult> CreateRole(
         [Description("Role name")] string name,
         [Description("Role permissions")] List<string> permissions,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         var command = new CreateRoleCommand(name, permissions);
         return await mediator.Send(command, ct);
@@ -45,7 +44,8 @@ public sealed class RoleEndpoints(IMediator mediator)
         [Description("Role ID")] int id,
         [Description("Role name")] string name,
         [Description("Role permissions")] List<string> permissions,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         var command = new UpdateRoleCommand(id, name, permissions);
         return await mediator.Send(command, ct);
@@ -53,9 +53,7 @@ public sealed class RoleEndpoints(IMediator mediator)
 
     [McpServerTool(Name = nameof(DeleteRole))]
     [Description("Deletes a role")]
-    public async Task<IResult> DeleteRole(
-        [Description("The role ID")] int id,
-        CancellationToken ct)
+    public async Task<IResult> DeleteRole([Description("The role ID")] int id, CancellationToken ct)
     {
         return await mediator.Send(new DeleteRoleCommand(id), ct);
     }

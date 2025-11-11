@@ -1,7 +1,5 @@
 using System.Diagnostics;
-
 using EM.Infrastructure.Data;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace EM.MigrationsWorker;
@@ -13,12 +11,14 @@ namespace EM.MigrationsWorker;
 /// <param name="hostApplicationLifetime">The application lifetime manager.</param>
 public sealed class Worker(
     IServiceProvider serviceProvider,
-    IHostApplicationLifetime hostApplicationLifetime) : BackgroundService
+    IHostApplicationLifetime hostApplicationLifetime
+) : BackgroundService
 {
     /// <summary>
     /// The name of the activity source for tracing.
     /// </summary>
     public const string ActivitySourceName = "Migrations";
+
     /// <summary>
     /// The activity source used for tracing migration operations.
     /// </summary>
@@ -30,7 +30,10 @@ public sealed class Worker(
     /// <param name="stoppingToken">A cancellation token.</param>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using var activity = ActivitySource.StartActivity("Migrating database", ActivityKind.Client);
+        using var activity = ActivitySource.StartActivity(
+            "Migrating database",
+            ActivityKind.Client
+        );
 
         try
         {
@@ -54,7 +57,10 @@ public sealed class Worker(
     /// </summary>
     /// <param name="dbContext">The application database context.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
-    private static async Task RunMigrationAsync(AppDbContext dbContext, CancellationToken cancellationToken)
+    private static async Task RunMigrationAsync(
+        AppDbContext dbContext,
+        CancellationToken cancellationToken
+    )
     {
         var strategy = dbContext.Database.CreateExecutionStrategy();
         await strategy.ExecuteAsync(async () =>
@@ -69,13 +75,18 @@ public sealed class Worker(
     /// </summary>
     /// <param name="dbContext">The application database context.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
-    private static async Task SeedDataAsync(AppDbContext dbContext, CancellationToken cancellationToken)
+    private static async Task SeedDataAsync(
+        AppDbContext dbContext,
+        CancellationToken cancellationToken
+    )
     {
         var strategy = dbContext.Database.CreateExecutionStrategy();
         await strategy.ExecuteAsync(async () =>
         {
             // Seed the database
-            await using var transaction = await dbContext.Database.BeginTransactionAsync(cancellationToken);
+            await using var transaction = await dbContext.Database.BeginTransactionAsync(
+                cancellationToken
+            );
             await AppDbContextInitializer.SeedInitialDataAsync(dbContext, cancellationToken);
 
             await transaction.CommitAsync(cancellationToken);

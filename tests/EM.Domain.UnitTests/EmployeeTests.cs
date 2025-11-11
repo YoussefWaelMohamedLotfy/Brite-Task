@@ -8,11 +8,7 @@ public sealed class EmployeeTests
     public void ToggleEmployeeActivationStatus_EmployeeIsInactive_ShouldToggleStatusToTrue()
     {
         // Arrange
-        Employee employee = new()
-        {
-            ID = Guid.CreateVersion7(),
-            IsActive = false,
-        };
+        Employee employee = new() { ID = Guid.CreateVersion7(), IsActive = false };
 
         // Act
         employee.ToggleActivation();
@@ -25,11 +21,7 @@ public sealed class EmployeeTests
     public void ToggleEmployeeActivationStatus_EmployeeIsActive_ShouldToggleStatusToFalse()
     {
         // Arrange
-        Employee employee = new()
-        {
-            ID = Guid.CreateVersion7(),
-            IsActive = true,
-        };
+        Employee employee = new() { ID = Guid.CreateVersion7(), IsActive = true };
 
         // Act
         employee.ToggleActivation();
@@ -38,4 +30,3 @@ public sealed class EmployeeTests
         Assert.False(employee.IsActive);
     }
 }
-

@@ -17,9 +17,16 @@ public sealed class EmployeeEndpoints(IMediator mediator)
         [Description("Is active filter")] bool? isActive,
         [Description("Date of joining from filter")] DateTimeOffset? dateOfJoiningFrom,
         [Description("Date of joining to filter")] DateTimeOffset? dateOfJoiningTo,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        var query = new GetAllEmployeesQuery(name, departmentId, isActive, dateOfJoiningFrom, dateOfJoiningTo);
+        var query = new GetAllEmployeesQuery(
+            name,
+            departmentId,
+            isActive,
+            dateOfJoiningFrom,
+            dateOfJoiningTo
+        );
         return await mediator.Send(query, ct);
     }
 
@@ -27,7 +34,8 @@ public sealed class EmployeeEndpoints(IMediator mediator)
     [Description("Gets an employee by their ID")]
     public async Task<IResult> GetEmployeeById(
         [Description("The employee ID")] Guid id,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         return await mediator.Send(new GetEmployeeByIdQuery(id), ct);
     }
@@ -42,9 +50,18 @@ public sealed class EmployeeEndpoints(IMediator mediator)
         [Description("Is active")] bool isActive,
         [Description("Department ID")] int departmentId,
         [Description("Role ID")] int roleId,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        var command = new CreateEmployeeCommand(name, email, phone, dateOfJoining, isActive, departmentId, roleId);
+        var command = new CreateEmployeeCommand(
+            name,
+            email,
+            phone,
+            dateOfJoining,
+            isActive,
+            departmentId,
+            roleId
+        );
         return await mediator.Send(command, ct);
     }
 
@@ -59,9 +76,19 @@ public sealed class EmployeeEndpoints(IMediator mediator)
         [Description("Is active")] bool isActive,
         [Description("Department ID")] int departmentId,
         [Description("Role ID")] int roleId,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
-        var command = new UpdateEmployeeCommand(id, name, email, phone, dateOfJoining, isActive, departmentId, roleId);
+        var command = new UpdateEmployeeCommand(
+            id,
+            name,
+            email,
+            phone,
+            dateOfJoining,
+            isActive,
+            departmentId,
+            roleId
+        );
         return await mediator.Send(command, ct);
     }
 
@@ -69,7 +96,8 @@ public sealed class EmployeeEndpoints(IMediator mediator)
     [Description("Deletes an employee")]
     public async Task<IResult> DeleteEmployee(
         [Description("The employee ID")] Guid id,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         return await mediator.Send(new DeleteEmployeeCommand(id), ct);
     }

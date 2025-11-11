@@ -1,7 +1,5 @@
 ﻿using EM.Infrastructure.Data;
-
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,8 +13,7 @@ public readonly struct GetAllRolesQuery : IRequest<IResult>;
 /// <summary>
 /// Handles the retrieval of all roles.
 /// </summary>
-internal sealed class GetAllRolesQueryHandler(
-    AppDbContext dbContext)
+internal sealed class GetAllRolesQueryHandler(AppDbContext dbContext)
     : IRequestHandler<GetAllRolesQuery, IResult>
 {
     /// <summary>

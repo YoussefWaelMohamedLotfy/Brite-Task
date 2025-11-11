@@ -17,7 +17,8 @@ namespace EM.Infrastructure.Migrations
                 type: "uuid",
                 nullable: true,
                 oldClrType: typeof(Guid),
-                oldType: "uuid");
+                oldType: "uuid"
+            );
 
             migrationBuilder.AlterColumn<DateTimeOffset>(
                 name: "UpdatedAt",
@@ -25,7 +26,8 @@ namespace EM.Infrastructure.Migrations
                 type: "timestamp with time zone",
                 nullable: true,
                 oldClrType: typeof(DateTimeOffset),
-                oldType: "timestamp with time zone");
+                oldType: "timestamp with time zone"
+            );
 
             migrationBuilder.AlterColumn<Guid>(
                 name: "UpdatedBy",
@@ -33,7 +35,8 @@ namespace EM.Infrastructure.Migrations
                 type: "uuid",
                 nullable: true,
                 oldClrType: typeof(Guid),
-                oldType: "uuid");
+                oldType: "uuid"
+            );
 
             migrationBuilder.AlterColumn<DateTimeOffset>(
                 name: "UpdatedAt",
@@ -41,7 +44,8 @@ namespace EM.Infrastructure.Migrations
                 type: "timestamp with time zone",
                 nullable: true,
                 oldClrType: typeof(DateTimeOffset),
-                oldType: "timestamp with time zone");
+                oldType: "timestamp with time zone"
+            );
 
             migrationBuilder.AlterColumn<Guid>(
                 name: "UpdatedBy",
@@ -49,7 +53,8 @@ namespace EM.Infrastructure.Migrations
                 type: "uuid",
                 nullable: true,
                 oldClrType: typeof(Guid),
-                oldType: "uuid");
+                oldType: "uuid"
+            );
 
             migrationBuilder.AlterColumn<DateTimeOffset>(
                 name: "UpdatedAt",
@@ -57,7 +62,8 @@ namespace EM.Infrastructure.Migrations
                 type: "timestamp with time zone",
                 nullable: true,
                 oldClrType: typeof(DateTimeOffset),
-                oldType: "timestamp with time zone");
+                oldType: "timestamp with time zone"
+            );
         }
 
         /// <inheritdoc />
@@ -71,17 +77,22 @@ namespace EM.Infrastructure.Migrations
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"),
                 oldClrType: typeof(Guid),
                 oldType: "uuid",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<DateTimeOffset>(
                 name: "UpdatedAt",
                 table: "Roles",
                 type: "timestamp with time zone",
                 nullable: false,
-                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                defaultValue: new DateTimeOffset(
+                    new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                    new TimeSpan(0, 0, 0, 0, 0)
+                ),
                 oldClrType: typeof(DateTimeOffset),
                 oldType: "timestamp with time zone",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<Guid>(
                 name: "UpdatedBy",
@@ -91,17 +102,22 @@ namespace EM.Infrastructure.Migrations
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"),
                 oldClrType: typeof(Guid),
                 oldType: "uuid",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<DateTimeOffset>(
                 name: "UpdatedAt",
                 table: "Employees",
                 type: "timestamp with time zone",
                 nullable: false,
-                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                defaultValue: new DateTimeOffset(
+                    new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                    new TimeSpan(0, 0, 0, 0, 0)
+                ),
                 oldClrType: typeof(DateTimeOffset),
                 oldType: "timestamp with time zone",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<Guid>(
                 name: "UpdatedBy",
@@ -111,17 +127,22 @@ namespace EM.Infrastructure.Migrations
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"),
                 oldClrType: typeof(Guid),
                 oldType: "uuid",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AlterColumn<DateTimeOffset>(
                 name: "UpdatedAt",
                 table: "Departments",
                 type: "timestamp with time zone",
                 nullable: false,
-                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                defaultValue: new DateTimeOffset(
+                    new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                    new TimeSpan(0, 0, 0, 0, 0)
+                ),
                 oldClrType: typeof(DateTimeOffset),
                 oldType: "timestamp with time zone",
-                oldNullable: true);
+                oldNullable: true
+            );
         }
     }
 }

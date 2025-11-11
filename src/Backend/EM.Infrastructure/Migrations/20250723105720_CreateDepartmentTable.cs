@@ -17,30 +17,43 @@ namespace EM.Infrastructure.Migrations
                 table: "Employees",
                 type: "integer",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 0
+            );
 
             migrationBuilder.CreateTable(
                 name: "Departments",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ID = table
+                        .Column<int>(type: "integer", nullable: false)
+                        .Annotation(
+                            "Npgsql:ValueGenerationStrategy",
+                            NpgsqlValueGenerationStrategy.IdentityByDefaultColumn
+                        ),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
                     UpdatedBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    UpdatedAt = table.Column<DateTimeOffset>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departments", x => x.ID);
-                });
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_DepartmentID",
                 table: "Employees",
-                column: "DepartmentID");
+                column: "DepartmentID"
+            );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Employees_Departments_DepartmentID",
@@ -48,7 +61,8 @@ namespace EM.Infrastructure.Migrations
                 column: "DepartmentID",
                 principalTable: "Departments",
                 principalColumn: "ID",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Cascade
+            );
         }
 
         /// <inheritdoc />
@@ -56,18 +70,14 @@ namespace EM.Infrastructure.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Employees_Departments_DepartmentID",
-                table: "Employees");
+                table: "Employees"
+            );
 
-            migrationBuilder.DropTable(
-                name: "Departments");
+            migrationBuilder.DropTable(name: "Departments");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Employees_DepartmentID",
-                table: "Employees");
+            migrationBuilder.DropIndex(name: "IX_Employees_DepartmentID", table: "Employees");
 
-            migrationBuilder.DropColumn(
-                name: "DepartmentID",
-                table: "Employees");
+            migrationBuilder.DropColumn(name: "DepartmentID", table: "Employees");
         }
     }
 }

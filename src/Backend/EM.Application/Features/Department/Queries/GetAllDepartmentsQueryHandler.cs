@@ -13,8 +13,7 @@ public readonly struct GetAllDepartmentsQuery : IRequest<IResult>;
 /// <summary>
 /// Handles the retrieval of all departments.
 /// </summary>
-internal sealed class GetAllDepartmentsQueryHandler(
-    AppDbContext dbContext)
+internal sealed class GetAllDepartmentsQueryHandler(AppDbContext dbContext)
     : IRequestHandler<GetAllDepartmentsQuery, IResult>
 {
     /// <summary>
@@ -23,9 +22,14 @@ internal sealed class GetAllDepartmentsQueryHandler(
     /// <param name="request">The get all departments query.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>A list of all departments.</returns>
-    public async Task<IResult> Handle(GetAllDepartmentsQuery request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(
+        GetAllDepartmentsQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        var departments = await dbContext.Departments.ToListAsync(cancellationToken: cancellationToken);
+        var departments = await dbContext.Departments.ToListAsync(
+            cancellationToken: cancellationToken
+        );
         return Results.Ok(departments);
     }
 }

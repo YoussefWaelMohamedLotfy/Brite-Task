@@ -1,27 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Sdk Name="Aspire.AppHost.Sdk" Version="13.0.0" />
 
-    <Sdk Name="Aspire.AppHost.Sdk" Version="9.5.0" />
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UserSecretsId>a63fda2a-7884-4c5e-b023-44a1b16f38a1</UserSecretsId>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
-        <UserSecretsId>a63fda2a-7884-4c5e-b023-44a1b16f38a1</UserSecretsId>
-    </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Aspire.Hosting.McpInspector" Version="9.9.0" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="13.0.0" />
+    <PackageReference Include="Aspire.Hosting.Docker" Version="13.0.0-preview.1.25560.3" />
+    <PackageReference Include="Aspire.Hosting.Garnet" Version="13.0.0" />
+    <PackageReference Include="Aspire.Hosting.Keycloak" Version="13.0.0-preview.1.25560.3" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.0.0" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Aspire.Hosting.McpInspector" Version="9.8.0" />
-        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.5.2" />
-        <PackageReference Include="Aspire.Hosting.Docker" Version="9.5.2-preview.1.25522.3" />
-        <PackageReference Include="Aspire.Hosting.Garnet" Version="9.5.2" />
-        <PackageReference Include="Aspire.Hosting.Keycloak" Version="9.5.2-preview.1.25522.3" />
-        <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.5.2" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\..\Backend\EM.API\EM.API.csproj" />
-        <ProjectReference Include="..\..\Backend\EM.McpServer\EM.McpServer.csproj" />
-        <ProjectReference Include="..\..\Backend\EM.MigrationsWorker\EM.MigrationsWorker.csproj" />
-        <ProjectReference Include="..\..\Clients\EM.Blazor\EM.Blazor.csproj" />
-    </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\..\Backend\EM.API\EM.API.csproj" />
+    <ProjectReference Include="..\..\Backend\EM.McpServer\EM.McpServer.csproj" />
+    <ProjectReference Include="..\..\Backend\EM.MigrationsWorker\EM.MigrationsWorker.csproj" />
+    <ProjectReference Include="..\..\Clients\EM.Blazor\EM.Blazor.csproj" />
+  </ItemGroup>
 </Project>

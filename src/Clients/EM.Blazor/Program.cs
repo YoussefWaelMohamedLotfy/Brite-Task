@@ -1,9 +1,7 @@
 using Duende.AccessTokenManagement.OpenIdConnect;
-
 using EM.Blazor;
 using EM.Blazor.Components;
 using EM.SDK;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -23,38 +21,47 @@ builder.AddServiceDefaults();
 
 builder.Services.AddAuthorizationBuilder();
 
-builder.Services.AddAuthentication(o =>
-{
-    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    o.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-})
-.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
-{
-    o.Cookie.Name = ".employee-management";
+builder
+    .Services.AddAuthentication(o =>
+    {
+        o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        o.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+    })
+    .AddCookie(
+        CookieAuthenticationDefaults.AuthenticationScheme,
+        o =>
+        {
+            o.Cookie.Name = ".employee-management";
 
-    // automatically revoke refresh token at signout time
-    o.Events.OnSigningOut = async e => await e.HttpContext.RevokeRefreshTokenAsync();
-})
-.AddKeycloakOpenIdConnect("keycloak", "tenant-1", OpenIdConnectDefaults.AuthenticationScheme, o =>
-{
-    o.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            // automatically revoke refresh token at signout time
+            o.Events.OnSigningOut = async e => await e.HttpContext.RevokeRefreshTokenAsync();
+        }
+    )
+    .AddKeycloakOpenIdConnect(
+        "keycloak",
+        "tenant-1",
+        OpenIdConnectDefaults.AuthenticationScheme,
+        o =>
+        {
+            o.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
-    o.ClientId = "blazor-1";
-    o.ClientSecret = "VV2LKhOGu93KtbbXfTmVzAG4XN2wmK4J";
-    o.ResponseType = OpenIdConnectResponseType.Code;
+            o.ClientId = "blazor-1";
+            o.ClientSecret = "VV2LKhOGu93KtbbXfTmVzAG4XN2wmK4J";
+            o.ResponseType = OpenIdConnectResponseType.Code;
 
-    o.SaveTokens = true;
-    o.GetClaimsFromUserInfoEndpoint = true;
-    o.MapInboundClaims = false;
-    o.TokenValidationParameters.NameClaimType = JwtRegisteredClaimNames.Name;
+            o.SaveTokens = true;
+            o.GetClaimsFromUserInfoEndpoint = true;
+            o.MapInboundClaims = false;
+            o.TokenValidationParameters.NameClaimType = JwtRegisteredClaimNames.Name;
 
-    o.RequireHttpsMetadata = builder.Environment.IsProduction();
-    o.TokenValidationParameters.ValidateIssuer = builder.Environment.IsProduction();
-    o.TokenValidationParameters.ValidateAudience = builder.Environment.IsProduction();
+            o.RequireHttpsMetadata = builder.Environment.IsProduction();
+            o.TokenValidationParameters.ValidateIssuer = builder.Environment.IsProduction();
+            o.TokenValidationParameters.ValidateAudience = builder.Environment.IsProduction();
 
-    o.Scope.Add(OpenIdConnectScope.OpenIdProfile);
-    o.Scope.Add(OpenIdConnectScope.OfflineAccess);
-});
+            o.Scope.Add(OpenIdConnectScope.OpenIdProfile);
+            o.Scope.Add(OpenIdConnectScope.OfflineAccess);
+        }
+    );
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
@@ -68,15 +75,17 @@ builder.Services.AddCascadingAuthenticationState();
 // new access token saved inside. If the refresh fails, the user will be signed
 // out. OIDC connect options are set for saving tokens and the offline access
 // scope.
-builder.Services.ConfigureCookieOidc(CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
+builder.Services.ConfigureCookieOidc(
+    CookieAuthenticationDefaults.AuthenticationScheme,
+    OpenIdConnectDefaults.AuthenticationScheme
+);
 
 builder.Services.AddEmployeeManagement();
 
 builder.Services.AddBootstrapBlazor();
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 WebApplication app = builder.Build();
 
@@ -97,8 +106,7 @@ app.UseAuthorization();
 app.UseAntiforgery();
 
 app.MapStaticAssets();
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 app.MapGroup("/authentication").MapLoginAndLogout();
 

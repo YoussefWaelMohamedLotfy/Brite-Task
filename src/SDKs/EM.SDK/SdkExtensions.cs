@@ -1,8 +1,6 @@
 ﻿using EM.SDK.Departments;
 using EM.SDK.Roles;
-
 using Microsoft.Extensions.DependencyInjection;
-
 using Refit;
 
 namespace EM.SDK;
@@ -20,21 +18,24 @@ public static class SdkExtensions
 
         services.AddScoped<TokenHandler>();
 
-        services.AddRefitClient<IRolesApi>()
+        services
+            .AddRefitClient<IRolesApi>()
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(url);
             })
             .AddHttpMessageHandler<TokenHandler>();
 
-        services.AddRefitClient<IDepartmentsApi>()
+        services
+            .AddRefitClient<IDepartmentsApi>()
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(url);
             })
             .AddHttpMessageHandler<TokenHandler>();
 
-        services.AddRefitClient<IDepartmentsApi>()
+        services
+            .AddRefitClient<IDepartmentsApi>()
             .ConfigureHttpClient(client =>
             {
                 client.BaseAddress = new Uri(url);

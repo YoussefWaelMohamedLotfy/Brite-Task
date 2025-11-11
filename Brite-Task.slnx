@@ -1,0 +1,33 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
+    <File Path="xunit.runsettings" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Aspire/">
+    <Project Path="src/Aspire/Brite-Task.AppHost/Brite-Task.AppHost.csproj" />
+    <Project Path="src/Aspire/Brite-Task.ServiceDefaults/Brite-Task.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/src/Backend/">
+    <Project Path="src/Backend/EM.API/EM.API.csproj" />
+    <Project Path="src/Backend/EM.Application/EM.Application.csproj" />
+    <Project Path="src/Backend/EM.Domain/EM.Domain.csproj" />
+    <Project Path="src/Backend/EM.Infrastructure/EM.Infrastructure.csproj" />
+    <Project Path="src/Backend/EM.McpServer/EM.McpServer.csproj" />
+    <Project Path="src/Backend/EM.MigrationsWorker/EM.MigrationsWorker.csproj" />
+  </Folder>
+  <Folder Name="/src/Clients/">
+    <Project Path="src/Clients/EM.Blazor/EM.Blazor.csproj" />
+    <Project Path="src/Clients/EM.McpClient/EM.McpClient.csproj" />
+  </Folder>
+  <Folder Name="/src/SDKs/">
+    <Project Path="src/SDKs/EM.SDK/EM.SDK.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/EM.Domain.UnitTests/EM.Domain.UnitTests.csproj" />
+  </Folder>
+</Solution>

@@ -1,10 +1,8 @@
 using EM.Application.Features.Common.Abstractions;
 using EM.Infrastructure.Data;
-
-using MediatR;
-
-using Microsoft.AspNetCore.Http;
 using FluentValidation;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Employee.Commands;
 
@@ -17,8 +15,7 @@ public sealed record DeleteEmployeeCommand(Guid Id) : ICommand<IResult>;
 /// <summary>
 /// Handles the deletion of an employee by ID.
 /// </summary>
-internal sealed class DeleteEmployeeCommandHandler(
-    AppDbContext dbContext)
+internal sealed class DeleteEmployeeCommandHandler(AppDbContext dbContext)
     : ICommandHandler<DeleteEmployeeCommand, IResult>
 {
     /// <summary>
@@ -27,7 +24,10 @@ internal sealed class DeleteEmployeeCommandHandler(
     /// <param name="request">The delete employee command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the delete operation.</returns>
-    public async Task<IResult> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(
+        DeleteEmployeeCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var employee = await dbContext.Employees.FindAsync([request.Id], cancellationToken);
 

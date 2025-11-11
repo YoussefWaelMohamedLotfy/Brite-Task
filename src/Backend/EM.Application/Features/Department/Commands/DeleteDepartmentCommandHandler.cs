@@ -1,8 +1,6 @@
 using EM.Infrastructure.Data;
 using FluentValidation;
-
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Department.Commands;
@@ -16,8 +14,7 @@ public sealed record DeleteDepartmentCommand(int Id) : IRequest<IResult>;
 /// <summary>
 /// Handles the deletion of a department by ID.
 /// </summary>
-internal sealed class DeleteDepartmentCommandHandler(
-    AppDbContext dbContext)
+internal sealed class DeleteDepartmentCommandHandler(AppDbContext dbContext)
     : IRequestHandler<DeleteDepartmentCommand, IResult>
 {
     /// <summary>
@@ -26,7 +23,10 @@ internal sealed class DeleteDepartmentCommandHandler(
     /// <param name="request">The delete department command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the delete operation.</returns>
-    public async Task<IResult> Handle(DeleteDepartmentCommand request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(
+        DeleteDepartmentCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var department = await dbContext.Departments.FindAsync([request.Id], cancellationToken);
 

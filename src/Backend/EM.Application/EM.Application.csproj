@@ -1,24 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup></PropertyGroup>
 
-    <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-    </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
 
-    <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        
-        <PackageReference Include="FluentValidation" Version="12.0.0" />
-        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
-        <PackageReference Include="MediatR" Version="13.1.0" />
-    </ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.1.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.0" />
+    <PackageReference Include="MediatR" Version="13.1.0" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\EM.Infrastructure\EM.Infrastructure.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EM.Infrastructure\EM.Infrastructure.csproj" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Features\Role\Commands\" />
-      <Folder Include="Features\Role\Queries\" />
-    </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="Features\Role\Commands\" />
+    <Folder Include="Features\Role\Queries\" />
+  </ItemGroup>
 </Project>

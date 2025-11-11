@@ -1,9 +1,6 @@
 ﻿using EM.Application.Features.Common.Abstractions;
-
 using FluentValidation;
-
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Common.Behaviours;
@@ -25,15 +22,22 @@ public sealed class ValidationPipelineBehaviour<TRequest, TResult>(IValidator<TR
     /// <param name="next">The next handler in the pipeline.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the request or validation errors.</returns>
-    public async Task<TResult> Handle(TRequest request, RequestHandlerDelegate<TResult> next, CancellationToken cancellationToken)
+    public async Task<TResult> Handle(
+        TRequest request,
+        RequestHandlerDelegate<TResult> next,
+        CancellationToken cancellationToken
+    )
     {
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         return !validationResult.IsValid
-            ? (TResult)Results.ValidationProblem(
-                validationResult.Errors
-                    .Select(e => new KeyValuePair<string, string[]>(e.PropertyName, [e.ErrorMessage]))
-            )
+            ? (TResult)
+                Results.ValidationProblem(
+                    validationResult.Errors.Select(e => new KeyValuePair<string, string[]>(
+                        e.PropertyName,
+                        [e.ErrorMessage]
+                    ))
+                )
             : await next(cancellationToken);
     }
 }

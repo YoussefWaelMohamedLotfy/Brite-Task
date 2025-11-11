@@ -1,8 +1,6 @@
 using EM.Application.Features.Common.Abstractions;
 using EM.Infrastructure.Data;
-
 using FluentValidation;
-
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Employee.Commands;
@@ -16,7 +14,8 @@ public sealed record ToggleEmployeeActivationCommand(Guid Id) : ICommand<IResult
 /// <summary>
 /// Validator for <see cref="ToggleEmployeeActivationCommand"/>.
 /// </summary>
-internal sealed class ToggleEmployeeActivationCommandValidator : AbstractValidator<ToggleEmployeeActivationCommand>
+internal sealed class ToggleEmployeeActivationCommandValidator
+    : AbstractValidator<ToggleEmployeeActivationCommand>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ToggleEmployeeActivationCommandValidator"/> class.
@@ -30,8 +29,7 @@ internal sealed class ToggleEmployeeActivationCommandValidator : AbstractValidat
 /// <summary>
 /// Handles toggling the activation status of an employee by ID.
 /// </summary>
-internal sealed class ToggleEmployeeActivationCommandHandler(
-    AppDbContext dbContext)
+internal sealed class ToggleEmployeeActivationCommandHandler(AppDbContext dbContext)
     : ICommandHandler<ToggleEmployeeActivationCommand, IResult>
 {
     /// <summary>
@@ -40,7 +38,10 @@ internal sealed class ToggleEmployeeActivationCommandHandler(
     /// <param name="request">The toggle employee activation command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the toggle operation.</returns>
-    public async Task<IResult> Handle(ToggleEmployeeActivationCommand request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(
+        ToggleEmployeeActivationCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var employee = await dbContext.Employees.FindAsync([request.Id], cancellationToken);
 

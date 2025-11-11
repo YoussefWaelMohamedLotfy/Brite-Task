@@ -1,6 +1,5 @@
 using EM.Application.Features.Role.Commands;
 using EM.Domain.Entities;
-
 using Refit;
 
 namespace EM.SDK.Roles;

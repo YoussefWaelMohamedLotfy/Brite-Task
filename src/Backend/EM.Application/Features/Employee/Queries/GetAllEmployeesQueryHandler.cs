@@ -1,7 +1,5 @@
 using EM.Infrastructure.Data;
-
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,8 +19,7 @@ public sealed record GetAllEmployeesQuery(
 /// <summary>
 /// Handles the retrieval of all employees.
 /// </summary>
-internal sealed class GetAllEmployeesQueryHandler(
-    AppDbContext dbContext)
+internal sealed class GetAllEmployeesQueryHandler(AppDbContext dbContext)
     : IRequestHandler<GetAllEmployeesQuery, IResult>
 {
     /// <summary>
@@ -31,10 +28,13 @@ internal sealed class GetAllEmployeesQueryHandler(
     /// <param name="request">The get all employees query.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>A list of all employees.</returns>
-    public async Task<IResult> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(
+        GetAllEmployeesQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        var query = dbContext.Employees
-            .Include(e => e.Department)
+        var query = dbContext
+            .Employees.Include(e => e.Department)
             .Include(e => e.Role)
             .AsQueryable();
 
@@ -42,22 +42,24 @@ internal sealed class GetAllEmployeesQueryHandler(
         {
             query = query.Where(e => e.Name.Contains(request.Name));
         }
-        
+
         if (request.DepartmentId.HasValue)
         {
-            query = query.Where(e => e.Department != null && e.Department.ID == request.DepartmentId.Value);
+            query = query.Where(e =>
+                e.Department != null && e.Department.ID == request.DepartmentId.Value
+            );
         }
-        
+
         if (request.IsActive.HasValue)
         {
             query = query.Where(e => e.IsActive == request.IsActive.Value);
         }
-        
+
         if (request.DateOfJoiningFrom.HasValue)
         {
             query = query.Where(e => e.DateOfJoining >= request.DateOfJoiningFrom.Value);
         }
-        
+
         if (request.DateOfJoiningTo.HasValue)
         {
             query = query.Where(e => e.DateOfJoining <= request.DateOfJoiningTo.Value);

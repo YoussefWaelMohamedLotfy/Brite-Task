@@ -20,7 +20,8 @@ public sealed class DepartmentEndpoints(IMediator mediator)
     [Description("Gets a department by its ID")]
     public async Task<IResult> GetDepartmentById(
         [Description("The department ID")] int id,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         return await mediator.Send(new GetDepartmentByIdQuery(id), ct);
     }
@@ -30,7 +31,8 @@ public sealed class DepartmentEndpoints(IMediator mediator)
     public async Task<IResult> CreateDepartment(
         [Description("Department name")] string name,
         [Description("Department description")] string? description,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         var command = new CreateDepartmentCommand(name, description);
         return await mediator.Send(command, ct);
@@ -42,7 +44,8 @@ public sealed class DepartmentEndpoints(IMediator mediator)
         [Description("Department ID")] int id,
         [Description("Department name")] string name,
         [Description("Department description")] string? description,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         var command = new UpdateDepartmentCommand(id, name, description);
         return await mediator.Send(command, ct);
@@ -52,7 +55,8 @@ public sealed class DepartmentEndpoints(IMediator mediator)
     [Description("Deletes a department")]
     public async Task<IResult> DeleteDepartment(
         [Description("The department ID")] int id,
-        CancellationToken ct)
+        CancellationToken ct
+    )
     {
         return await mediator.Send(new DeleteDepartmentCommand(id), ct);
     }

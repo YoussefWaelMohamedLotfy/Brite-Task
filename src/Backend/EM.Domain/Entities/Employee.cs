@@ -11,22 +11,22 @@ public sealed class Employee : Entity<Guid>, IAuditableEntity
     /// Gets or sets the name of the employee.
     /// </summary>
     public string Name { get; set; } = default!;
-    
+
     /// <summary>
     /// Gets or sets the email address of the employee.
     /// </summary>
     public string Email { get; set; } = default!;
-    
+
     /// <summary>
     /// Gets or sets the phone number of the employee.
     /// </summary>
     public string Phone { get; set; } = default!;
-    
+
     /// <summary>
     /// Gets or sets the date the employee joined the organization.
     /// </summary>
     public DateTimeOffset DateOfJoining { get; set; }
-    
+
     /// <summary>
     /// Gets or sets a value indicating whether the employee is active.
     /// </summary>
@@ -44,19 +44,18 @@ public sealed class Employee : Entity<Guid>, IAuditableEntity
 
     /// <inheritdoc/>
     public Guid CreatedBy { get; set; }
-    
+
     /// <inheritdoc/>
     public DateTimeOffset CreatedAt { get; set; }
-    
+
     /// <inheritdoc/>
     public Guid? UpdatedBy { get; set; }
-    
+
     /// <inheritdoc/>
     public DateTimeOffset? UpdatedAt { get; set; }
 
     /// <summary>
     /// Toggles the activation status of the employee.
     /// </summary>
-    public void ToggleActivation()
-        => IsActive = !IsActive;
+    public void ToggleActivation() => IsActive = !IsActive;
 }

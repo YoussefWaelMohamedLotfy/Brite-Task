@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
-
 using EM.Domain.Entities;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -51,7 +49,9 @@ public sealed class BloggingContextFactory : IDesignTimeDbContextFactory<AppDbCo
     public AppDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-        optionsBuilder.UseNpgsql("Host=localhost;Port=62295;Username=pg;Password=EnterPassword;Database=Employee-Management-Db");
+        optionsBuilder.UseNpgsql(
+            "Host=localhost;Port=62295;Username=pg;Password=EnterPassword;Database=Employee-Management-Db"
+        );
         return new AppDbContext(optionsBuilder.Options);
     }
 }

@@ -1,8 +1,6 @@
 using EM.Infrastructure.Data;
 using FluentValidation;
-
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Department.Commands;
@@ -17,8 +15,7 @@ public sealed record CreateDepartmentCommand(string Name, string? Description) :
 /// <summary>
 /// Handles the creation of a new department.
 /// </summary>
-internal sealed class CreateDepartmentCommandHandler(
-    AppDbContext dbContext)
+internal sealed class CreateDepartmentCommandHandler(AppDbContext dbContext)
     : IRequestHandler<CreateDepartmentCommand, IResult>
 {
     /// <summary>
@@ -27,7 +24,10 @@ internal sealed class CreateDepartmentCommandHandler(
     /// <param name="request">The create department command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the creation operation.</returns>
-    public async Task<IResult> Handle(CreateDepartmentCommand request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(
+        CreateDepartmentCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var department = new Domain.Entities.Department
         {

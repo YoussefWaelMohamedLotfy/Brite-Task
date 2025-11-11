@@ -1,8 +1,6 @@
 using EM.Application.Features.Common.Abstractions;
 using EM.Infrastructure.Data;
-
 using FluentValidation;
-
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Employee.Commands;
@@ -26,14 +24,13 @@ public sealed record UpdateEmployeeCommand(
     DateTimeOffset DateOfJoining,
     bool IsActive,
     int DepartmentId,
-    int RoleId)
-    : ICommand<IResult>;
+    int RoleId
+) : ICommand<IResult>;
 
 /// <summary>
 /// Handles the update of an existing employee.
 /// </summary>
-internal sealed class UpdateEmployeeCommandHandler(
-    AppDbContext dbContext)
+internal sealed class UpdateEmployeeCommandHandler(AppDbContext dbContext)
     : ICommandHandler<UpdateEmployeeCommand, IResult>
 {
     /// <summary>
@@ -42,14 +39,20 @@ internal sealed class UpdateEmployeeCommandHandler(
     /// <param name="request">The update employee command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the update operation.</returns>
-    public async Task<IResult> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(
+        UpdateEmployeeCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var employee = await dbContext.Employees.FindAsync([request.Id], cancellationToken);
 
         if (employee is null)
             return Results.NotFound();
 
-        var department = await dbContext.Departments.FindAsync([request.DepartmentId], cancellationToken);
+        var department = await dbContext.Departments.FindAsync(
+            [request.DepartmentId],
+            cancellationToken
+        );
         var role = await dbContext.Roles.FindAsync([request.RoleId], cancellationToken);
 
         if (department is null || role is null)
@@ -82,7 +85,8 @@ internal sealed class UpdateEmployeeCommandValidator : AbstractValidator<UpdateE
         RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required.");
         RuleFor(x => x.Email).EmailAddress().WithMessage("Invalid email format.");
         RuleFor(x => x.Phone).NotEmpty().WithMessage("Phone number is required.");
-        RuleFor(x => x.DateOfJoining).LessThanOrEqualTo(DateTimeOffset.Now)
+        RuleFor(x => x.DateOfJoining)
+            .LessThanOrEqualTo(DateTimeOffset.Now)
             .WithMessage("Date of joining cannot be in the future.");
         RuleFor(x => x.DepartmentId).GreaterThan(0).WithMessage("Invalid Department ID.");
         RuleFor(x => x.RoleId).GreaterThan(0).WithMessage("Invalid Role ID.");
