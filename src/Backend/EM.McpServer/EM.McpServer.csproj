@@ -5,7 +5,7 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Keycloak.Authentication" Version="13.0.0-preview.1.25560.3" />
-    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.14.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.15.0" />
     <PackageReference Include="ModelContextProtocol.AspNetCore" Version="0.4.0-preview.3" />
   </ItemGroup>
 

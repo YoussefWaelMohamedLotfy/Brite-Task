@@ -161,7 +161,7 @@ Preferring ProblemDetails over custom response bodies aligns with best practices
 
 ### Prerequisites
 
-- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 - Docker / Podman (for running containers)
 - .NET Aspire SDK (from VS Installer, under Individual Components)
 
@@ -172,7 +172,7 @@ Preferring ProblemDetails over custom response bodies aligns with best practices
 dotnet build
 ```
 
-2. **Run with Aspire**
+2. **Run with Aspire**  
    Navigate to the `src/Aspire/Brite-Task.AppHost` directory and run:
 ```sh
 dotnet run
