@@ -39,7 +39,7 @@ builder.Services.AddScoped<IAuthorizationHandler, RoleAuthorizationHandler>();
 builder
     .Services.AddAuthorizationBuilder()
     .AddPolicy(
-        "HR-Policy",
+        "HR-Policy2",
         x => x.RequireAuthenticatedUser().AddRequirements(new RoleRequirement("HR"))
     )
     .AddPolicy(
