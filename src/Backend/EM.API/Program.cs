@@ -28,7 +28,9 @@ builder.WebHost.ConfigureKestrel(x => x.AddServerHeader = false);
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-builder.Services.AddValidatorsFromAssemblyContaining<IApplicationAssemblyMarker>(includeInternalTypes: true);
+builder.Services.AddValidatorsFromAssemblyContaining<IApplicationAssemblyMarker>(
+    includeInternalTypes: true
+);
 
 string oidcScheme = JwtBearerDefaults.AuthenticationScheme;
 
@@ -182,7 +184,9 @@ builder.Services.AddOpenApi(x =>
         },
     };
 
-    OpenApiSecuritySchemeReference oauth2SchemeRef = new(OpenIdConnectDefaults.AuthenticationScheme);
+    OpenApiSecuritySchemeReference oauth2SchemeRef = new(
+        OpenIdConnectDefaults.AuthenticationScheme
+    );
     OpenApiSecuritySchemeReference jwtSchemeRef = new(JwtBearerDefaults.AuthenticationScheme);
 
     x.AddDocumentTransformer(
@@ -193,9 +197,9 @@ builder.Services.AddOpenApi(x =>
             document.Components ??= new();
 
             document.Components.SecuritySchemes = new Dictionary<string, IOpenApiSecurityScheme>()
-            { 
+            {
                 { JwtBearerDefaults.AuthenticationScheme, jwtScheme },
-                { OpenIdConnectDefaults.AuthenticationScheme, oauth2Scheme }
+                { OpenIdConnectDefaults.AuthenticationScheme, oauth2Scheme },
             };
 
             //document.Components.SecuritySchemes?.Add(
@@ -214,7 +218,11 @@ builder.Services.AddOpenApi(x =>
                 context.Description.ActionDescriptor.EndpointMetadata.OfType<IAuthorizeData>().Any()
             )
             {
-                operation.Security = [new() { [jwtSchemeRef] = [] }, new() { [oauth2SchemeRef] = [] }];
+                operation.Security =
+                [
+                    new() { [jwtSchemeRef] = [] },
+                    new() { [oauth2SchemeRef] = [] },
+                ];
             }
 
             return Task.CompletedTask;
