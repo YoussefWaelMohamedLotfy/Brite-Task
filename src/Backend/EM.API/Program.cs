@@ -28,9 +28,7 @@ builder.WebHost.ConfigureKestrel(x => x.AddServerHeader = false);
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
-builder.Services.AddValidatorsFromAssemblyContaining<IApplicationAssemblyMarker>(
-    includeInternalTypes: true
-);
+builder.Services.AddValidatorsFromAssemblyContaining<IApplicationAssemblyMarker>(includeInternalTypes: true);
 
 string oidcScheme = JwtBearerDefaults.AuthenticationScheme;
 
