@@ -1,8 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-dotnet tool run csharpier format .
-
-git add .
-
-git commit -m "chore: format code with CSharpier" --no-verify
+dotnet husky run
