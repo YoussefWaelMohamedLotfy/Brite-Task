@@ -1,6 +1,6 @@
 using EM.Infrastructure.Data;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Department.Commands;
@@ -14,7 +14,7 @@ public sealed record DeleteDepartmentCommand(int Id) : IRequest<IResult>;
 /// <summary>
 /// Handles the deletion of a department by ID.
 /// </summary>
-internal sealed class DeleteDepartmentCommandHandler(AppDbContext dbContext)
+public sealed class DeleteDepartmentCommandHandler(AppDbContext dbContext)
     : IRequestHandler<DeleteDepartmentCommand, IResult>
 {
     /// <summary>
@@ -23,7 +23,7 @@ internal sealed class DeleteDepartmentCommandHandler(AppDbContext dbContext)
     /// <param name="request">The delete department command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the delete operation.</returns>
-    public async Task<IResult> Handle(
+    public async ValueTask<IResult> Handle(
         DeleteDepartmentCommand request,
         CancellationToken cancellationToken
     )
@@ -42,7 +42,7 @@ internal sealed class DeleteDepartmentCommandHandler(AppDbContext dbContext)
 /// <summary>
 /// Validator for <see cref="DeleteDepartmentCommand"/>.
 /// </summary>
-internal sealed class DeleteDepartmentCommandValidator : AbstractValidator<DeleteDepartmentCommand>
+public sealed class DeleteDepartmentCommandValidator : AbstractValidator<DeleteDepartmentCommand>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DeleteDepartmentCommandValidator"/> class.

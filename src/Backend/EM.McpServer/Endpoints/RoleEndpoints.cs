@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel;
 using EM.Application.Features.Role.Commands;
 using EM.Application.Features.Role.Queries;
-using MediatR;
 using ModelContextProtocol.Server;
 
 namespace EM.McpServer.Endpoints;
 
 [McpServerToolType]
-public sealed class RoleEndpoints(IMediator mediator)
+public sealed class RoleEndpoints(Mediator.Mediator mediator)
 {
     [McpServerTool(Name = nameof(GetAllRoles))]
     [Description("Gets all roles in the Employee Management System")]

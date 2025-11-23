@@ -7,7 +7,6 @@ using EM.Application.Features.Common.Exceptions;
 using EM.Infrastructure.Data;
 using EM.Infrastructure.Interceptors;
 using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +28,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<IApplicationAssemblyMarker>(
+    ServiceLifetime.Singleton,
     includeInternalTypes: true
 );
 
@@ -124,7 +124,7 @@ builder.Services.AddTransient(s =>
     return user ?? throw new NullReferenceException("User not resolved");
 });
 
-builder.Services.AddDbContext<AppDbContext>(
+builder.Services.AddDbContextPool<AppDbContext>(
     (sp, options) =>
     {
         options.AddInterceptors(sp.GetRequiredService<UpdateAuditableEntitiesInterceptor>());
@@ -141,12 +141,14 @@ builder.Services.AddDbContext<AppDbContext>(
 );
 builder.EnrichNpgsqlDbContext<AppDbContext>();
 
+builder.AddRedisClient("garnet");
 builder.AddRedisOutputCache("garnet");
 
-builder.Services.AddMediatR(x =>
-    x.RegisterServicesFromAssemblyContaining<IApplicationAssemblyMarker>()
-        .AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehaviour<,>))
-);
+builder.Services.AddMediator(x =>
+{
+    x.ServiceLifetime = ServiceLifetime.Scoped;
+    x.PipelineBehaviors = [typeof(ValidationPipelineBehaviour<,>)];
+});
 
 builder.Services.AddOpenApi(x =>
 {
@@ -202,11 +204,6 @@ builder.Services.AddOpenApi(x =>
                 { OpenIdConnectDefaults.AuthenticationScheme, oauth2Scheme },
             };
 
-            //document.Components.SecuritySchemes?.Add(
-            //    JwtBearerDefaults.AuthenticationScheme,
-            //    jwtScheme
-            //);
-            //document.Components.SecuritySchemes?.Add("OAuth2", oauth2Scheme);
             return Task.CompletedTask;
         }
     );

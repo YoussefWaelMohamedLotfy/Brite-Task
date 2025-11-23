@@ -1,6 +1,6 @@
 using EM.Infrastructure.Data;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Department.Commands;
@@ -17,7 +17,7 @@ public sealed record UpdateDepartmentCommand(int Id, string Name, string? Descri
 /// <summary>
 /// Validator for <see cref="UpdateDepartmentCommand"/>.
 /// </summary>
-internal sealed class UpdateDepartmentCommandValidator : AbstractValidator<UpdateDepartmentCommand>
+public sealed class UpdateDepartmentCommandValidator : AbstractValidator<UpdateDepartmentCommand>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UpdateDepartmentCommandValidator"/> class.
@@ -32,7 +32,7 @@ internal sealed class UpdateDepartmentCommandValidator : AbstractValidator<Updat
 /// <summary>
 /// Handles the update of an existing department.
 /// </summary>
-internal sealed class UpdateDepartmentCommandHandler(AppDbContext dbContext)
+public sealed class UpdateDepartmentCommandHandler(AppDbContext dbContext)
     : IRequestHandler<UpdateDepartmentCommand, IResult>
 {
     /// <summary>
@@ -41,7 +41,7 @@ internal sealed class UpdateDepartmentCommandHandler(AppDbContext dbContext)
     /// <param name="request">The update department command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the update operation.</returns>
-    public async Task<IResult> Handle(
+    public async ValueTask<IResult> Handle(
         UpdateDepartmentCommand request,
         CancellationToken cancellationToken
     )

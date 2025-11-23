@@ -1,5 +1,5 @@
 ﻿using EM.Infrastructure.Data;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +13,7 @@ public readonly struct GetAllRolesQuery : IRequest<IResult>;
 /// <summary>
 /// Handles the retrieval of all roles.
 /// </summary>
-internal sealed class GetAllRolesQueryHandler(AppDbContext dbContext)
+public sealed class GetAllRolesQueryHandler(AppDbContext dbContext)
     : IRequestHandler<GetAllRolesQuery, IResult>
 {
     /// <summary>
@@ -22,7 +22,10 @@ internal sealed class GetAllRolesQueryHandler(AppDbContext dbContext)
     /// <param name="request">The get all roles query.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>A list of all roles.</returns>
-    public async Task<IResult> Handle(GetAllRolesQuery request, CancellationToken cancellationToken)
+    public async ValueTask<IResult> Handle(
+        GetAllRolesQuery request,
+        CancellationToken cancellationToken
+    )
     {
         var roles = await dbContext.Roles.ToListAsync(cancellationToken: cancellationToken);
 

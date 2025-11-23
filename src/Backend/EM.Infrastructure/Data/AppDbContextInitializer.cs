@@ -84,8 +84,8 @@ public static class AppDbContextInitializer
         if (!await dbContext.Employees.AnyAsync(cancellationToken))
         {
             // Get departments and roles from the context
-            var departments = dbContext.Departments.ToList();
-            var roles = dbContext.Roles.ToList();
+            var departments = await dbContext.Departments.ToListAsync(cancellationToken);
+            var roles = await dbContext.Roles.ToListAsync(cancellationToken);
             var employees = new List<Employee>
             {
                 new()

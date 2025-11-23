@@ -1,6 +1,6 @@
 using EM.Infrastructure.Data;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Employee.Commands;
@@ -28,7 +28,7 @@ public sealed record CreateEmployeeCommand(
 /// <summary>
 /// Validator for <see cref="CreateEmployeeCommand"/>.
 /// </summary>
-internal sealed class CreateEmployeeCommandValidator : AbstractValidator<CreateEmployeeCommand>
+public sealed class CreateEmployeeCommandValidator : AbstractValidator<CreateEmployeeCommand>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateEmployeeCommandValidator"/> class.
@@ -49,7 +49,7 @@ internal sealed class CreateEmployeeCommandValidator : AbstractValidator<CreateE
 /// <summary>
 /// Handles the creation of a new employee.
 /// </summary>
-internal sealed class CreateEmployeeCommandHandler(AppDbContext dbContext)
+public sealed class CreateEmployeeCommandHandler(AppDbContext dbContext)
     : IRequestHandler<CreateEmployeeCommand, IResult>
 {
     /// <summary>
@@ -58,7 +58,7 @@ internal sealed class CreateEmployeeCommandHandler(AppDbContext dbContext)
     /// <param name="request">The create employee command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the creation operation.</returns>
-    public async Task<IResult> Handle(
+    public async ValueTask<IResult> Handle(
         CreateEmployeeCommand request,
         CancellationToken cancellationToken
     )

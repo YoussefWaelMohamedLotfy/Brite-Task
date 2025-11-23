@@ -1,5 +1,5 @@
 using EM.Infrastructure.Data;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Department.Queries;
@@ -13,7 +13,7 @@ public sealed record GetDepartmentByIdQuery(int Id) : IRequest<IResult>;
 /// <summary>
 /// Handles the retrieval of a department by its ID.
 /// </summary>
-internal sealed class GetDepartmentByIdQueryHandler(AppDbContext dbContext)
+public sealed class GetDepartmentByIdQueryHandler(AppDbContext dbContext)
     : IRequestHandler<GetDepartmentByIdQuery, IResult>
 {
     /// <summary>
@@ -22,7 +22,7 @@ internal sealed class GetDepartmentByIdQueryHandler(AppDbContext dbContext)
     /// <param name="request">The get department by ID query.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The department if found, otherwise not found.</returns>
-    public async Task<IResult> Handle(
+    public async ValueTask<IResult> Handle(
         GetDepartmentByIdQuery request,
         CancellationToken cancellationToken
     )

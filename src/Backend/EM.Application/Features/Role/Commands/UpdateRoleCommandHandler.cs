@@ -1,7 +1,6 @@
-using EM.Application.Features.Common.Abstractions;
 using EM.Infrastructure.Data;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Role.Commands;
@@ -18,7 +17,7 @@ public sealed record UpdateRoleCommand(int Id, string Name, List<string> Permiss
 /// <summary>
 /// Validator for <see cref="UpdateRoleCommand"/>.
 /// </summary>
-internal sealed class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
+public sealed class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UpdateRoleCommandValidator"/> class.
@@ -34,7 +33,7 @@ internal sealed class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleC
 /// <summary>
 /// Handles the update of an existing role.
 /// </summary>
-internal sealed class UpdateRoleCommandHandler(AppDbContext dbContext)
+public sealed class UpdateRoleCommandHandler(AppDbContext dbContext)
     : ICommandHandler<UpdateRoleCommand, IResult>
 {
     /// <summary>
@@ -43,7 +42,7 @@ internal sealed class UpdateRoleCommandHandler(AppDbContext dbContext)
     /// <param name="request">The update role command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the update operation.</returns>
-    public async Task<IResult> Handle(
+    public async ValueTask<IResult> Handle(
         UpdateRoleCommand request,
         CancellationToken cancellationToken
     )

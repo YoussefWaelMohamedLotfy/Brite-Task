@@ -1,5 +1,5 @@
 using EM.Infrastructure.Data;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +13,7 @@ public readonly struct GetAllDepartmentsQuery : IRequest<IResult>;
 /// <summary>
 /// Handles the retrieval of all departments.
 /// </summary>
-internal sealed class GetAllDepartmentsQueryHandler(AppDbContext dbContext)
+public sealed class GetAllDepartmentsQueryHandler(AppDbContext dbContext)
     : IRequestHandler<GetAllDepartmentsQuery, IResult>
 {
     /// <summary>
@@ -22,7 +22,7 @@ internal sealed class GetAllDepartmentsQueryHandler(AppDbContext dbContext)
     /// <param name="request">The get all departments query.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>A list of all departments.</returns>
-    public async Task<IResult> Handle(
+    public async ValueTask<IResult> Handle(
         GetAllDepartmentsQuery request,
         CancellationToken cancellationToken
     )

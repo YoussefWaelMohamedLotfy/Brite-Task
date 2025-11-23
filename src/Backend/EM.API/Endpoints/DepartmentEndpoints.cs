@@ -1,6 +1,5 @@
 using EM.Application.Features.Department.Commands;
 using EM.Application.Features.Department.Queries;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MinimalApis.Discovery;
 
@@ -17,7 +16,7 @@ public sealed class DepartmentEndpoints : IApi
     /// <param name="builder">The endpoint route builder.</param>
     public void Register(IEndpointRouteBuilder builder)
     {
-        var group = builder.MapGroup("/departments").WithTags("Departments").WithOpenApi();
+        var group = builder.MapGroup("/departments").WithTags("Departments");
 
         group
             .MapGet("/", GetAllDepartments)
@@ -88,8 +87,10 @@ public sealed class DepartmentEndpoints : IApi
     /// <param name="mediator">The mediator instance.</param>
     /// <param name="ct">A cancellation token.</param>
     /// <returns>A list of departments.</returns>
-    public static async Task<IResult> GetAllDepartments(IMediator mediator, CancellationToken ct) =>
-        await mediator.Send(new GetAllDepartmentsQuery(), ct);
+    public static async Task<IResult> GetAllDepartments(
+        Mediator.Mediator mediator,
+        CancellationToken ct
+    ) => await mediator.Send(new GetAllDepartmentsQuery(), ct);
 
     /// <summary>
     /// Retrieves a department by its ID.
@@ -100,7 +101,7 @@ public sealed class DepartmentEndpoints : IApi
     /// <returns>The department if found.</returns>
     public static async Task<IResult> GetDepartmentById(
         int id,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(new GetDepartmentByIdQuery(id), ct);
 
@@ -113,19 +114,19 @@ public sealed class DepartmentEndpoints : IApi
     /// <returns>The result of the creation operation.</returns>
     public static async Task<IResult> CreateDepartment(
         [FromBody] CreateDepartmentCommand request,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(request, ct);
 
     public static async Task<IResult> UpdateDepartment(
         [FromBody] UpdateDepartmentCommand request,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(request, ct);
 
     public static async Task<IResult> DeleteDepartment(
         int id,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(new DeleteDepartmentCommand(id), ct);
 }

@@ -1,6 +1,6 @@
 ﻿using EM.Application.Features.Role.Commands;
 using EM.Application.Features.Role.Queries;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using MinimalApis.Discovery;
 
@@ -17,7 +17,7 @@ public sealed class RoleEndpoints : IApi
     /// <param name="builder">The endpoint route builder.</param>
     public void Register(IEndpointRouteBuilder builder)
     {
-        var group = builder.MapGroup("/roles").WithTags("Roles").WithOpenApi();
+        var group = builder.MapGroup("/roles").WithTags("Roles");
 
         group
             .MapGet("/", GetAllRoles)
@@ -84,8 +84,10 @@ public sealed class RoleEndpoints : IApi
     /// <param name="mediator">The mediator instance.</param>
     /// <param name="ct">A cancellation token.</param>
     /// <returns>A list of roles.</returns>
-    public static async Task<IResult> GetAllRoles(IMediator mediator, CancellationToken ct) =>
-        await mediator.Send(new GetAllRolesQuery(), ct);
+    public static async Task<IResult> GetAllRoles(
+        Mediator.Mediator mediator,
+        CancellationToken ct
+    ) => await mediator.Send(new GetAllRolesQuery(), ct);
 
     /// <summary>
     /// Retrieves a role by its ID.
@@ -96,7 +98,7 @@ public sealed class RoleEndpoints : IApi
     /// <returns>The role if found.</returns>
     public static async Task<IResult> GetRoleById(
         int id,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(new GetRoleByIdQuery(id), ct);
 
@@ -109,19 +111,19 @@ public sealed class RoleEndpoints : IApi
     /// <returns>The result of the creation operation.</returns>
     public static async Task<IResult> CreateRole(
         [FromBody] CreateRoleCommand request,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(request, ct);
 
     public static async Task<IResult> UpdateRole(
         [FromBody] UpdateRoleCommand request,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(request, ct);
 
     public static async Task<IResult> DeleteRole(
         int id,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(new DeleteRoleCommand(id), ct);
 }

@@ -1,7 +1,6 @@
-using EM.Application.Features.Common.Abstractions;
 using EM.Infrastructure.Data;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Role.Commands;
@@ -16,7 +15,7 @@ public sealed record CreateRoleCommand(string Name, List<string> Permissions) : 
 /// <summary>
 /// Handles the creation of a new role.
 /// </summary>
-internal sealed class CreateRoleCommandHandler(AppDbContext dbContext)
+public sealed class CreateRoleCommandHandler(AppDbContext dbContext)
     : ICommandHandler<CreateRoleCommand, IResult>
 {
     /// <summary>
@@ -25,7 +24,7 @@ internal sealed class CreateRoleCommandHandler(AppDbContext dbContext)
     /// <param name="request">The create role command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the creation operation.</returns>
-    public async Task<IResult> Handle(
+    public async ValueTask<IResult> Handle(
         CreateRoleCommand request,
         CancellationToken cancellationToken
     )
@@ -45,7 +44,7 @@ internal sealed class CreateRoleCommandHandler(AppDbContext dbContext)
 /// <summary>
 /// Validator for <see cref="CreateRoleCommand"/>.
 /// </summary>
-internal sealed class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
+public sealed class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateRoleCommandValidator"/> class.

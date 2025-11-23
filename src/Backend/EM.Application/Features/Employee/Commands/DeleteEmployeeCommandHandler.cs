@@ -1,7 +1,6 @@
-using EM.Application.Features.Common.Abstractions;
 using EM.Infrastructure.Data;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Employee.Commands;
@@ -15,7 +14,7 @@ public sealed record DeleteEmployeeCommand(Guid Id) : ICommand<IResult>;
 /// <summary>
 /// Handles the deletion of an employee by ID.
 /// </summary>
-internal sealed class DeleteEmployeeCommandHandler(AppDbContext dbContext)
+public sealed class DeleteEmployeeCommandHandler(AppDbContext dbContext)
     : ICommandHandler<DeleteEmployeeCommand, IResult>
 {
     /// <summary>
@@ -24,7 +23,7 @@ internal sealed class DeleteEmployeeCommandHandler(AppDbContext dbContext)
     /// <param name="request">The delete employee command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the delete operation.</returns>
-    public async Task<IResult> Handle(
+    public async ValueTask<IResult> Handle(
         DeleteEmployeeCommand request,
         CancellationToken cancellationToken
     )
@@ -43,7 +42,7 @@ internal sealed class DeleteEmployeeCommandHandler(AppDbContext dbContext)
 /// <summary>
 /// Validator for <see cref="DeleteEmployeeCommand"/>.
 /// </summary>
-internal sealed class DeleteEmployeeCommandValidator : AbstractValidator<DeleteEmployeeCommand>
+public sealed class DeleteEmployeeCommandValidator : AbstractValidator<DeleteEmployeeCommand>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DeleteEmployeeCommandValidator"/> class.

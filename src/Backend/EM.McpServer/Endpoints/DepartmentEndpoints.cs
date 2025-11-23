@@ -1,13 +1,13 @@
 using System.ComponentModel;
 using EM.Application.Features.Department.Commands;
 using EM.Application.Features.Department.Queries;
-using MediatR;
+using Mediator;
 using ModelContextProtocol.Server;
 
 namespace EM.McpServer.Endpoints;
 
 [McpServerToolType]
-public sealed class DepartmentEndpoints(IMediator mediator)
+public sealed class DepartmentEndpoints(Mediator.Mediator mediator)
 {
     [McpServerTool(Name = nameof(GetAllDepartments))]
     [Description("Gets all departments in the Employee Management System")]

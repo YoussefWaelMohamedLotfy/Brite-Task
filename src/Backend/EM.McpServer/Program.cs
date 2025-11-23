@@ -5,7 +5,7 @@ using EM.Application;
 using EM.Application.Features.Common.Behaviours;
 using EM.Infrastructure.Data;
 using EM.Infrastructure.Interceptors;
-using MediatR;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -110,7 +110,7 @@ builder.Services.AddTransient(s =>
     return user ?? throw new NullReferenceException("User not resolved");
 });
 
-builder.Services.AddDbContext<AppDbContext>(
+builder.Services.AddDbContextPool<AppDbContext>(
     (sp, options) =>
     {
         options.AddInterceptors(sp.GetRequiredService<UpdateAuditableEntitiesInterceptor>());
@@ -127,10 +127,15 @@ builder.Services.AddDbContext<AppDbContext>(
 );
 builder.EnrichNpgsqlDbContext<AppDbContext>();
 
-builder.Services.AddMediatR(x =>
-    x.RegisterServicesFromAssemblyContaining<IApplicationAssemblyMarker>()
-        .AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehaviour<,>))
+builder.Services.AddValidatorsFromAssemblyContaining<IApplicationAssemblyMarker>(
+    includeInternalTypes: true
 );
+
+builder.Services.AddMediator(x =>
+{
+    x.ServiceLifetime = ServiceLifetime.Scoped;
+    x.PipelineBehaviors = [typeof(ValidationPipelineBehaviour<,>)];
+});
 
 builder.Services.AddMcpServer().WithToolsFromAssembly().WithHttpTransport();
 
@@ -151,7 +156,7 @@ app.MapGet(
     "/.well-known/oauth-protected-resource",
     () =>
     {
-        var results = new PRM
+        var results = new Prm
         {
             Resource = new Uri("https://localhost:7077/"),
             TokenEndpointAuthMethodsSupported = ["client_secret_basic", "client_secret_post"],
@@ -164,7 +169,7 @@ app.MapGet(
 
 await app.RunAsync();
 
-sealed record PRM
+sealed record Prm
 {
     [JsonPropertyName("resource")]
     public required Uri Resource { get; init; }

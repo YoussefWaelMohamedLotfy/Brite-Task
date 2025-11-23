@@ -1,13 +1,12 @@
 using System.ComponentModel;
 using EM.Application.Features.Employee.Commands;
 using EM.Application.Features.Employee.Queries;
-using MediatR;
 using ModelContextProtocol.Server;
 
 namespace EM.McpServer.Endpoints;
 
 [McpServerToolType]
-public sealed class EmployeeEndpoints(IMediator mediator)
+public sealed class EmployeeEndpoints(Mediator.Mediator mediator)
 {
     [McpServerTool(Name = nameof(GetAllEmployees))]
     [Description("Gets all employees in the Employee Management System")]

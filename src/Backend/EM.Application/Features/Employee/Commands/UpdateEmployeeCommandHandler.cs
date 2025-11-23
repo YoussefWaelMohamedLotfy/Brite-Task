@@ -1,6 +1,6 @@
-using EM.Application.Features.Common.Abstractions;
 using EM.Infrastructure.Data;
 using FluentValidation;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Employee.Commands;
@@ -30,7 +30,7 @@ public sealed record UpdateEmployeeCommand(
 /// <summary>
 /// Handles the update of an existing employee.
 /// </summary>
-internal sealed class UpdateEmployeeCommandHandler(AppDbContext dbContext)
+public sealed class UpdateEmployeeCommandHandler(AppDbContext dbContext)
     : ICommandHandler<UpdateEmployeeCommand, IResult>
 {
     /// <summary>
@@ -39,7 +39,7 @@ internal sealed class UpdateEmployeeCommandHandler(AppDbContext dbContext)
     /// <param name="request">The update employee command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the update operation.</returns>
-    public async Task<IResult> Handle(
+    public async ValueTask<IResult> Handle(
         UpdateEmployeeCommand request,
         CancellationToken cancellationToken
     )
@@ -74,7 +74,7 @@ internal sealed class UpdateEmployeeCommandHandler(AppDbContext dbContext)
 /// <summary>
 /// Validator for <see cref="UpdateEmployeeCommand"/>.
 /// </summary>
-internal sealed class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmployeeCommand>
+public sealed class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmployeeCommand>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UpdateEmployeeCommandValidator"/> class.

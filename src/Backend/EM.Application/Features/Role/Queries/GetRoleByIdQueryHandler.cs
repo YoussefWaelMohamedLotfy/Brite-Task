@@ -1,5 +1,5 @@
 using EM.Infrastructure.Data;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Role.Queries;
@@ -13,7 +13,7 @@ public sealed record GetRoleByIdQuery(int Id) : IRequest<IResult>;
 /// <summary>
 /// Handles the retrieval of a role by its ID.
 /// </summary>
-internal sealed class GetRoleByIdQueryHandler(AppDbContext dbContext)
+public sealed class GetRoleByIdQueryHandler(AppDbContext dbContext)
     : IRequestHandler<GetRoleByIdQuery, IResult>
 {
     /// <summary>
@@ -22,7 +22,10 @@ internal sealed class GetRoleByIdQueryHandler(AppDbContext dbContext)
     /// <param name="request">The get role by ID query.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The role if found, otherwise not found.</returns>
-    public async Task<IResult> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
+    public async ValueTask<IResult> Handle(
+        GetRoleByIdQuery request,
+        CancellationToken cancellationToken
+    )
     {
         var role = await dbContext.Roles.FindAsync([request.Id], cancellationToken);
         return role is not null ? Results.Ok(role) : Results.NotFound();

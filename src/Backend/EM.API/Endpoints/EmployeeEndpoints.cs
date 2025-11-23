@@ -1,6 +1,6 @@
 using EM.Application.Features.Employee.Commands;
 using EM.Application.Features.Employee.Queries;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using MinimalApis.Discovery;
 
@@ -17,7 +17,7 @@ public sealed class EmployeeEndpoints : IApi
     /// <param name="builder">The endpoint route builder.</param>
     public void Register(IEndpointRouteBuilder builder)
     {
-        var group = builder.MapGroup("/employees").WithTags("Employees").WithOpenApi();
+        var group = builder.MapGroup("/employees").WithTags("Employees");
 
         group
             .MapGet("/", GetAllEmployees)
@@ -101,37 +101,37 @@ public sealed class EmployeeEndpoints : IApi
     /// <returns>A list of employees.</returns>
     public static async Task<IResult> GetAllEmployees(
         [AsParameters] GetAllEmployeesQuery request,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(request, ct);
 
     public static async Task<IResult> GetEmployeeById(
         Guid id,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(new GetEmployeeByIdQuery(id), ct);
 
     public static async Task<IResult> CreateEmployee(
         [FromBody] CreateEmployeeCommand request,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(request, ct);
 
     public static async Task<IResult> UpdateEmployee(
         [FromBody] UpdateEmployeeCommand request,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(request, ct);
 
     public static async Task<IResult> DeleteEmployee(
         Guid id,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(new DeleteEmployeeCommand(id), ct);
 
     public static async Task<IResult> ToggleEmployeeActivation(
         Guid id,
-        IMediator mediator,
+        Mediator.Mediator mediator,
         CancellationToken ct
     ) => await mediator.Send(new ToggleEmployeeActivationCommand(id), ct);
 }

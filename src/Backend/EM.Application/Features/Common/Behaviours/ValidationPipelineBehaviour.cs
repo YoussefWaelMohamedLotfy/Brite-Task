@@ -1,6 +1,5 @@
-﻿using EM.Application.Features.Common.Abstractions;
-using FluentValidation;
-using MediatR;
+﻿using FluentValidation;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Common.Behaviours;
@@ -18,17 +17,17 @@ public sealed class ValidationPipelineBehaviour<TRequest, TResult>(IValidator<TR
     /// <summary>
     /// Handles the request by validating it and either returning validation errors or passing to the next handler.
     /// </summary>
-    /// <param name="request">The request to validate.</param>
+    /// <param name="message">The request to validate.</param>
     /// <param name="next">The next handler in the pipeline.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the request or validation errors.</returns>
-    public async Task<TResult> Handle(
-        TRequest request,
-        RequestHandlerDelegate<TResult> next,
+    public async ValueTask<TResult> Handle(
+        TRequest message,
+        MessageHandlerDelegate<TRequest, TResult> next,
         CancellationToken cancellationToken
     )
     {
-        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        var validationResult = await validator.ValidateAsync(message, cancellationToken);
 
         return !validationResult.IsValid
             ? (TResult)
@@ -38,6 +37,6 @@ public sealed class ValidationPipelineBehaviour<TRequest, TResult>(IValidator<TR
                         [e.ErrorMessage]
                     ))
                 )
-            : await next(cancellationToken);
+            : await next(message, cancellationToken);
     }
 }

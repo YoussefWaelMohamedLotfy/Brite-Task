@@ -1,6 +1,6 @@
 using EM.Infrastructure.Data;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Department.Commands;
@@ -15,7 +15,7 @@ public sealed record CreateDepartmentCommand(string Name, string? Description) :
 /// <summary>
 /// Handles the creation of a new department.
 /// </summary>
-internal sealed class CreateDepartmentCommandHandler(AppDbContext dbContext)
+public sealed class CreateDepartmentCommandHandler(AppDbContext dbContext)
     : IRequestHandler<CreateDepartmentCommand, IResult>
 {
     /// <summary>
@@ -24,7 +24,7 @@ internal sealed class CreateDepartmentCommandHandler(AppDbContext dbContext)
     /// <param name="request">The create department command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the creation operation.</returns>
-    public async Task<IResult> Handle(
+    public async ValueTask<IResult> Handle(
         CreateDepartmentCommand request,
         CancellationToken cancellationToken
     )
@@ -44,7 +44,7 @@ internal sealed class CreateDepartmentCommandHandler(AppDbContext dbContext)
 /// <summary>
 /// Validator for <see cref="CreateDepartmentCommand"/>.
 /// </summary>
-internal sealed class CreateDepartmentCommandValidator : AbstractValidator<CreateDepartmentCommand>
+public sealed class CreateDepartmentCommandValidator : AbstractValidator<CreateDepartmentCommand>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateDepartmentCommandValidator"/> class.

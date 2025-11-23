@@ -1,7 +1,6 @@
-using EM.Application.Features.Common.Abstractions;
 using EM.Infrastructure.Data;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 
 namespace EM.Application.Features.Role.Commands;
@@ -15,7 +14,7 @@ public sealed record DeleteRoleCommand(int Id) : ICommand<IResult>;
 /// <summary>
 /// Handles the deletion of a role by ID.
 /// </summary>
-internal sealed class DeleteRoleCommandHandler(AppDbContext dbContext)
+public sealed class DeleteRoleCommandHandler(AppDbContext dbContext)
     : ICommandHandler<DeleteRoleCommand, IResult>
 {
     /// <summary>
@@ -24,7 +23,7 @@ internal sealed class DeleteRoleCommandHandler(AppDbContext dbContext)
     /// <param name="request">The delete role command.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>The result of the delete operation.</returns>
-    public async Task<IResult> Handle(
+    public async ValueTask<IResult> Handle(
         DeleteRoleCommand request,
         CancellationToken cancellationToken
     )
@@ -43,7 +42,7 @@ internal sealed class DeleteRoleCommandHandler(AppDbContext dbContext)
 /// <summary>
 /// Validator for <see cref="DeleteRoleCommand"/>.
 /// </summary>
-internal sealed class DeleteRoleCommandValidator : AbstractValidator<DeleteRoleCommand>
+public sealed class DeleteRoleCommandValidator : AbstractValidator<DeleteRoleCommand>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DeleteRoleCommandValidator"/> class.

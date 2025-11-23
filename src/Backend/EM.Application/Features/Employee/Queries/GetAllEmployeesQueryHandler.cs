@@ -1,5 +1,5 @@
 using EM.Infrastructure.Data;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +19,7 @@ public sealed record GetAllEmployeesQuery(
 /// <summary>
 /// Handles the retrieval of all employees.
 /// </summary>
-internal sealed class GetAllEmployeesQueryHandler(AppDbContext dbContext)
+public sealed class GetAllEmployeesQueryHandler(AppDbContext dbContext)
     : IRequestHandler<GetAllEmployeesQuery, IResult>
 {
     /// <summary>
@@ -28,7 +28,7 @@ internal sealed class GetAllEmployeesQueryHandler(AppDbContext dbContext)
     /// <param name="request">The get all employees query.</param>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>A list of all employees.</returns>
-    public async Task<IResult> Handle(
+    public async ValueTask<IResult> Handle(
         GetAllEmployeesQuery request,
         CancellationToken cancellationToken
     )
