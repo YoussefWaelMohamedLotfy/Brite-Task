@@ -51,7 +51,7 @@ var mcpServer = builder
     .WaitForCompletion(migrationsWorker);
 
 builder
-    .AddMcpInspector("mcp-inspector", new McpInspectorOptions() { InspectorVersion = "0.16.3" })
+    .AddMcpInspector("mcp-inspector", new McpInspectorOptions() { InspectorVersion = "0.17.2" })
     .WithMcpServer(mcpServer);
 
 builder
