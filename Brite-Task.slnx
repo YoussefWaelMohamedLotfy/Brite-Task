@@ -2,6 +2,9 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />
+    <File Path=".github/dependabot.yml" />
+    <File Path=".github/workflows/build_test.yml" />
+    <File Path=".github/workflows/publish.yml" />
     <File Path=".gitignore" />
     <File Path="Directory.Build.props" />
     <File Path="README.md" />

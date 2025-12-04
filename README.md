@@ -205,11 +205,10 @@ graph TD
     API[API Layer]
     McpServer[McpServer Layer]
     API --> Application
-    Application --> Domain
     Application --> Infrastructure
     Infrastructure --> Database[(PostgreSQL)]
     McpServer --> Application
-    McpServer --> Infrastructure
+    Infrastructure --> Domain
 ```
 
 ### Service Orchestration
