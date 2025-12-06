@@ -80,11 +80,11 @@ jobs:
     - name: Upload EM.API artifact
       uses: actions/upload-artifact@v4
       with:
-        name: Apps
+        name: EM.API
         path: src/Backend/EM.API/bin/publish
 
     - name: Upload EM.McpServer artifact
       uses: actions/upload-artifact@v4
       with:
-        name: Apps
+        name: EM.McpServer
         path: src/Backend/EM.McpServer/bin/publish
