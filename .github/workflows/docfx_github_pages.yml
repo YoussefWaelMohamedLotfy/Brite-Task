@@ -27,7 +27,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Dotnet Setup
+    - name: .NET Setup
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 10.x

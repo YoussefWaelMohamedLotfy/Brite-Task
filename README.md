@@ -162,7 +162,7 @@ Preferring ProblemDetails over custom response bodies aligns with best practices
 ### Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-- Docker / Podman (for running containers)
+- [Docker](https://www.docker.com/products/docker-desktop/) / Podman (for running containers)
 - .NET Aspire SDK (from VS Installer, under Individual Components)
 
 ### Steps
