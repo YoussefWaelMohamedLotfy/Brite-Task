@@ -1,8 +1,6 @@
 using Duende.AccessTokenManagement.OpenIdConnect;
 using EM.Blazor;
-using EM.Blazor.Components;
 using EM.SDK;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -106,7 +104,7 @@ app.UseAuthorization();
 app.UseAntiforgery();
 
 app.MapStaticAssets();
-app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+app.MapRazorComponents<EM.Blazor.Components.App>().AddInteractiveServerRenderMode();
 
 app.MapGroup("/authentication").MapLoginAndLogout();
 

@@ -3,8 +3,6 @@
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />
     <File Path=".github/dependabot.yml" />
-    <File Path=".github/workflows/build_test.yml" />
-    <File Path=".github/workflows/publish.yml" />
     <File Path=".gitignore" />
     <File Path="Directory.Build.props" />
     <File Path="README.md" />
@@ -26,6 +24,12 @@
   <Folder Name="/src/Clients/">
     <Project Path="src/Clients/EM.Blazor/EM.Blazor.csproj" />
     <Project Path="src/Clients/EM.McpClient/EM.McpClient.csproj" />
+  </Folder>
+  <Folder Name="/src/DocFX/">
+    <File Path="src/DocFX/.gitignore" />
+    <File Path="src/DocFX/docfx.json" />
+    <File Path="src/DocFX/index.md" />
+    <File Path="src/DocFX/toc.yml" />
   </Folder>
   <Folder Name="/src/SDKs/">
     <Project Path="src/SDKs/EM.SDK/EM.SDK.csproj" />
