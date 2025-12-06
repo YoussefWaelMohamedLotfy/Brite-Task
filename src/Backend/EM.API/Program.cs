@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using System.Text.Json;
 using EM.API.Auth;
+using EM.API.CachePolicies;
 using EM.Application;
 using EM.Application.Features.Common.Behaviours;
 using EM.Application.Features.Common.Exceptions;
@@ -112,6 +113,14 @@ builder
             // For development only - disable HTTPS metadata validation
             // In production, use explicit Authority configuration instead
             options.RequireHttpsMetadata = builder.Environment.IsProduction();
+
+            options.TokenValidationParameters = new()
+            {
+                ValidateAudience = true,
+                ValidateActor = true,
+                ValidateIssuer = true,
+                ValidateLifetime = true,
+            };
         }
     );
 
@@ -141,8 +150,17 @@ builder.Services.AddDbContextPool<AppDbContext>(
 );
 builder.EnrichNpgsqlDbContext<AppDbContext>();
 
-builder.AddRedisClient("garnet");
-builder.AddRedisOutputCache("garnet");
+builder.Services.AddOutputCache(options =>
+{
+    options.AddBasePolicy(builder =>
+    {
+        builder.AddPolicy<AuthOutputCachePolicy>();
+        builder.SetVaryByHeader("Authorization");
+    });
+});
+
+builder.AddRedisClient("cache");
+builder.AddRedisOutputCache("cache");
 
 builder.Services.AddMediator(x =>
 {

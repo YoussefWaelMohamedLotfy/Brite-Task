@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\Backend\EM.API\EM.API.csproj" />
     <ProjectReference Include="..\..\Backend\EM.McpServer\EM.McpServer.csproj" />
     <ProjectReference Include="..\..\Backend\EM.MigrationsWorker\EM.MigrationsWorker.csproj" />
+    <ProjectReference Include="..\..\Backend\EM.YARP\EM.YARP.csproj" />
     <ProjectReference Include="..\..\Clients\EM.Blazor\EM.Blazor.csproj" />
   </ItemGroup>
 </Project>

@@ -65,4 +65,10 @@ builder
     .WithReference(keycloak)
     .WaitFor(api);
 
+builder
+    .AddProject<Projects.EM_YARP>("reverse-proxy")
+    .WithReference(api)
+    .WaitFor(api)
+    .WithExternalHttpEndpoints();
+
 await builder.Build().RunAsync();
