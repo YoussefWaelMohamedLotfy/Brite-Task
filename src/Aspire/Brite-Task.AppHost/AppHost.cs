@@ -5,11 +5,15 @@ builder.AddDockerComposeEnvironment("env");
 // The values for these parameters can be set via appsettings.json
 var adminPassword = builder.AddParameter("password", secret: true);
 
-var garnet = builder
-    .AddGarnet("garnet", password: adminPassword)
-    .WithImage("microsoft/garnet-alpine")
-    .WithImageTag("latest")
-    .WithLifetime(ContainerLifetime.Persistent);
+bool useGarnet = false;
+IResourceBuilder<IResourceWithConnectionString> cache;
+
+cache = useGarnet
+    ? builder
+        .AddGarnet("cache", password: adminPassword)
+        .WithImage("microsoft/garnet-alpine")
+        .WithImageTag("latest")
+    : builder.AddRedis("cache", password: adminPassword).WithImageTag("alpine");
 
 var postgres = builder
     .AddPostgres("postgres", password: adminPassword)
@@ -38,7 +42,7 @@ var migrationsWorker = builder
 var api = builder
     .AddProject<Projects.EM_API>("api")
     .WithReference(keycloak)
-    .WithReference(garnet)
+    .WithReference(cache)
     .WithReference(postgresdb)
     .WithReference(migrationsWorker)
     .WaitForCompletion(migrationsWorker);
