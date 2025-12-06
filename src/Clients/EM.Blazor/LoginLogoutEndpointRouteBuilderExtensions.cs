@@ -27,7 +27,7 @@ internal static class LoginLogoutEndpointRouteBuilderExtensions
             "/logout",
             ([FromForm] string? returnUrl) =>
                 TypedResults.SignOut(
-                    GetAuthProperties(returnUrl),
+                    GetAuthProperties(returnUrl, true),
                     [
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         OpenIdConnectDefaults.AuthenticationScheme,
@@ -38,7 +38,10 @@ internal static class LoginLogoutEndpointRouteBuilderExtensions
         return group;
     }
 
-    private static AuthenticationProperties GetAuthProperties(string? returnUrl)
+    private static AuthenticationProperties GetAuthProperties(
+        string? returnUrl,
+        bool isLogoutRequest = false
+    )
     {
         // TODO: Use HttpContext.Request.PathBase instead.
         const string pathBase = "/";
@@ -50,7 +53,7 @@ internal static class LoginLogoutEndpointRouteBuilderExtensions
         }
         else if (!Uri.IsWellFormedUriString(returnUrl, UriKind.Relative))
         {
-            returnUrl = new Uri(returnUrl, UriKind.Absolute).PathAndQuery;
+            returnUrl = isLogoutRequest ? "/" : new Uri(returnUrl, UriKind.Absolute).PathAndQuery;
         }
         else if (returnUrl[0] != '/')
         {
