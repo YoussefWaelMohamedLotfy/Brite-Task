@@ -1,12 +1,16 @@
 using System.Security.Claims;
 using System.Threading.RateLimiting;
+using Duende.AccessTokenManagement.OpenIdConnect;
 using EM.YARP;
+using EM.YARP.Transformers;
 using EM.YARP.UserModule;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using Yarp.ReverseProxy.Transforms;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +22,9 @@ builder.Services.AddAntiforgery(options =>
     options.HeaderName = "X-XSRF-TOKEN";
     options.Cookie.SameSite = SameSiteMode.Strict;
 });
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddOpenIdConnectAccessTokenManagement();
 
 builder
     .Services.AddAuthentication(options =>
@@ -32,6 +39,9 @@ builder
             options.Cookie.Name = ".employee-management.yarp";
             options.Cookie.SameSite = SameSiteMode.Strict;
             options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
+            // automatically revoke refresh token at signout time
+            options.Events.OnSigningOut = async e => await e.HttpContext.RevokeRefreshTokenAsync();
         }
     )
     //.AddKeycloakOpenIdConnect("keycloak", "tenant-1", OpenIdConnectDefaults.AuthenticationScheme, options =>
@@ -90,12 +100,14 @@ builder
                 "OpenIDConnectSettings:ClientSecret"
             );
 
+            options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             options.ResponseType = OpenIdConnectResponseType.Code;
             options.ResponseMode = OpenIdConnectResponseMode.Query;
 
             options.GetClaimsFromUserInfoEndpoint = true;
             options.SaveTokens = true;
             options.MapInboundClaims = false;
+            options.CallbackPath = "/signin-oidc";
             options.RequireHttpsMetadata = builder.Environment.IsProduction();
 
             options.TokenValidationParameters = new TokenValidationParameters
@@ -110,6 +122,18 @@ builder
 
             options.Events = new()
             {
+                OnAuthenticationFailed = context =>
+                {
+                    var logger = context.HttpContext.RequestServices.GetRequiredService<
+                        ILogger<JwtBearerEvents>
+                    >();
+                    logger.LogError(
+                        context.Exception,
+                        "Authentication failed: {Message}",
+                        context.Exception.Message
+                    );
+                    return Task.CompletedTask;
+                },
                 OnRedirectToIdentityProviderForSignOut = (context) =>
                 {
                     var logoutUri =
@@ -120,6 +144,15 @@ builder
 
                     context.Response.Redirect(logoutUri);
                     context.HandleResponse();
+                    return Task.CompletedTask;
+                },
+                OnRedirectToIdentityProvider = (context) =>
+                {
+                    // Auth0 specific parameter to specify the audience
+                    context.ProtocolMessage.SetParameter(
+                        "audience",
+                        builder.Configuration.GetValue<string>("OpenIDConnectSettings:Audience")
+                    );
                     return Task.CompletedTask;
                 },
             };
@@ -161,9 +194,24 @@ builder.Services.AddRateLimiter(options =>
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 });
 
+builder.Services.AddSingleton<AddBearerTokenToHeadersTransform>();
+
 builder
     .Services.AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
+    .AddTransforms(builderContext =>
+    {
+        if (!string.IsNullOrEmpty(builderContext.Route.AuthorizationPolicy))
+        {
+            builderContext.RequestTransforms.Add(
+                builderContext.Services.GetRequiredService<AddBearerTokenToHeadersTransform>()
+            );
+        }
+
+        builderContext.RequestTransforms.Add(
+            new RequestHeaderRemoveTransform(Microsoft.Net.Http.Headers.HeaderNames.Cookie)
+        );
+    })
     .AddServiceDiscoveryDestinationResolver();
 
 WebApplication app = builder.Build();

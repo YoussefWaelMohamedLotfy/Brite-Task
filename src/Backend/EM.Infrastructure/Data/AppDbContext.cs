@@ -50,7 +50,7 @@ public sealed class BloggingContextFactory : IDesignTimeDbContextFactory<AppDbCo
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
         optionsBuilder.UseNpgsql(
-            "Host=localhost;Port=62295;Username=pg;Password=EnterPassword;Database=Employee-Management-Db"
+            "Host=localhost;Port=5432;Username=pg;Password=EnterPassword;Database=Employee-Management-Db"
         );
         return new AppDbContext(optionsBuilder.Options);
     }

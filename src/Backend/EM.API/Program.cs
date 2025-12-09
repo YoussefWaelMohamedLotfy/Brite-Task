@@ -83,6 +83,18 @@ builder
             options.MapInboundClaims = true;
             options.Events = new()
             {
+                OnAuthenticationFailed = context =>
+                {
+                    var logger = context.HttpContext.RequestServices.GetRequiredService<
+                        ILogger<JwtBearerEvents>
+                    >();
+                    logger.LogError(
+                        context.Exception,
+                        "Authentication failed: {Message}",
+                        context.Exception.Message
+                    );
+                    return Task.CompletedTask;
+                },
                 OnTokenValidated = ctx =>
                 {
                     ClaimsIdentity claimsIdentity = (ClaimsIdentity)ctx.Principal!.Identity!;
@@ -114,13 +126,12 @@ builder
             // In production, use explicit Authority configuration instead
             options.RequireHttpsMetadata = builder.Environment.IsProduction();
 
-            options.TokenValidationParameters = new()
-            {
-                ValidateAudience = true,
-                ValidateActor = true,
-                ValidateIssuer = true,
-                ValidateLifetime = true,
-            };
+            //options.TokenValidationParameters = new()
+            //{
+            //    ValidateIssuer = true,
+            //    ValidateLifetime = true,
+            //    ValidIssuers = ["http://localhost:8081/realms/tenant-1"],
+            //};
         }
     );
 
@@ -136,7 +147,11 @@ builder.Services.AddTransient(s =>
 builder.Services.AddDbContextPool<AppDbContext>(
     (sp, options) =>
     {
-        options.AddInterceptors(sp.GetRequiredService<UpdateAuditableEntitiesInterceptor>());
+        if (!EF.IsDesignTime)
+        {
+            options.AddInterceptors(sp.GetRequiredService<UpdateAuditableEntitiesInterceptor>());
+        }
+
         options
             .UseNpgsql(builder.Configuration.GetConnectionString("Employee-Management-Db"))
             .UseAsyncSeeding(
