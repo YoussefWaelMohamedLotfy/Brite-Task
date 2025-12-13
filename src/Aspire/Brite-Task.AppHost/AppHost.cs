@@ -18,7 +18,7 @@ cache = useGarnet
     : builder.AddRedis("cache", password: adminPassword).WithImageTag("alpine");
 
 var postgres = builder
-    .AddPostgres("postgres", password: adminPassword)
+    .AddPostgres("postgres", password: adminPassword, port: 5432)
     .WithImageTag("alpine")
     .WithDataVolume()
     .WithPgAdmin(x =>
