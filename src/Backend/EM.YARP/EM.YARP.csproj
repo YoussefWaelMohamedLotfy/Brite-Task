@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <ItemGroup>
-    <PackageReference Include="Aspire.Keycloak.Authentication" Version="13.0.2-preview.1.25603.5" />
+    <PackageReference Include="Aspire.Keycloak.Authentication" Version="13.1.0-preview.1.25616.3" />
     <PackageReference Include="Duende.AccessTokenManagement.OpenIdConnect" Version="4.1.0" />
     <PackageReference Include="Duende.BFF.Yarp" Version="4.0.1" />
     <PackageReference

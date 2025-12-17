@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using Duende.AccessTokenManagement;
 using Duende.AccessTokenManagement.OpenIdConnect;
 using Yarp.ReverseProxy.Transforms;
 
@@ -15,7 +16,7 @@ internal sealed class AddBearerTokenToHeadersTransform(
             return;
         }
 
-        var accessToken = await context.HttpContext.GetUserAccessTokenAsync();
+        TokenResult<UserToken> accessToken = await context.HttpContext.GetUserAccessTokenAsync();
 
         if (!accessToken.Succeeded)
         {

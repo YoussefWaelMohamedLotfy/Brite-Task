@@ -1,4 +1,5 @@
 using Brite_Task.AppHost;
+using Projects;
 
 IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
@@ -43,6 +44,7 @@ var keycloak = builder
     .AddKeycloak("keycloak", 8081, adminPassword: adminPassword)
     .WithImageTag("latest")
     .WithDataVolume()
+    .WithOtlpExporter()
     .WithRealmImport("./Realms")
     .WithArgs("--features=docker,admin-fine-grained-authz,token-exchange,quick-theme")
     .WithLifetime(ContainerLifetime.Persistent);
@@ -53,11 +55,11 @@ var keycloak = builder
 //    .WaitFor(postgresdb);
 
 var api = builder
-    .AddProject<Projects.EM_API>("api")
+    .AddProject<EM_API>("api")
     .WithReference(keycloak)
     .WithReference(cache)
-    //.WithReference(migrationsWorker)
     //.WaitForCompletion(migrationsWorker)
+    //.WithChildRelationship(migrationsWorker)
     .WithReference(postgresdb);
 
 var efmigrate = builder.AddEfMigrate(api, postgresdb);
@@ -68,7 +70,7 @@ api.WithChildRelationship(efmigrate);
 api.WithDataPopulation();
 
 var mcpServer = builder
-    .AddProject<Projects.EM_McpServer>("mcpserver")
+    .AddProject<EM_McpServer>("mcpserver")
     .WithReference(keycloak)
     .WithReference(postgresdb)
     //.WithReference(migrationsWorker)
@@ -79,13 +81,13 @@ builder
     .WithMcpServer(mcpServer);
 
 var yarp = builder
-    .AddProject<Projects.EM_YARP>("reverse-proxy")
+    .AddProject<EM_YARP>("reverse-proxy")
     .WithReference(api)
     .WaitFor(api)
     .WithExternalHttpEndpoints();
 
 builder
-    .AddProject<Projects.EM_Blazor>("blazor")
+    .AddProject<EM_Blazor>("blazor")
     .WithReference(yarp)
     .WithReference(mcpServer)
     .WithReference(keycloak)

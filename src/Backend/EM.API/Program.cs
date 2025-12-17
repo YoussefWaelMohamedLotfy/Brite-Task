@@ -126,12 +126,13 @@ builder
             // In production, use explicit Authority configuration instead
             options.RequireHttpsMetadata = builder.Environment.IsProduction();
 
-            //options.TokenValidationParameters = new()
-            //{
-            //    ValidateIssuer = true,
-            //    ValidateLifetime = true,
-            //    ValidIssuers = ["http://localhost:8081/realms/tenant-1"],
-            //};
+            options.TokenValidationParameters = new()
+            {
+                ClockSkew = TimeSpan.FromSeconds(0),
+                ValidateIssuer = true,
+                ValidateLifetime = true,
+                ValidIssuers = ["http://localhost:8081/realms/tenant-1"],
+            };
         }
     );
 

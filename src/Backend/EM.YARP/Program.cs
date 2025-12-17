@@ -208,9 +208,7 @@ builder
             );
         }
 
-        builderContext.RequestTransforms.Add(
-            new RequestHeaderRemoveTransform(Microsoft.Net.Http.Headers.HeaderNames.Cookie)
-        );
+        builderContext.RequestTransforms.Add(new RequestHeaderRemoveTransform("Cookie"));
     })
     .AddServiceDiscoveryDestinationResolver();
 
