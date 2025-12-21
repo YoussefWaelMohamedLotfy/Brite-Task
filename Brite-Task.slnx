@@ -20,6 +20,7 @@
     <Project Path="src/Backend/EM.Infrastructure/EM.Infrastructure.csproj" />
     <Project Path="src/Backend/EM.McpServer/EM.McpServer.csproj" />
     <Project Path="src/Backend/EM.MigrationsWorker/EM.MigrationsWorker.csproj" />
+    <Project Path="src/Backend/EM.YARP/EM.YARP.csproj" />
   </Folder>
   <Folder Name="/src/Clients/">
     <Project Path="src/Clients/EM.Blazor/EM.Blazor.csproj" />

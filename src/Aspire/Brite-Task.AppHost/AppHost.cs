@@ -1,3 +1,6 @@
+using Brite_Task.AppHost;
+using Projects;
+
 IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
 builder.AddDockerComposeEnvironment("env");
@@ -16,7 +19,7 @@ cache = useGarnet
     : builder.AddRedis("cache", password: adminPassword).WithImageTag("alpine");
 
 var postgres = builder
-    .AddPostgres("postgres", password: adminPassword)
+    .AddPostgres("postgres", password: adminPassword, port: 5432)
     .WithImageTag("alpine")
     .WithDataVolume()
     .WithPgAdmin(x =>
@@ -24,45 +27,88 @@ var postgres = builder
     )
     .WithLifetime(ContainerLifetime.Persistent);
 
-var postgresdb = postgres.AddDatabase("Employee-Management-Db");
+var postgresdb = postgres.AddDatabase("Employee-Management-Db").WithResetDbCommand();
+
+builder
+    .AddContainer("postgres-mcp", "crystaldba/postgres-mcp")
+    .WithHttpEndpoint(port: 8082, targetPort: 8000)
+    .WithEnvironment("DATABASE_URI", postgresdb.Resource.UriExpression)
+    .WithArgs("--access-mode=unrestricted")
+    .WithArgs("--transport=sse")
+    .WaitFor(postgresdb)
+    .WithParentRelationship(postgres)
+    .WithIconName("WindowDevTools")
+    .ExcludeFromManifest();
 
 var keycloak = builder
     .AddKeycloak("keycloak", 8081, adminPassword: adminPassword)
     .WithImageTag("latest")
     .WithDataVolume()
+    .WithOtlpExporter()
+    .WithExternalHttpEndpoints()
     .WithRealmImport("./Realms")
     .WithArgs("--features=docker,admin-fine-grained-authz,token-exchange,quick-theme")
-    .WithLifetime(ContainerLifetime.Persistent);
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithUrls(context =>
+    {
+        foreach (var u in context.Urls)
+        {
+            u.DisplayLocation = UrlDisplayLocation.DetailsOnly;
+        }
 
-var migrationsWorker = builder
-    .AddProject<Projects.EM_MigrationsWorker>("migrations")
-    .WithReference(postgresdb)
-    .WaitFor(postgresdb);
+        // Only show the /scalar URL in the UI
+        context.Urls.Add(
+            new ResourceUrlAnnotation()
+            {
+                Url = "/",
+                DisplayText = "Admin Dashboard",
+                Endpoint = context.GetEndpoint("http"),
+            }
+        );
+    });
+
+//var migrationsWorker = builder
+//    .AddProject<Projects.EM_MigrationsWorker>("migrations")
+//    .WithReference(postgresdb)
+//    .WaitFor(postgresdb);
 
 var api = builder
-    .AddProject<Projects.EM_API>("api")
+    .AddProject<EM_API>("api")
     .WithReference(keycloak)
     .WithReference(cache)
-    .WithReference(postgresdb)
-    .WithReference(migrationsWorker)
-    .WaitForCompletion(migrationsWorker);
+    //.WaitForCompletion(migrationsWorker)
+    //.WithChildRelationship(migrationsWorker)
+    .WithReference(postgresdb);
+
+var efmigrate = builder.AddEfMigrate(api, postgresdb);
+
+// Ensure the api is built before running
+api.WaitForCompletion(efmigrate);
+api.WithChildRelationship(efmigrate);
+api.WithDataPopulation();
 
 var mcpServer = builder
-    .AddProject<Projects.EM_McpServer>("mcpserver")
+    .AddProject<EM_McpServer>("mcpserver")
     .WithReference(keycloak)
     .WithReference(postgresdb)
-    .WithReference(migrationsWorker)
-    .WaitForCompletion(migrationsWorker);
+    //.WithReference(migrationsWorker)
+    .WaitForCompletion(efmigrate);
 
 builder
     .AddMcpInspector("mcp-inspector", new McpInspectorOptions() { InspectorVersion = "0.17.2" })
     .WithMcpServer(mcpServer);
 
-builder
-    .AddProject<Projects.EM_Blazor>("blazor")
+var yarp = builder
+    .AddProject<EM_YARP>("reverse-proxy")
     .WithReference(api)
+    .WaitFor(api)
+    .WithExternalHttpEndpoints();
+
+builder
+    .AddProject<EM_Blazor>("blazor")
+    .WithReference(yarp)
     .WithReference(mcpServer)
     .WithReference(keycloak)
-    .WaitFor(api);
+    .WaitFor(yarp);
 
 await builder.Build().RunAsync();

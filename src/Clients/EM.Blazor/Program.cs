@@ -35,12 +35,14 @@ builder
             o.Events.OnSigningOut = async e => await e.HttpContext.RevokeRefreshTokenAsync();
         }
     )
-    .AddKeycloakOpenIdConnect(
-        "keycloak",
-        "tenant-1",
+    //.AddKeycloakOpenIdConnect(
+    //    "keycloak",
+    //    "tenant-1",
+    .AddOpenIdConnect(
         OpenIdConnectDefaults.AuthenticationScheme,
         o =>
         {
+            o.Authority = "http://localhost:8081/realms/tenant-1";
             o.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
             o.ClientId = "blazor-1";

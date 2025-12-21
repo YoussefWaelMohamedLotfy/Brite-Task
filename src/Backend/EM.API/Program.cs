@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using System.Text.Json;
 using EM.API.Auth;
+using EM.API.CachePolicies;
 using EM.Application;
 using EM.Application.Features.Common.Behaviours;
 using EM.Application.Features.Common.Exceptions;
@@ -82,6 +83,18 @@ builder
             options.MapInboundClaims = true;
             options.Events = new()
             {
+                OnAuthenticationFailed = context =>
+                {
+                    var logger = context.HttpContext.RequestServices.GetRequiredService<
+                        ILogger<JwtBearerEvents>
+                    >();
+                    logger.LogError(
+                        context.Exception,
+                        "Authentication failed: {Message}",
+                        context.Exception.Message
+                    );
+                    return Task.CompletedTask;
+                },
                 OnTokenValidated = ctx =>
                 {
                     ClaimsIdentity claimsIdentity = (ClaimsIdentity)ctx.Principal!.Identity!;
@@ -112,6 +125,14 @@ builder
             // For development only - disable HTTPS metadata validation
             // In production, use explicit Authority configuration instead
             options.RequireHttpsMetadata = builder.Environment.IsProduction();
+
+            options.TokenValidationParameters = new()
+            {
+                ClockSkew = TimeSpan.FromSeconds(0),
+                ValidateIssuer = true,
+                ValidateLifetime = true,
+                ValidIssuers = ["http://localhost:8081/realms/tenant-1"],
+            };
         }
     );
 
@@ -127,7 +148,11 @@ builder.Services.AddTransient(s =>
 builder.Services.AddDbContextPool<AppDbContext>(
     (sp, options) =>
     {
-        options.AddInterceptors(sp.GetRequiredService<UpdateAuditableEntitiesInterceptor>());
+        if (!EF.IsDesignTime)
+        {
+            options.AddInterceptors(sp.GetRequiredService<UpdateAuditableEntitiesInterceptor>());
+        }
+
         options
             .UseNpgsql(builder.Configuration.GetConnectionString("Employee-Management-Db"))
             .UseAsyncSeeding(
@@ -141,8 +166,17 @@ builder.Services.AddDbContextPool<AppDbContext>(
 );
 builder.EnrichNpgsqlDbContext<AppDbContext>();
 
-builder.AddRedisClient("garnet");
-builder.AddRedisOutputCache("garnet");
+builder.Services.AddOutputCache(options =>
+{
+    options.AddBasePolicy(builder =>
+    {
+        builder.AddPolicy<AuthOutputCachePolicy>();
+        builder.SetVaryByHeader("Authorization");
+    });
+});
+
+builder.AddRedisClient("cache");
+builder.AddRedisOutputCache("cache");
 
 builder.Services.AddMediator(x =>
 {
