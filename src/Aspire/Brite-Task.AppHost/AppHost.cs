@@ -45,9 +45,27 @@ var keycloak = builder
     .WithImageTag("latest")
     .WithDataVolume()
     .WithOtlpExporter()
+    .WithExternalHttpEndpoints()
     .WithRealmImport("./Realms")
     .WithArgs("--features=docker,admin-fine-grained-authz,token-exchange,quick-theme")
-    .WithLifetime(ContainerLifetime.Persistent);
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithUrls(context =>
+    {
+        foreach (var u in context.Urls)
+        {
+            u.DisplayLocation = UrlDisplayLocation.DetailsOnly;
+        }
+
+        // Only show the /scalar URL in the UI
+        context.Urls.Add(
+            new ResourceUrlAnnotation()
+            {
+                Url = "/",
+                DisplayText = "Admin Dashboard",
+                Endpoint = context.GetEndpoint("http"),
+            }
+        );
+    });
 
 //var migrationsWorker = builder
 //    .AddProject<Projects.EM_MigrationsWorker>("migrations")
