@@ -1,4 +1,6 @@
+using System.Text;
 using Brite_Task.AppHost;
+using CliWrap;
 using Projects;
 
 IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
@@ -78,9 +80,60 @@ var api = builder
     .WithReference(cache)
     //.WaitForCompletion(migrationsWorker)
     //.WithChildRelationship(migrationsWorker)
-    .WithReference(postgresdb);
+    .WithReference(postgresdb)
+    .WithHttpCommand(
+        path: "/database/reset",
+        displayName: "Reset EF Core Db Migrations",
+        commandOptions: new HttpCommandOptions()
+        {
+            Method = HttpMethod.Post,
+            Description = """
+            Resets the EF Core database by dropping and recreating it.
+            This command is useful for development and testing purposes, allowing you to quickly reset the database to a clean state.
+            Use with caution, as it will permanently delete all data in the database.
+            """,
+            IconName = "ArrowReset",
+            IconVariant = IconVariant.Regular,
+            //IsHighlighted = true
+        }
+    );
 
-var efmigrate = builder.AddEfMigrate(api, postgresdb);
+var efmigrate = builder
+    .AddEfMigrate(api, postgresdb)
+    .WithCommand(
+        "install-dotnet-ef-global-tool",
+        "Install 'dotnet ef' tool globally",
+        async (context) =>
+        {
+            StringBuilder sb = new();
+            var result = await Cli.Wrap("dotnet")
+                .WithArguments(["tool", "install", "-g", "dotnet-ef"])
+                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(sb))
+                .ExecuteAsync(context.CancellationToken);
+
+            return !result.IsSuccess
+                ? CommandResults.Failure(sb.ToString())
+                : CommandResults.Success();
+        },
+        new() { }
+    )
+    .WithCommand(
+        "update-dotnet-ef-global-tool",
+        "Update 'dotnet ef' tool globally",
+        async (context) =>
+        {
+            StringBuilder sb = new();
+            var result = await Cli.Wrap("dotnet")
+                .WithArguments(["tool", "update", "-g", "dotnet-ef"])
+                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(sb))
+                .ExecuteAsync(context.CancellationToken);
+
+            return !result.IsSuccess
+                ? CommandResults.Failure(sb.ToString())
+                : CommandResults.Success();
+        },
+        new() { }
+    );
 
 // Ensure the api is built before running
 api.WaitForCompletion(efmigrate);

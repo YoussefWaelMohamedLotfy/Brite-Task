@@ -186,6 +186,8 @@ builder.Services.AddMediator(x =>
 
 builder.Services.AddOpenApi(x =>
 {
+    x.AddScalarTransformers();
+
     OpenApiSecurityScheme jwtScheme = new()
     {
         Type = SecuritySchemeType.Http,
@@ -296,5 +298,26 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapApis();
+
+#if DEBUG
+app.MapPost(
+        "/database/reset",
+        async (AppDbContext context, CancellationToken ct) =>
+        {
+            using (context.SuppressInterceptors())
+            {
+                bool isDeleted = await context.Database.EnsureDeletedAsync(ct);
+                app.Logger.LogInformation(
+                    "Database deletion attempted. Success: {IsDeleted}",
+                    isDeleted
+                );
+                await context.Database.MigrateAsync(ct);
+            }
+
+            return Results.Ok("Database reset successful");
+        }
+    )
+    .ExcludeFromApiReference();
+#endif
 
 await app.RunAsync();

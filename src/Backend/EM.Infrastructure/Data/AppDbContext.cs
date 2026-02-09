@@ -34,6 +34,22 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
+
+    public bool BypassInterceptors { get; private set; } = false;
+
+    public IDisposable SuppressInterceptors()
+    {
+        BypassInterceptors = true;
+        return new InterceptorScope(this);
+    }
+
+    private sealed class InterceptorScope(AppDbContext context) : IDisposable
+    {
+        public void Dispose()
+        {
+            context.BypassInterceptors = false;
+        }
+    }
 }
 
 /// <summary>

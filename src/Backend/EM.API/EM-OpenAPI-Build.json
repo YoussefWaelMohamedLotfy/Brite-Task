@@ -9,6 +9,18 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/database/reset": {
+      "post": {
+        "tags": [
+          "EM.API"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/departments": {
       "get": {
         "tags": [
@@ -1430,6 +1442,10 @@
     }
   },
   "tags": [
+    {
+      "name": "EM.API",
+      "x-scalar-ignore": true
+    },
     {
       "name": "Departments"
     },
