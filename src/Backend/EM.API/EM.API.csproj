@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Keycloak.Authentication" Version="13.1.0-preview.1.25616.3" />
-    <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="13.1.0" />
+    <PackageReference Include="Aspire.Keycloak.Authentication" Version="13.1.1-preview.1.26105.8" />
+    <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="13.1.1" />
     <PackageReference Include="Mediator.SourceGenerator" Version="3.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,10 +21,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.15.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.16.0" />
     <PackageReference Include="MinimalApis.Discovery" Version="1.0.7" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.12.36" />
-    <PackageReference Include="Scalar.AspNetCore.Microsoft" Version="2.12.36" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.12.40" />
+    <PackageReference Include="Scalar.AspNetCore.Microsoft" Version="2.12.40" />
   </ItemGroup>
 
   <ItemGroup>
