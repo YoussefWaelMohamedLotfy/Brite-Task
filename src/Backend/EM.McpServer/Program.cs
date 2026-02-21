@@ -93,9 +93,9 @@ builder
     {
         options.ResourceMetadata = new()
         {
-            Resource = new Uri("https://localhost:7077/"),
-            ResourceDocumentation = new Uri("https://docs.example.com/api/weather"),
-            AuthorizationServers = { new Uri("http://localhost:8081/realms/tenant-1") },
+            Resource = "https://localhost:7077/",
+            ResourceDocumentation = "https://docs.example.com/api/weather",
+            AuthorizationServers = { "http://localhost:8081/realms/tenant-1" },
             ScopesSupported = ["openid", "profile"],
         };
     });
