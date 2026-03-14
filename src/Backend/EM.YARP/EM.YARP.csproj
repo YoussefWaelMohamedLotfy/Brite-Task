@@ -4,13 +4,13 @@
       Include="Aspire.Keycloak.Authentication"
       Version="13.1.2-preview.1.26125.13"
     />
-    <PackageReference Include="Duende.AccessTokenManagement.OpenIdConnect" Version="4.1.1" />
-    <PackageReference Include="Duende.BFF.Yarp" Version="4.1.1" />
+    <PackageReference Include="Duende.AccessTokenManagement.OpenIdConnect" Version="4.1.2" />
+    <PackageReference Include="Duende.BFF.Yarp" Version="4.1.2" />
     <PackageReference
       Include="Microsoft.AspNetCore.Authentication.OpenIdConnect"
-      Version="10.0.4"
+      Version="10.0.5"
     />
-    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="10.3.0" />
+    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="10.4.0" />
     <PackageReference Include="Yarp.ReverseProxy" Version="2.3.0" />
   </ItemGroup>
 
