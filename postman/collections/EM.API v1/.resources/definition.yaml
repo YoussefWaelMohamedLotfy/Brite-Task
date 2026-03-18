@@ -1,0 +1,3 @@
+$kind: collection
+name: EM.API | v1
+description: API for managing departments, employees, and roles.

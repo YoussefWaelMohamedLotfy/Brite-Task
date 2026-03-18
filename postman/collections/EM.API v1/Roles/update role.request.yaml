@@ -1,0 +1,24 @@
+$kind: http-request
+method: PUT
+url: '{{base_url}}/roles'
+order: 3000
+description: This endpoint allows updating an existing role.
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "id": 1,
+      "name": "Administrator Updated",
+      "permissions": [
+        "read:users",
+        "write:users",
+        "delete:users",
+        "read:departments",
+        "write:departments",
+        "read:roles",
+        "write:roles"
+      ]
+    }

@@ -1,0 +1,6 @@
+name: Local
+values:
+  - key: base_url
+    value: ''
+    enabled: true
+    type: default
