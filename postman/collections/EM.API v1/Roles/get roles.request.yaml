@@ -1,0 +1,5 @@
+$kind: http-request
+method: GET
+url: '{{base_url}}/roles'
+order: 1000
+description: This endpoint returns a list of all available roles in the system.

@@ -1,0 +1,16 @@
+$kind: http-request
+method: PUT
+url: '{{base_url}}/departments'
+order: 3000
+description: This endpoint allows updating an existing department.
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "id": 1,
+      "name": "Engineering Updated",
+      "description": "Updated software engineering department"
+    }

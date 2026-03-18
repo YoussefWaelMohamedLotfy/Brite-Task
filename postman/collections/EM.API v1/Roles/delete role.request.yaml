@@ -1,0 +1,8 @@
+$kind: http-request
+method: DELETE
+url: '{{base_url}}/roles/:id'
+order: 5000
+description: This endpoint allows deleting a role.
+pathVariables:
+  - key: id
+    value: '1'

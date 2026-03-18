@@ -1,0 +1,21 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/roles'
+order: 2000
+description: This endpoint allows the creation of a new role in the system.
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Administrator",
+      "permissions": [
+        "read:users",
+        "write:users",
+        "delete:users",
+        "read:departments",
+        "write:departments"
+      ]
+    }

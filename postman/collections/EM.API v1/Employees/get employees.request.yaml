@@ -1,0 +1,21 @@
+$kind: http-request
+method: GET
+url: '{{base_url}}/employees'
+order: 1000
+description: This endpoint returns a list of all available employees in the system.
+queryParams:
+  - key: Name
+    value: ''
+    disabled: true
+  - key: DepartmentId
+    value: ''
+    disabled: true
+  - key: IsActive
+    value: ''
+    disabled: true
+  - key: DateOfJoiningFrom
+    value: ''
+    disabled: true
+  - key: DateOfJoiningTo
+    value: ''
+    disabled: true

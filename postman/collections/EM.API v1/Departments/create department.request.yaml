@@ -1,0 +1,15 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/departments'
+order: 2000
+description: This endpoint allows the creation of a new department in the system.
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Engineering",
+      "description": "Software engineering department"
+    }

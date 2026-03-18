@@ -1,0 +1,20 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/employees'
+order: 2000
+description: This endpoint allows the creation of a new employee in the system.
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "phone": "+1234567890",
+      "dateOfJoining": "2024-01-15T09:00:00Z",
+      "isActive": true,
+      "departmentId": 1,
+      "roleId": 1
+    }
