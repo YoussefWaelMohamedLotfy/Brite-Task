@@ -6,28 +6,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference
-      Include="Aspire.Keycloak.Authentication"
-      Version="13.1.2-preview.1.26125.13"
-    />
-    <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="13.1.2" />
-    <PackageReference Include="Mediator.SourceGenerator" Version="3.0.1">
+    <PackageReference Include="Aspire.Keycloak.Authentication" Version="13.2.0-preview.1.26170.3" />
+    <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="13.2.0" />
+    <PackageReference Include="Mediator.SourceGenerator" Version="3.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.4">
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="10.0.4">
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="10.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.16.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.17.0" />
     <PackageReference Include="MinimalApis.Discovery" Version="1.0.7" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.13.10" />
-    <PackageReference Include="Scalar.AspNetCore.Microsoft" Version="2.13.10" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.13.14" />
+    <PackageReference Include="Scalar.AspNetCore.Microsoft" Version="2.13.14" />
   </ItemGroup>
 
   <ItemGroup>

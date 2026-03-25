@@ -1,0 +1,22 @@
+{
+  "$schema": "https://www.schemastore.org/template.json",
+  "author": "Youssef Wael Mohamed-Lotfy",
+  "classifications": [ "Web" ],
+  "name": "Aspire Fullstack Starter Web",
+  "identity": "YoussefWael.Aspire.Fullstack.StarterWeb",
+  "shortName": "aspirefullstackweb",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "EM",
+  "preferNameDirectory": true,
+  "symbols": {
+    "AspireSolutionName": {
+      "type": "parameter",
+      "description": "The name of the Aspire Namespace and slnx solution file",
+      "replaces": "Brite-Task",
+      "defaultValue": "MySolution"
+    }
+  }
+}
