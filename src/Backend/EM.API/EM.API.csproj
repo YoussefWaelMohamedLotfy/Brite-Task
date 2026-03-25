@@ -21,10 +21,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.16.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.17.0" />
     <PackageReference Include="MinimalApis.Discovery" Version="1.0.7" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.13.13" />
-    <PackageReference Include="Scalar.AspNetCore.Microsoft" Version="2.13.13" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.13.14" />
+    <PackageReference Include="Scalar.AspNetCore.Microsoft" Version="2.13.14" />
   </ItemGroup>
 
   <ItemGroup>
