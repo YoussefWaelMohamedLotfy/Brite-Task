@@ -1,0 +1,8 @@
+$kind: http-request
+method: DELETE
+url: '{{base_url}}/employees/:id'
+order: 5000
+description: This endpoint allows deleting an employee.
+pathVariables:
+  - key: id
+    value: '550e8400-e29b-41d4-a716-446655440000'

@@ -1,0 +1,8 @@
+$kind: http-request
+method: GET
+url: '{{base_url}}/departments/:id'
+order: 4000
+description: This endpoint returns a single department based on its ID in the system.
+pathVariables:
+  - key: id
+    value: '1'

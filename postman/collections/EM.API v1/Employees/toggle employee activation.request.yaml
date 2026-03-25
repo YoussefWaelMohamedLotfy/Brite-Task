@@ -1,0 +1,8 @@
+$kind: http-request
+method: PUT
+url: '{{base_url}}/employees/:id/toggle-activation'
+order: 6000
+description: This endpoint enables or disables an employee based on their current activation status.
+pathVariables:
+  - key: id
+    value: '550e8400-e29b-41d4-a716-446655440000'

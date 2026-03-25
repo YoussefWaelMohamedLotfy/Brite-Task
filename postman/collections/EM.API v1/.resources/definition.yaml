@@ -1,0 +1,9 @@
+$kind: collection
+name: EM.API | v1
+description: API for managing departments, employees, and roles.
+auth:
+  - id: a455a5ed-d8ea-441d-a092-3ad8cb9d6b53
+    type: oauth2
+    name: OAuth 2.0
+    credentials:
+      addTokenTo: header
