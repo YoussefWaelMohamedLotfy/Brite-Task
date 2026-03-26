@@ -148,7 +148,7 @@ var mcpServer = builder
     .WaitForCompletion(efmigrate);
 
 builder
-    .AddMcpInspector("mcp-inspector", new McpInspectorOptions() { InspectorVersion = "0.17.2" })
+    .AddMcpInspector("mcp-inspector", new McpInspectorOptions() { InspectorVersion = "0.21.1" })
     .WithMcpServer(mcpServer);
 
 var yarp = builder

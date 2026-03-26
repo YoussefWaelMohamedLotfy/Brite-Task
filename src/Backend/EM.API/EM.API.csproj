@@ -23,8 +23,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.17.0" />
     <PackageReference Include="MinimalApis.Discovery" Version="1.0.7" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.13.14" />
-    <PackageReference Include="Scalar.AspNetCore.Microsoft" Version="2.13.14" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.13.15" />
+    <PackageReference Include="Scalar.AspNetCore.Microsoft" Version="2.13.15" />
   </ItemGroup>
 
   <ItemGroup>
