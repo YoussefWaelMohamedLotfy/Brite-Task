@@ -6,6 +6,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.74.0-alpha" />
     <PackageReference Include="Microsoft.SemanticKernel.Plugins.OpenApi" Version="1.74.0" />
-    <PackageReference Include="ModelContextProtocol" Version="1.1.0" />
+    <PackageReference Include="ModelContextProtocol" Version="1.2.0" />
   </ItemGroup>
 </Project>
