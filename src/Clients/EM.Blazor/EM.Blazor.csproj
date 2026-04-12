@@ -7,7 +7,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Keycloak.Authentication" Version="13.2.1-preview.1.26180.6" />
+    <PackageReference Include="Aspire.Keycloak.Authentication" Version="13.2.2-preview.1.26207.2" />
     <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.17.0" />
     <PackageReference Include="BootstrapBlazor" Version="10.5.0" />
     <PackageReference Include="BootstrapBlazor.FontAwesome" Version="10.0.1" />
