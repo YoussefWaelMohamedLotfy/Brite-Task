@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -25,7 +25,7 @@ jobs:
       run: dotnet build --no-restore
     
     - name: Upload OpenAPI JSON Doc Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: Employee Management OpenAPI JSON Doc
         path: src/Backend/EM.API/EM-OpenAPI-Build.json
@@ -46,7 +46,7 @@ jobs:
         cd ../../..
     
     - name: Upload EF Migration Bundle Artifact for Windows & Linux
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: EF Migration Bundles
         path: |
@@ -58,7 +58,7 @@ jobs:
       run: dotnet test -- --coverage --coverage-output-format cobertura --coverage-output coverage.cobertura.xml
 
     - name: .NET Test ReportGenerator
-      uses: danielpalme/ReportGenerator-GitHub-Action@5.5.1
+      uses: danielpalme/ReportGenerator-GitHub-Action@v5
       with:
         reports: '**/*.cobertura.xml'
         targetdir: Coverage-Reports
@@ -68,7 +68,7 @@ jobs:
       run: cat Coverage-Reports/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
 
     - name: Upload Test Coverage Reports
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ReportGenerator Artifacts
         path: Coverage-Reports/
@@ -78,13 +78,13 @@ jobs:
       run: ./Publish.ps1
 
     - name: Upload EM.API artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: EM.API
         path: src/Backend/EM.API/bin/publish
 
     - name: Upload EM.McpServer artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: EM.McpServer
         path: src/Backend/EM.McpServer/bin/publish
